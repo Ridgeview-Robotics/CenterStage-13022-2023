@@ -29,14 +29,8 @@
 
 package org.firstinspires.ftc.teamcode.Systems;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -72,7 +66,7 @@ public class Teleop extends OpMode {
     // Declare OpMode members for each of the 4 motors.
     Drive robotDrive;
     Intake intake;
-    Lift lift;
+    LiftEncoder lift;
 
 
     @Override
@@ -80,7 +74,7 @@ public class Teleop extends OpMode {
 
         robotDrive = new Drive(hardwareMap);
         intake = new Intake(hardwareMap);
-        lift = new Lift(hardwareMap);
+        lift = new LiftEncoder(hardwareMap);
 
 
         telemetry.addData("Status", "Initialized");
@@ -141,8 +135,19 @@ public class Teleop extends OpMode {
             lift.setYawPower(0.0);
         }
 
+        if(gamepad1.dpad_up){
+            lift.runToPos(14);
+        }
+
+        if (gamepad1.dpad_down) {
+            lift.runToPos(-14);
+        }
+
+
+
         telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
         telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+        telemetry.addLine("Current Lift Pos: " + lift.getPos());
         telemetry.update();
     }
 
