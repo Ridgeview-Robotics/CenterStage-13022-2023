@@ -18,21 +18,25 @@ public class LiftTester extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.dpad_up){
-            lift.setOutboardCts(lift.getOutboardPos() + 1);
+            lift.setOutboardCts(1);
         }
         if(gamepad1.dpad_down){
-            lift.setOutboardCts(lift.getOutboardPos() -1);
+            lift.setOutboardCts(-1);
         }
         if(gamepad1.dpad_right){
-            lift.setYawCts(lift.getYawPos() + 1);
+            lift.setYawCts(1);
         }
         if(gamepad1.dpad_left){
-            lift.setYawCts(lift.getYawPos() -1);
+            lift.setYawCts(-1);
+        }
+        if(gamepad1.a){
+            lift.setYawPower(0);
+            lift.setOutboardPower(0);
         }
 
-        /*telemetry.addData("Outboard Counts:" + (lift.getOutboardPos()));
+        telemetry.addLine("Yaw Motor Position" + lift.getOutboardPos());
 
-        telemetry.addData("Yaw Counts" + lift.getYawPos());
-         */
+        telemetry.addLine("Outboard Motor Position" + lift.getOutboardPos());
+
     }
 }

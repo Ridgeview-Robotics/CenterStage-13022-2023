@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Systems;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -17,6 +18,7 @@ public class RREMX {
         //which will input the string.  ENSURE THAT YOUR motorName MATCHES YOUR HARDWARE CONFIG
         rcsMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);  //when motor is init, it will reset pos
         rcsMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER); //post-reset, the motor will run with encoder
+        rcsMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //when motor power = 0 motor will stop
 
         ticksPerMM = (ticksPerRev) / (outputShaftDiameter * Math.PI);  //MATH TBD
     }
