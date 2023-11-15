@@ -32,4 +32,7 @@ public class RREMX {
         return rcsMotor.getCurrentPosition(); //returns the current position as an integer
     }
 
+    public void setPower(double power){
+        rcsMotor.setPower(power);
+    }
 }

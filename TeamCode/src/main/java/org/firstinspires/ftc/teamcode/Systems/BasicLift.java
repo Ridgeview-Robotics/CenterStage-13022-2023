@@ -5,14 +5,14 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class BasicLift {
-    private final DcMotorEx yawMotor;
-    private final DcMotorEx outboardMotor;
+    private final RREMX yawMotor;
+    private final RREMX outboardMotor;
 
     public BasicLift(HardwareMap hardwareMap){
-        yawMotor = hardwareMap.get(DcMotorEx.class, "liftYaw"); //E2
-        yawMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        outboardMotor = hardwareMap.get(DcMotorEx.class, "liftOutboard"); //E3
-        outboardMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        yawMotor = new RREMX(hardwareMap, "liftYaw", 1.0);
+
+        outboardMotor = new RREMX(hardwareMap, "liftOutboard", 1.0); //E3
+
 
     }
 

@@ -66,7 +66,7 @@ public class Teleop extends OpMode {
     // Declare OpMode members for each of the 4 motors.
     Drive robotDrive;
     Intake intake;
-    LiftEncoder lift;
+    CombineLiftC lift;
 
 
     @Override
@@ -74,7 +74,7 @@ public class Teleop extends OpMode {
 
         robotDrive = new Drive(hardwareMap);
         intake = new Intake(hardwareMap);
-        lift = new LiftEncoder(hardwareMap);
+        lift = new CombineLiftC(hardwareMap);
 
 
         telemetry.addData("Status", "Initialized");
@@ -136,18 +136,18 @@ public class Teleop extends OpMode {
         }
 
         if(gamepad1.dpad_up){
-            lift.runToPos(14);
+            //lift.runToPos(14);
         }
 
         if (gamepad1.dpad_down) {
-            lift.runToPos(-14);
+            //lift.runToPos(-14);
         }
 
 
 
         telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
         telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-        telemetry.addLine("Current Lift Pos: " + lift.getPos());
+        //telemetry.addLine("Current Lift Pos: " + lift.getPos());
         telemetry.update();
     }
 

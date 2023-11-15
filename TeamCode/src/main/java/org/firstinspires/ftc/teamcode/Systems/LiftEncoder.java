@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Systems;
+/* package org.firstinspires.ftc.teamcode.Systems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -32,3 +32,4 @@ public class LiftEncoder extends BasicLift{
     }
 
 }
+*/

@@ -16,7 +16,8 @@ public class LiftTester extends OpMode {
     }
 
     @Override
-    public void loop() {
+    public void loop(){
+
         if(gamepad1.dpad_up){
             lift.setOutboardCts(1);
         }
