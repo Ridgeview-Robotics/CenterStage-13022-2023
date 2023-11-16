@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Systems;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp
+@TeleOp(name="LiftTester")
 public class LiftTester extends OpMode {
     CombineLiftC lift;
 
@@ -15,7 +15,6 @@ public class LiftTester extends OpMode {
         telemetry.update();
     }
 
-    @Override
     public void loop(){
 
         if(gamepad1.dpad_up){

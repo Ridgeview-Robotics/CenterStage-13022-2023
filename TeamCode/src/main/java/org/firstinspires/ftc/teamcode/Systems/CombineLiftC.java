@@ -1,18 +1,25 @@
 package org.firstinspires.ftc.teamcode.Systems;
 
 
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class CombineLiftC extends BasicLift {
 
-    private final RREMX outboard;
-    private final RREMX yaw;
+    //private final RREMX outboard;
+    //private final RREMX yaw;
+
+    private RREMX outboard;
+    private RREMX yaw;
 
     //defines our RREMX motors.
     public CombineLiftC(HardwareMap hardwareMap) {
         super(hardwareMap);
         outboard = new RREMX(hardwareMap, "liftOutboard", 1.0);
+        outboard = hardwareMap.get(RREMX.class, "liftOutboard");
         yaw = new RREMX(hardwareMap, "liftYaw", 1.0);
+        yaw = hardwareMap.get(RREMX.class, "liftYaw");
+
         //local name = RREMX(hardware map, name of motor, final output element diameter)
     }
 
