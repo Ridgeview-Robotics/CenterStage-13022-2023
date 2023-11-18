@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Systems;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class CombineLiftC extends BasicLift {
 
@@ -12,15 +13,19 @@ public class CombineLiftC extends BasicLift {
     private RREMX outboard;
     private RREMX yaw;
 
+    private TouchSensor touchSensor;
+
     //defines our RREMX motors.
     public CombineLiftC(HardwareMap hardwareMap) {
         super(hardwareMap);
         outboard = new RREMX(hardwareMap, "liftOutboard", 1.0);
-        outboard = hardwareMap.get(RREMX.class, "liftOutboard");
+        //outboard = hardwareMap.get(RREMX.class, "liftOutboard");
         yaw = new RREMX(hardwareMap, "liftYaw", 1.0);
-        yaw = hardwareMap.get(RREMX.class, "liftYaw");
-
+        yaw.setReverse();
+        //yaw = hardwareMap.get(RREMX.class, "liftYaw");
         //local name = RREMX(hardware map, name of motor, final output element diameter)
+        touchSensor = hardwareMap.get(TouchSensor.class, "yawTouch");
+        yawTouch();
     }
 
     public void setOutboardCts(int outboardCts) {
@@ -37,5 +42,19 @@ public class CombineLiftC extends BasicLift {
 
     public int getYawPos() {
         return yaw.getPos();  //retrieves position of yaw motor, relative to encoder tick
+    }
+
+    public void liftLoop(){
+        yaw.loop();
+        outboard.loop();
+    }
+
+    public void yawTouch(){
+        setYawPower(0.25);
+
+        if(touchSensor.isPressed()){
+            setYawPower(0);
+        }
+        yaw.resetEncoder();
     }
 }

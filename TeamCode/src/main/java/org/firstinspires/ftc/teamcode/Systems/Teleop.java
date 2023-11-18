@@ -29,8 +29,12 @@
 
 package org.firstinspires.ftc.teamcode.Systems;
 
+import android.text.method.Touch;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -71,7 +75,6 @@ public class Teleop extends OpMode {
 
     @Override
     public void init() {
-
         robotDrive = new Drive(hardwareMap);
         intake = new Intake(hardwareMap);
         lift = new CombineLiftC(hardwareMap);
@@ -81,6 +84,7 @@ public class Teleop extends OpMode {
         telemetry.update();
     }
     public void loop() {
+
 
         double axial = -gamepad1.left_stick_y;
         double lateral = gamepad1.left_stick_x;
@@ -136,12 +140,22 @@ public class Teleop extends OpMode {
         }
 
         if(gamepad1.dpad_up){
-            //lift.runToPos(14);
+            lift.setOutboardCts(14);
         }
 
         if (gamepad1.dpad_down) {
-            //lift.runToPos(-14);
+            lift.setOutboardCts(-14);
         }
+
+        if(gamepad1.dpad_right){
+            lift.setYawCts(14);
+        }
+
+        if(gamepad1.dpad_left){
+            lift.setYawCts(-14);
+        }
+
+
 
 
 
