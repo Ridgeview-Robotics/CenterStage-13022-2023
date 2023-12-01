@@ -15,15 +15,20 @@ public class LiftTester extends OpMode {
         telemetry.update();
     }
 
+    @Override
+    public void init_loop() {
+        lift.yawCalibrate();
+    }
+
     public void loop(){
 
         lift.liftLoop();
 
         if(gamepad1.dpad_up){
-            lift.setOutboardCts(1);
+            lift.setOutboardCts(-1);
         }
         if(gamepad1.dpad_down){
-            lift.setOutboardCts(-1);
+            lift.setOutboardCts(1);
         }
         if(gamepad1.dpad_right){
             lift.setYawCts(100);
@@ -40,5 +45,6 @@ public class LiftTester extends OpMode {
 
         telemetry.addLine("Outboard Motor Position: " + lift.getOutboardPos());
 
+        telemetry.update();
     }
 }
