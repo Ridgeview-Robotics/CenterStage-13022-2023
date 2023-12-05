@@ -40,6 +40,30 @@ public class LiftTester extends OpMode {
             lift.setYawPower(0);
             lift.setOutboardPower(0);
         }
+        if(gamepad1.y){
+            lift.setOutboardPower(-1);
+        }
+        else{
+            lift.setOutboardPower(0);
+        }
+        if(gamepad1.a){
+            lift.setOutboardPower(1);
+        }
+        else{
+            lift.setOutboardPower(0);
+        }
+        if(gamepad1.x){
+            lift.setYawPower(1);
+        }
+        else{
+            lift.setYawPower(0);
+        }
+        if(gamepad1.b){
+            lift.setYawPower(-1);
+        }
+        else{
+            lift.setYawPower(0);
+        }
 
         telemetry.addLine("Yaw Motor Position: " + lift.getYawPos());
 

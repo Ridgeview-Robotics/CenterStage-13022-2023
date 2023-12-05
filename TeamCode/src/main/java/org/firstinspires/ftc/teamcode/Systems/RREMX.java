@@ -28,7 +28,7 @@ public class RREMX {
     public void runToCt(int targetCts){
         int newTarget = rcsMotor.getCurrentPosition() + (targetCts);//new target = current encoder Pos + target
         rcsMotor.setTargetPosition(newTarget); //runs to new target
-        rcsMotor.setPower(0.5 * targetCts);
+        rcsMotor.setPower(targetCts);
     }
 
     public void loop(){
