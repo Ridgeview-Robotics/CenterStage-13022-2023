@@ -29,7 +29,7 @@ public class TrapdoorPosFinder extends OpMode {
             trapdoorServo.setPosition(1);
         }
 
-        telemetry.addLine("Use the right tigger for positive gain");
+        telemetry.addLine("Use the right trigger for positive gain");
         telemetry.addLine("Use left trigger for negative gain");
         telemetry.addLine("Use A for 0 and Y for 1");
         telemetry.addLine("Trapdoor Servo Position: " + trapdoorServo.getPosition());
