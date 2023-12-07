@@ -1,8 +1,10 @@
-package org.firstinspires.ftc.teamcode.Systems;
+package org.firstinspires.ftc.teamcode.Systems.Lift;
 
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import org.firstinspires.ftc.teamcode.Systems.General.RREMX;
 
 public class CombineLiftC extends BasicLift {
 

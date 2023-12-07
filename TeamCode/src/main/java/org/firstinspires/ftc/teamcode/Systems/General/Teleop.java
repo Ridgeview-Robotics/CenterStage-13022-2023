@@ -27,14 +27,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Systems;
+package org.firstinspires.ftc.teamcode.Systems.General;
 
-import android.text.method.Touch;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import org.firstinspires.ftc.teamcode.Systems.General.Drive;
+import org.firstinspires.ftc.teamcode.Systems.Intake.Intake;
+import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 
 /*
  * This file contains an example of a Linear "OpMode".

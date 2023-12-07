@@ -1,7 +1,9 @@
-package org.firstinspires.ftc.teamcode.Systems;
+package org.firstinspires.ftc.teamcode.Systems.Lift;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 
 @TeleOp(name="LiftTester")
 public class LiftTester extends OpMode {
