@@ -1,18 +1,18 @@
 package org.firstinspires.ftc.teamcode.Systems.Controller;
 
 /**
- * This is a PID controller (https://en.wikipedia.org/wiki/PID_controller)
+ * This is a PID controller (<a href="https://en.wikipedia.org/wiki/PID_controller">...</a>)
  * for your robot. Internally, it performs all the calculations for you.
  * You need to tune your values to the appropriate amounts in order
  * to properly utilize these calculations.
  * <p>
  * The equation we will use is:
  * u(t) = kP * e(t) + kI * int(0,t)[e(t')dt'] + kD * e'(t) + kF
- * where e(t) = r(t) - y(t) and r(t) is the setpoint and y(t) is the
+ * where e(t) = r(t) - y(t) and r(t) is the set point and y(t) is the
  * measured value. If we consider e(t) the positional error, then
  * int(0,t)[e(t')dt'] is the total error and e'(t) is the velocity error.
- *
  * for use of 13022 not mine
+ * </p>
  */
 public class ArcPIDF {
 

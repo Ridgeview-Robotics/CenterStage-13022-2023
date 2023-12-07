@@ -9,6 +9,8 @@ import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 public class LiftTester extends OpMode {
     CombineLiftC lift;
 
+    double obPower;
+
     @Override
     public void init() {
         lift = new CombineLiftC(hardwareMap);
@@ -20,13 +22,15 @@ public class LiftTester extends OpMode {
     @Override
     public void init_loop() {
         lift.yawCalibrate();
+
+        obPower = 0;
     }
 
     public void loop(){
 
         lift.liftLoop();
 
-        if(gamepad1.dpad_up){
+        /*if(gamepad1.dpad_up){
             lift.setOutboardCts(-1);
         }
         if(gamepad1.dpad_down){
@@ -65,6 +69,25 @@ public class LiftTester extends OpMode {
         }
         else{
             lift.setYawPower(0);
+        }
+
+
+        double obPower = gamepad1.left_stick_y;
+
+        lift.setOutboardPower(obPower);*/
+
+        if(gamepad1.y){
+            obPower = 1;
+        }
+
+        lift.setOutboardPower(obPower);
+
+        if(gamepad1.x){
+            obPower = 0;
+        }
+
+        if(gamepad1.a){
+            obPower = -1;
         }
 
         telemetry.addLine("Yaw Motor Position: " + lift.getYawPos());
