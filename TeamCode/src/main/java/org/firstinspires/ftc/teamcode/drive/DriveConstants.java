@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 /*
@@ -91,6 +92,14 @@ public class DriveConstants {
     public static double MAX_ACCEL = 37.511829985823965;
     public static double MAX_ANG_VEL = Math.toRadians(137.07076147959182);
     public static double MAX_ANG_ACCEL = Math.toRadians(137.07076147959182);
+
+    /*
+     * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.
+     */
+    public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
+            RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
+    public static RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR =
+            RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
 
     public static double encoderTicksToInches(double ticks) {
