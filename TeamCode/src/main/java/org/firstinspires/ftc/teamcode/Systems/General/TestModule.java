@@ -33,6 +33,7 @@ public class TestModule extends OpMode {
         trapdoorServo = new TrapdoorServo(hardwareMap);
         flywheels = new Intake(hardwareMap);
 
+        lift.resetLiftEncoders();
 
         telemetry.addLine("Ready for Start!");
         telemetry.update();
@@ -40,6 +41,9 @@ public class TestModule extends OpMode {
 
     @Override
     public void loop() {
+
+        lift.liftLoop();
+
         double y = -gamepad1.left_stick_y;
         double x = gamepad1.left_stick_x;
         double r = gamepad1.right_stick_x;

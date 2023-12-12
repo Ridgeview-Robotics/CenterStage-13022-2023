@@ -30,18 +30,19 @@ public class LiftTester extends OpMode {
 
         lift.liftLoop();
 
-        /*if(gamepad1.dpad_up){
+        if(gamepad1.dpad_up){
             lift.setOutboardCts(-1);
         }
         if(gamepad1.dpad_down){
             lift.setOutboardCts(1);
         }
         if(gamepad1.dpad_right){
-            lift.setYawCts(100);
+            lift.setYawCts(1);
         }
         if(gamepad1.dpad_left){
-            lift.setYawCts(-100);
+            lift.setYawCts(-1);
         }
+        /*
         if(gamepad1.a){
             lift.setYawPower(0);
             lift.setOutboardPower(0);
