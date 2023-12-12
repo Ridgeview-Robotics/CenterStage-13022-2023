@@ -12,11 +12,11 @@ M3:
 
 // E X P A N S I O N   H U B
 
-M0:
+M0: flippers
 
 M1:
 
-M2:
+M2: liftYaw
 
-M3:
-    S0:trapdoor   S1:box   S3:   S4: 
+M3: liftOutboard
+    S0:trapdoorServo   S1:boxServo   S3:   S4: 

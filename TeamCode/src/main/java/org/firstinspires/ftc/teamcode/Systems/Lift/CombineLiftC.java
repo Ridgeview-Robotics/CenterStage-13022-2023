@@ -28,14 +28,19 @@ public class CombineLiftC extends BasicLift {
         yaw.setReverse();
 
         touchSensor = hardwareMap.get(TouchSensor.class, "yawTouch");
+
+        yaw.resetEncoder();
+        outboard.resetEncoder();
     }
 
     public void setOutboardCts(int outboardCts) {
-        outboard.runToCt(outboardCts);  //setting a target for the outboard motor, reliant on encoder counts/ticks
+        outboard.runToCt(outboardCts);
+        //setting a target for the outboard motor, reliant on encoder counts/ticks
     }
 
     public void setYawCts(int yawCts) {
-        yaw.runToCt(yawCts);  // setting a target for the yaw motor, reliant on encoder counts/ticks
+        yaw.runToCt(yawCts);
+        // setting a target for the yaw motor, reliant on encoder counts/ticks
     }
 
     public int getOutboardPos() {

@@ -7,20 +7,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
 
-private final DcMotorEx leftFlipper;
-private final DcMotorEx rightFlipper;
+private final DcMotorEx intake;
 
     public Intake(HardwareMap hardwareMap){
-        leftFlipper = hardwareMap.get(DcMotorEx.class, "leftFlipper");  //E0
-        rightFlipper = hardwareMap.get(DcMotorEx.class, "rightFlipper");  //E1
-        leftFlipper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFlipper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake = hardwareMap.get(DcMotorEx.class, "intake");  //E0
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         setIntakePower(0);
     }
 
     public void setIntakePower(double power){
-        leftFlipper.setPower(-power);
-        rightFlipper.setPower(power);
+        intake.setPower(power);
     }
 
 }
