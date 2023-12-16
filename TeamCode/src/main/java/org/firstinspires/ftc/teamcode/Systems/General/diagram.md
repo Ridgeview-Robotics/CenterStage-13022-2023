@@ -1,12 +1,12 @@
 // C O N T R O L   H U B
 
-M0:
+M0: left_front_drive   (Right encoder here)
 
-M1:
+M1: left_back_drive   (Left Encoder Here)
 
-M2:
+M2: right_back_drive   (Back Encoder Here)
 
-M3:   
+M3: right_front_drive   
     S1:   S2:  S3:  S4:
 
 
