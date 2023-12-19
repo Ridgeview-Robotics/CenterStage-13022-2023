@@ -38,8 +38,8 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
 
     private List<Integer> lastEncPositions, lastEncVels;
 
-    public static double X_MULTIPLIER = 0.03435116019; // Multiplier in the X direction
-    public static double Y_MULTIPLIER = 0.07019142588; // Multiplier in the Y direction
+    public static double X_MULTIPLIER = 1; // Multiplier in the X direction
+    public static double Y_MULTIPLIER = 1; // Multiplier in the Y direction
 
     public StandardTrackingWheelLocalizer(HardwareMap hardwareMap, List<Integer> lastTrackingEncPositions, List<Integer> lastTrackingEncVels) {
         super(Arrays.asList(
@@ -52,7 +52,7 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         lastEncVels = lastTrackingEncVels;
 
         leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "left_back_drive"));
-        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "left_front_drive"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "intake"));
         frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "right_back_drive"));
         frontEncoder.setDirection(Encoder.Direction.REVERSE);
 
