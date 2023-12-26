@@ -42,7 +42,7 @@ public class TestModule extends OpMode {
     @Override
     public void loop() {
 
-        lift.liftLoop();
+
 
         double y = -gamepad1.left_stick_y;
         double x = gamepad1.left_stick_x;
@@ -85,6 +85,14 @@ public class TestModule extends OpMode {
         }
         if(gamepad1.b){
             trapdoorServo.setPosition(trapdoorServo.getPosition() + 0.001);
+        }
+
+        if (gamepad1.right_bumper) {
+            lift.setYawTargetPos(100);
+        }
+
+        if (gamepad1.left_bumper) {
+            lift.setYawTargetPos(-100);
         }
 
         telemetry.addLine("Use Y (+) and A (-) for box");

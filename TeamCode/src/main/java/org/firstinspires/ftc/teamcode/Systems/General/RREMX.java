@@ -49,7 +49,7 @@ public class RREMX {
 
     public void resetEncoder(){
         rcsMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rcsMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rcsMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void setReverse(){
@@ -61,27 +61,30 @@ public class RREMX {
 
     }
 
-    public void motorLoop(){
-        int staticTarget = rcsMotor.getCurrentPosition();
+    /*public void motorLoop(int target){
+        if(rcsMotor.getCurrentPosition() != target){
+            if((target - rcsMotor.getCurrentPosition()) < 0){
+                rcsMotor.setTargetPosition(target);
+                rcsMotor.setPower(target - rcsMotor.getCurrentPosition());
+            }
+            else if(target - rcsMotor.getCurrentPosition() > 0){
+                rcsMotor.setTargetPosition(target);
+                rcsMotor.setPower(target - rcsMotor.getCurrentPosition());
+            }
 
-        if(rcsMotor.getCurrentPosition() != staticTarget){
-            rcsMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rcsMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rcsMotor.setPower((rcsMotor.getCurrentPosition() - staticTarget));
-            rcsMotor.setTargetPosition(staticTarget);
         }
-    }
+        else{
+            rcsMotor.setPower(0);
+        }
+    }*/
 
 
     public void setTargetPos(int target){
-        boolean motorArrived = false;
         rcsMotor.setTargetPosition(target);
-
-        if(rcsMotor.getCurrentPosition() == target){
-            motorArrived = true;
-            motorLoop();
-        }
+        rcsMotor.setPower(target);
     }
+
+
 
     public void runUsingEncoderMode(){
         rcsMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

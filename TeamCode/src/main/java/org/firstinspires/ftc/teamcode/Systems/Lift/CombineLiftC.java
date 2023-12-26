@@ -27,6 +27,8 @@ public class CombineLiftC extends BasicLift {
         yaw = new RREMX(hardwareMap, "liftYaw", 1.0);
         yaw.setReverse();
 
+        yaw.runToPositionMode();
+
         touchSensor = hardwareMap.get(TouchSensor.class, "yawTouch");
 
     }
@@ -54,9 +56,15 @@ public class CombineLiftC extends BasicLift {
         return yaw.getPos();  //retrieves position of yaw motor, relative to encoder tick
     }
 
-    public void liftLoop(){
-
+    public void setYawTargetPos(int yawTarget){
+        yaw.setTargetPos(yawTarget);
     }
+
+    public void setOutboardTargetPos(int outboardTarget){
+        outboard.setTargetPos(outboardTarget);
+    }
+
+
 
     public void yawCalibrate(){
         if(!calibrated) {
