@@ -62,16 +62,16 @@ public class TestModule extends OpMode {
         }
 
         if(gamepad1.dpad_left){
-            lift.setYawCts(1);
+            lift.setYawCts(50);
         }
         if (gamepad1.dpad_right) {
-            lift.setYawCts(-1);
+            lift.setYawCts(-50);
         }
         if(gamepad1.dpad_up){
-            lift.setOutboardCts(1);
+            lift.setOutboardCts(100);
         }
         if(gamepad1.dpad_down){
-            lift.setOutboardCts(-1);
+            lift.setOutboardCts(-100);
         }
 
         if(gamepad1.a){

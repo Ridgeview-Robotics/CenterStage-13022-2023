@@ -33,9 +33,7 @@ public class RREMX {
 
     public void loop(){
         if(!rcsMotor.isBusy()){
-            int currentPos = rcsMotor.getCurrentPosition();
-            rcsMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rcsMotor.setTargetPosition(currentPos);
+            rcsMotor.setPower(0);
         }
     }
 
