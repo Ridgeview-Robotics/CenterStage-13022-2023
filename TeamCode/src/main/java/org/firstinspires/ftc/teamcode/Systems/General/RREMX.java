@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import java.lang.reflect.Parameter;
+
 public class RREMX {
 
     private final double  ticksPerRev = 5281; //GoBILDA 312RPM DC Motor 5204
@@ -53,4 +55,40 @@ public class RREMX {
     public void setReverse(){
         rcsMotor.setDirection(DcMotorSimple.Direction.FORWARD);
     }
+
+    public double getPower(){
+        return rcsMotor.getPower();
+
+    }
+
+    public void motorLoop(){
+        int staticTarget = rcsMotor.getCurrentPosition();
+
+        if(rcsMotor.getCurrentPosition() != staticTarget){
+            rcsMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rcsMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rcsMotor.setPower((rcsMotor.getCurrentPosition() - staticTarget));
+            rcsMotor.setTargetPosition(staticTarget);
+        }
+    }
+
+
+    public void setTargetPos(int target){
+        boolean motorArrived = false;
+        rcsMotor.setTargetPosition(target);
+
+        if(rcsMotor.getCurrentPosition() == target){
+            motorArrived = true;
+            motorLoop();
+        }
+    }
+
+    public void runUsingEncoderMode(){
+        rcsMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void runToPositionMode(){
+        rcsMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
 }
+

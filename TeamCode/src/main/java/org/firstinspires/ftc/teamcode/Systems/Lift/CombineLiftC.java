@@ -55,8 +55,7 @@ public class CombineLiftC extends BasicLift {
     }
 
     public void liftLoop(){
-        yaw.loop();
-        outboard.loop();
+
     }
 
     public void yawCalibrate(){
