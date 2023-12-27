@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import java.lang.reflect.Parameter;
-
 public class RREMX {
 
     private final double  ticksPerRev = 5281; //GoBILDA 312RPM DC Motor 5204
@@ -42,6 +40,7 @@ public class RREMX {
     public int getPos(){
         return rcsMotor.getCurrentPosition(); //returns the current position as an integer
     }
+
 
     public void setPower(double power){
         rcsMotor.setPower(power);

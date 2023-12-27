@@ -41,11 +41,12 @@ public class TestModule extends OpMode {
 
     @Override
     public void loop() {
+        int yawPos = lift.getYawPos();
+        int outboardPos = lift.getOutboardPos();
 
 
-
-        double y = -gamepad1.left_stick_y;
-        double x = gamepad1.left_stick_x;
+        double y = -(gamepad1.left_stick_y);
+        double x = (gamepad1.left_stick_x);
         double r = gamepad1.right_stick_x;
 
         double leftFrontPower = y + x + r;
@@ -62,16 +63,16 @@ public class TestModule extends OpMode {
         }
 
         if(gamepad1.dpad_left){
-            lift.setYawCts(50);
+            lift.setYawTargetPos(yawPos + 10);
         }
         if (gamepad1.dpad_right) {
-            lift.setYawCts(-50);
+            lift.setYawTargetPos(yawPos - 10);
         }
         if(gamepad1.dpad_up){
-            lift.setOutboardCts(100);
+            lift.setOutboardTargetPos(outboardPos + 10);
         }
         if(gamepad1.dpad_down){
-            lift.setOutboardCts(-100);
+            lift.setOutboardTargetPos(outboardPos - 10);
         }
 
         if(gamepad1.a){
