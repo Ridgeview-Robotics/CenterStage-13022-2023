@@ -1,6 +1,6 @@
 // C O N T R O L   H U B
 
-M0: left_front_drive   (Right encoder here)
+M0: left_front_drive   
 
 M1: left_back_drive   (Left Encoder Here)
 
@@ -12,7 +12,7 @@ M3: right_front_drive
 
 // E X P A N S I O N   H U B
 
-M0: flippers
+M0: flippers (Right encoder here)
 
 M1:
 

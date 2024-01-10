@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.subsystems.Vision;
+package org.firstinspires.ftc.teamcode.Systems.vision;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.subsystems.Vision.SignalDetector;
+import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 
 /*
     Tests the Signal Detector April Tag Pipeline

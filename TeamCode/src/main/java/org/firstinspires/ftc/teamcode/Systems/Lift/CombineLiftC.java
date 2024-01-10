@@ -8,8 +8,7 @@ import org.firstinspires.ftc.teamcode.Systems.General.RREMX;
 
 public class CombineLiftC extends BasicLift {
 
-    //private final RREMX outboard;
-    //private final RREMX yaw;
+
 
     private RREMX outboard;
     private RREMX yaw;

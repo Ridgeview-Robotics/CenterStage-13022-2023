@@ -6,11 +6,11 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 
 # Create lists that holds the color thresholds
 # Blue
-hsvMinBlue = (0,50,255)
-hsvMaxBlue = (109,255,255)
+hsvMinBlue = (101,150,130)
+hsvMaxBlue = (123,255,215)
 
 # Red 
-hsvMinRed = (0,117,186)
+hsvMinRed = (126,121,35)
 hsvMaxRed = (179,255,255)
 
 # Green 
