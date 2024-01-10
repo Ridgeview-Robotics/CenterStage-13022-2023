@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.Systems.Drone;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-
+@TeleOp(name = "Drone Tester")
 public class DroneTester extends OpMode {
 
     Flywheels flywheels;

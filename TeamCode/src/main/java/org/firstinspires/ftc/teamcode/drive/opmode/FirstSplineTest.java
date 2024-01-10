@@ -22,15 +22,15 @@ public class FirstSplineTest extends LinearOpMode {
 
         if(isStopRequested()) return;
 
-        TrajectorySequence untitled0 = drive.trajectorySequenceBuilder(new Pose2d(10.90, -61.75, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(11.27, -12.95), Math.toRadians(89.56))
-                .splineTo(new Vector2d(-66.60, -11.64), Math.toRadians(179.04))
+        TrajectorySequence path1 = drive.trajectorySequenceBuilder(new Pose2d(11.05, -61.03, Math.toRadians(90.00)))
+                .splineTo(new Vector2d(14.01, -9.42), Math.toRadians(86.71))
+                .splineTo(new Vector2d(-59.84, -11.05), Math.toRadians(181.27))
                 .build();
-        drive.setPoseEstimate(untitled0.start());
+        drive.setPoseEstimate(path1.start());
 
 
 
-        drive.followTrajectorySequence(untitled0);
+        drive.followTrajectorySequence(path1);
 
     }
 }
