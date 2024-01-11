@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Systems.General.TeleOps;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Systems.General.Robot;
 
@@ -9,9 +10,12 @@ import org.firstinspires.ftc.teamcode.Systems.General.Robot;
 public class FullSystemDriving extends OpMode {
 
     Robot robot;
+
+    ElapsedTime timer;
     @Override
     public void init() {
         robot = new Robot(telemetry, hardwareMap, false);
+        timer = new ElapsedTime();
 
         telemetry.addLine("Ready for Start!");
         telemetry.update();
@@ -35,6 +39,7 @@ public class FullSystemDriving extends OpMode {
         robot.setIntakeSpeed(gamepad1.left_trigger);
 
         if(gamepad1.dpad_down){
+            timer.reset();
             robot.setOutboardTarget(robot.outboardRetractedPos());
             robot.setYawTarget(robot.yawDownPos());
             robot.setBoxIntake();

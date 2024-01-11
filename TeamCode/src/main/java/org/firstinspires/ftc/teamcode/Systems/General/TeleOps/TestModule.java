@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.checkerframework.checker.units.qual.C;
+import org.firstinspires.ftc.teamcode.Systems.Drone.DroneHolderServo;
+import org.firstinspires.ftc.teamcode.Systems.Drone.Flywheels;
 import org.firstinspires.ftc.teamcode.Systems.General.Drive;
 import org.firstinspires.ftc.teamcode.Systems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
@@ -21,6 +23,8 @@ public class TestModule extends OpMode {
     BoxServo boxServo;
     TrapdoorServo trapdoorServo;
     Intake flywheels;
+    DroneHolderServo droneHolderServo;
+    Flywheels droneLauncher;
 
     double flywheelPow;
     @Override
@@ -31,6 +35,9 @@ public class TestModule extends OpMode {
         boxServo = new BoxServo(hardwareMap);
         trapdoorServo = new TrapdoorServo(hardwareMap);
         flywheels = new Intake(hardwareMap);
+        droneLauncher = new Flywheels(hardwareMap);
+        droneHolderServo = new DroneHolderServo(hardwareMap);
+
 
         lift.resetLiftEncoders();
 
@@ -88,11 +95,11 @@ public class TestModule extends OpMode {
         }
 
         if (gamepad1.right_bumper) {
-            lift.setYawTargetPos(100);
+            droneLauncher.setFlywheelsPower(0.75);
         }
 
         if (gamepad1.left_bumper) {
-            lift.setYawTargetPos(-100);
+            droneLauncher.setFlywheelsPower(0.25);
         }
 
         telemetry.addLine("Use Y (+) and A (-) for box");
@@ -102,6 +109,8 @@ public class TestModule extends OpMode {
         telemetry.addLine("Yaw Counts: " + lift.getYawPos());
         telemetry.addLine("Outboard Counts: " + lift.getOutboardPos());
         telemetry.addLine("Box Touch = " + lift.getTouchState());
+        telemetry.addLine("Use Left (+) and Right (-) bumpers for Drone Servo");
+        telemetry.addLine("Drone Servo Position: " + droneHolderServo.getDroneServoPos());
 
         //make calculations for extension length and angle maxes
         telemetry.update();

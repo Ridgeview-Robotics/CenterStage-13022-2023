@@ -1,40 +1,49 @@
 import cv2
 import numpy as np
 
-font = cv2.FONT_HERSHEY_SIMPLEX
+frame = cv2.VideoCapture(0)
 
-focalPoint = 4
-realHeight = 80.156     
-sensorHeight = 2.02
 
-irlHeight = (focalPoint * realHeight * imageHeight)/(objectHeight * sensorHeight)
+while(frame.isOpened()):
 
-img = cv2.imread('shapes.png')
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    ret, cap = frame.read()
 
-ret,thresh = cv2.threshold(gray,127,255,1)
+    def find_red_cube_distance(image_path):
+        # Load the image
+        img = cv2.imread(image_path)
+    
+        # Convert BGR to HSV
+        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-contours,h = cv2.findContours(thresh,1,2)
+        # Define the range of red color in HSV
+        lower_red = np.array([0, 100, 100])
+        upper_red = np.array([10, 255, 255])
+    
+        # Threshold the image to get only red colors
+        mask = cv2.inRange(hsv, lower_red, upper_red)
 
-for cnt in contours:
-    approx = cv2.approxPolyDP(cnt,0.01*cv2.arcLength(cnt,True),True)
-    print len(approx)
-    if len(approx)==5:
-        print "pentagon"
-        cv2.drawContours(img,[cnt],0,255,-1)
-    elif len(approx)==3:
-        print "triangle"
-        cv2.drawContours(img,[cnt],0,(0,255,0),-1)
-    elif len(approx)==4:
-        print "square"
-        cv2.drawContours(img,[cnt],0,(0,0,255),-1)
-    elif len(approx) == 9:
-        print "half-circle"
-        cv2.drawContours(img,[cnt],0,(255,255,0),-1)
-    elif len(approx) > 15:
-        print "circle"
-        cv2.drawContours(img,[cnt],0,(0,255,255),-1)
+        # Find contours in the mask
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-cv2.imshow('img',img)
-cap.release()
+        # Filter out small contours
+        contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 100]
+
+        if contours:
+            # Assuming the largest contour is the red cube
+            largest_contour = max(contours, key=cv2.contourArea)
+        
+            # Calculate the distance based on the contour size or other techniques
+        
+            # For simplicity, let's just print the area of the contour
+            distance = cv2.contourArea(largest_contour)
+            print("Distance to red cube:", distance)
+
+        else:
+            print("Red cube not found")
+
+        cv2.imshow("Cone Color Detection", cap)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+cv2.release()
 cv2.destroyAllWindows()
