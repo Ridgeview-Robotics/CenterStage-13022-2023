@@ -1,10 +1,11 @@
-package org.firstinspires.ftc.teamcode.Systems.General;
+package org.firstinspires.ftc.teamcode.Systems.General.TeleOps;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.checkerframework.checker.units.qual.C;
+import org.firstinspires.ftc.teamcode.Systems.General.Drive;
 import org.firstinspires.ftc.teamcode.Systems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 import org.firstinspires.ftc.teamcode.Systems.ServoSystems.BoxServo;
@@ -15,8 +16,7 @@ import java.util.concurrent.TransferQueue;
 @TeleOp(name= "Test Module")
 public class TestModule extends OpMode {
     CombineLiftC lift;
-    TouchSensor liftTouch;
-    TouchSensor boxTouch;
+
     Drive drive;
     BoxServo boxServo;
     TrapdoorServo trapdoorServo;
@@ -26,8 +26,7 @@ public class TestModule extends OpMode {
     @Override
     public void init() {
         lift = new CombineLiftC(hardwareMap);
-        liftTouch = hardwareMap.get(TouchSensor.class, "yawTouch");
-        boxTouch = hardwareMap.get(TouchSensor.class, "boxTouch");
+
         drive = new Drive(hardwareMap);
         boxServo = new BoxServo(hardwareMap);
         trapdoorServo = new TrapdoorServo(hardwareMap);
@@ -102,8 +101,8 @@ public class TestModule extends OpMode {
         telemetry.addLine("Trapdoor Position" + trapdoorServo.getPosition());
         telemetry.addLine("Yaw Counts: " + lift.getYawPos());
         telemetry.addLine("Outboard Counts: " + lift.getOutboardPos());
-        telemetry.addLine("is Lift sensor touching? " + liftTouch.isPressed());
-        telemetry.addLine("is Box sensor touching? " + boxTouch.isPressed());
+        telemetry.addLine("Box Touch = " + lift.getTouchState());
+
         //make calculations for extension length and angle maxes
         telemetry.update();
     }

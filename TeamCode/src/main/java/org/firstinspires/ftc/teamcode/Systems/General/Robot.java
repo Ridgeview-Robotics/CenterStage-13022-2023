@@ -34,8 +34,8 @@ public class Robot {
 
     }
 
-    public void setDrivePower(double power){
-        drive.setMotorPower(power, power, power, power);
+    public void setDrivePower(double power1, double power2, double power3, double power4){
+        drive.setMotorPower(power1, power2, power3, power4);
     }
 
     public void setYawTarget(int pos){
@@ -65,6 +65,7 @@ public class Robot {
     public void setBoxIntake(){
         boxServo.setBoxIntake();
     }
+    public void setBoxStorage(){boxServo.setBoxStorage();}
 
     public void setTrapdoorOpen(){
         trapdoorServo.setTrapdoorOpen();
@@ -78,5 +79,12 @@ public class Robot {
         drone.setFlywheelsPower(power);
     }
 
+    public int yawDownPos(){
+        return lift.yawDownPos;
+    }
+
+    public int outboardRetractedPos(){
+        return lift.outboardRetractedPos;
+    }
 
 }

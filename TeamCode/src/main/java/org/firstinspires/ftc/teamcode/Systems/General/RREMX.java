@@ -25,7 +25,7 @@ public class RREMX {
         ticksPerMM = (ticksPerRev) / (outputShaftDiameter * Math.PI);  //MATH TBD
     }
 
-    public void runToCt(int targetCts){
+    public void runToPosition(int targetCts){
         int newTarget = rcsMotor.getCurrentPosition() + (targetCts);//new target = current encoder Pos + target
         rcsMotor.setTargetPosition(newTarget); //runs to new target
         rcsMotor.setPower(targetCts);

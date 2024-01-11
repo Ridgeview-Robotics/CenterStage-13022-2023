@@ -8,6 +8,7 @@ public class BoxServo {
 
     double intake;
     double score;
+    double storage;
 
     public BoxServo(HardwareMap hardwareMap){
         boxServo = hardwareMap.get(Servo.class, "boxServo");
@@ -19,6 +20,8 @@ public class BoxServo {
     public void setBoxScore(){
         boxServo.setPosition(score);
     }
+
+    public void setBoxStorage(){boxServo.setPosition(storage);}
     public void setPosition(double boxPosition){
         boxServo.setPosition(boxPosition);
     }

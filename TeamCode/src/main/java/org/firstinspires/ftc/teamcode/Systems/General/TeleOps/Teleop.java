@@ -27,8 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Systems.General;
+package org.firstinspires.ftc.teamcode.Systems.General.TeleOps;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -64,6 +65,7 @@ import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
+@Disabled
 @TeleOp(name="Teleop")
 public class Teleop extends OpMode {
 

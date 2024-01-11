@@ -17,6 +17,10 @@ public class CombineLiftC extends BasicLift {
 
     private boolean calibrated = false;
 
+    public int yawDownPos;
+
+    public int outboardRetractedPos;
+
     //defines our RREMX motors.
     public CombineLiftC(HardwareMap hardwareMap) {
         super(hardwareMap);
@@ -27,18 +31,20 @@ public class CombineLiftC extends BasicLift {
         yaw.setReverse();
 
         yaw.runToPositionMode();
+        setYawTargetPos(getYawPos());
+        setOutboardTargetPos(getOutboardPos());
 
-        touchSensor = hardwareMap.get(TouchSensor.class, "yawTouch");
+        touchSensor = hardwareMap.get(TouchSensor.class, "boxTouch");
 
     }
 
     public void setOutboardCts(int outboardCts) {
-        outboard.runToCt(outboardCts);
+        outboard.runToPosition(outboardCts);
         //setting a target for the outboard motor, reliant on encoder counts/ticks
     }
 
     public void setYawCts(int yawCts) {
-        yaw.runToCt(yawCts);
+        yaw.runToPosition(yawCts);
         // setting a target for the yaw motor, reliant on encoder counts/ticks
     }
 
@@ -67,13 +73,15 @@ public class CombineLiftC extends BasicLift {
 
     public void yawCalibrate(){
         if(!calibrated) {
-            setYawPower(0.25);
+            setYawPower(-0.1);
 
             if (touchSensor.isPressed()) {
 
                 setYawPower(0);
                 calibrated = true;
                 yaw.resetEncoder();
+                yawDownPos = getYawPos();
+                outboardRetractedPos = getOutboardPos();
             }
         }
     }
