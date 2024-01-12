@@ -29,7 +29,7 @@ hsvMaxWhite = (179, 24, 255)
 # 0 -- Laptop Cam
 # 1 -- USB Cam
 #frame = cv2.VideoCapture('/dev/video2')
-frame = cv2.VideoCapture(1)
+frame = cv2.VideoCapture(0)
 
 while(frame.isOpened()):
     

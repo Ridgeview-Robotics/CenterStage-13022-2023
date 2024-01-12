@@ -12,11 +12,11 @@ M3: right_front_drive
 
 // E X P A N S I O N   H U B
 
-M0: flippers (Right encoder here)
+M0: liftOutboard 
 
 M1:
 
 M2: liftYaw
 
-M3: liftOutboard
+M3: intake (Right encoder here)
     S0:trapdoorServo   S1:boxServo   S3:   S4: 
