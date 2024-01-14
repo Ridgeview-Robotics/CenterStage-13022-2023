@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class SignalDetector {
 
     private OpenCvWebcam webcam;
-    public SignalDetectorPipeline pipeline;
+    public PropDetectorPipeline pipeline;
 
     private int FOUND_TAG;
 
@@ -25,13 +25,19 @@ public class SignalDetector {
         // Initialize webcam
         int cameraMonitorViewId = hardwareMap.appContext.getResources( ).getIdentifier( "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam( hardwareMap.get( WebcamName.class, "webcam1"), cameraMonitorViewId);
-        pipeline = new SignalDetectorPipeline(telemetry);
+        pipeline = new PropDetectorPipeline(telemetry);
         webcam.setPipeline(pipeline);
         openCameraDevice();
+
+        // Link here
     }
 
     public int getFoundTag() {
         return FOUND_TAG;
+    }
+
+    public String getPropLocation(){
+        return pipeline.getPropLocation();
     }
 
     // Opens video stream
@@ -61,20 +67,20 @@ public class SignalDetector {
 
     // Run pipeline and identify found tags
     public void runDetection() {
-        ArrayList<AprilTagDetection> currentDetections = pipeline.getLatestDetections();
+        //ArrayList<AprilTagDetection> currentDetections = pipeline.processFrame();
 
-        if (currentDetections.size() != 0) {
+        /*if (currentDetections.size() != 0) {
             for (AprilTagDetection tag : currentDetections) {
                 FOUND_TAG = tag.id;
             }
         }
         else {
             FOUND_TAG = 2000;
-        }
+        }*/
     }
 
     // Returns Parking Spot Number
-    public int getParkingSpot() {
+    public int getDropSpot() {
         int foundTag = getFoundTag();
         if (foundTag <= 2) {
             return foundTag + 1;
@@ -87,19 +93,12 @@ public class SignalDetector {
         }
     }
 
-    public int getAllianceColor() { // 0 = Blue, 1 = Red
-        int foundTag = getFoundTag();
-        if (foundTag <= 2) {
-            return 1;
-        }
-        if (foundTag <= 5) {
-            return 0;
-        }
-        return 2;
 
-    }
     public void stopCamera( ) {
         webcam.stopStreaming( );
     }
-}
+
+
+        }
+
 

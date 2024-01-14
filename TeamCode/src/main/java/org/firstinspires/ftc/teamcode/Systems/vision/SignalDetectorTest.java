@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Systems.vision;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -10,7 +11,6 @@ import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
     Tests the Signal Detector April Tag Pipeline
  */
 @Autonomous(name = "Signal Detection")
-@Disabled
 public class SignalDetectorTest extends LinearOpMode
 {
     // Declare Vision system object
@@ -34,8 +34,10 @@ public class SignalDetectorTest extends LinearOpMode
         ///////////////GAME START////////////////////////////////
 
         while (opModeIsActive()) {
+
+
             // Run Detection Pipeline
-            signalDetector.runDetection();
+            /*signalDetector.runDetection();
 
             int parkingSpot = signalDetector.getParkingSpot();
             int allianceColor = signalDetector.getAllianceColor();
@@ -51,9 +53,9 @@ public class SignalDetectorTest extends LinearOpMode
             else {
                 telemetry.addLine("No Tag Found :(");
                 telemetry.addLine("Parking Spot: " + parkingSpot);
-            }
+            }*/
 
-            telemetry.addLine("Found Tag: " + signalDetector.getFoundTag());
+            telemetry.addLine("Found Tag: " + signalDetector.getPropLocation());
 
             telemetry.update();
         }

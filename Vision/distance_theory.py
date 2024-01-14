@@ -71,12 +71,10 @@ while(frame.isOpened()):
                                        )
             
               
-            cv2.putText(cap, "red" + disteq(h), (x, y),
+            cv2.putText(cap, "red" + str(x), (x, y),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.0,
                         (0, 0, 255))   
-
-            print(h)  
-            print: disteq(h)
+ 
 
     
     for pic, blueContour in enumerate(blueContours):
