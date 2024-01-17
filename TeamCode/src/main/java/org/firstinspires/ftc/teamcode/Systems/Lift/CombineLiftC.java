@@ -10,8 +10,8 @@ public class CombineLiftC extends BasicLift {
 
 
 
-    private RREMX outboard;
-    private RREMX yaw;
+    public RREMX outboard;
+    public RREMX yaw;
 
     private TouchSensor touchSensor;
 

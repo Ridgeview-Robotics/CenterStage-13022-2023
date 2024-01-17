@@ -9,18 +9,22 @@ import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 import org.firstinspires.ftc.teamcode.Systems.ServoSystems.BoxServo;
 import org.firstinspires.ftc.teamcode.Systems.ServoSystems.TrapdoorServo;
 import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 public class Robot {
+    public SampleMecanumDrive autoDrive;
 
     CombineLiftC lift;
-    Drive drive;
+    public Drive drive;
     BoxServo boxServo;
     TrapdoorServo trapdoorServo;
     Intake intake;
     Flywheels drone;
     SignalDetector signalDetector;
 
+
     public Robot(Telemetry telemetry, HardwareMap hardwareMap, boolean isAuto){
+        autoDrive = new SampleMecanumDrive(hardwareMap);
         lift = new CombineLiftC(hardwareMap);
         drive = new Drive(hardwareMap);
         boxServo = new BoxServo(hardwareMap);

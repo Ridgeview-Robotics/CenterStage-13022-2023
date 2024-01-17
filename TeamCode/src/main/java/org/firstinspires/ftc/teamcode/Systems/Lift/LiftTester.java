@@ -19,77 +19,11 @@ public class LiftTester extends OpMode {
         telemetry.update();
     }
 
-    @Override
-    public void init_loop() {
-        lift.yawCalibrate();
-
-        obPower = 0;
-    }
 
     public void loop(){
+        double liftPower = gamepad1.left_stick_x;
 
-
-
-        if(gamepad1.dpad_up){
-            lift.setOutboardCts(-1);
-        }
-        if(gamepad1.dpad_down){
-            lift.setOutboardCts(1);
-        }
-        if(gamepad1.dpad_right){
-            lift.setYawCts(1);
-        }
-        if(gamepad1.dpad_left){
-            lift.setYawCts(-1);
-        }
-        /*
-        if(gamepad1.a){
-            lift.setYawPower(0);
-            lift.setOutboardPower(0);
-        }
-        if(gamepad1.y){
-            lift.setOutboardPower(-1);
-        }
-        else{
-            lift.setOutboardPower(0);
-        }
-        if(gamepad1.a){
-            lift.setOutboardPower(1);
-        }
-        else{
-            lift.setOutboardPower(0);
-        }
-        if(gamepad1.x){
-            lift.setYawPower(1);
-        }
-        else{
-            lift.setYawPower(0);
-        }
-        if(gamepad1.b){
-            lift.setYawPower(-1);
-        }
-        else{
-            lift.setYawPower(0);
-        }
-
-
-        double obPower = gamepad1.left_stick_y;
-
-        lift.setOutboardPower(obPower);*/
-
-        if(gamepad1.y){
-            obPower = 1;
-        }
-
-        lift.setOutboardPower(obPower);
-
-        if(gamepad1.x){
-            obPower = 0;
-        }
-
-        if(gamepad1.a){
-            obPower = -1;
-        }
+        lift.outboard.setPower(liftPower);
 
         telemetry.addLine("Yaw Motor Position: " + lift.getYawPos());
 

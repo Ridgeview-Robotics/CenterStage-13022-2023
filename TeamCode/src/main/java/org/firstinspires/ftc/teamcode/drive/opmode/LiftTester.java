@@ -64,7 +64,7 @@ public class LiftTester extends LinearOpMode {
         telemetry.update();
 
 
-        liftDrive = hardwareMap.get(DcMotor.class, "lift");
+        liftDrive = hardwareMap.get(DcMotor.class, "liftYaw");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -78,17 +78,13 @@ public class LiftTester extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Setup a variable for each drive wheel to save power level for telemetr
+            // Setup a variable for each drive wheel to save power level for telemetry
             double liftPower = gamepad1.left_stick_y;
-
+            liftDrive.setPower(liftPower);
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
-
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-
-            liftDrive.setPower(liftPower);
-
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "Lift Power(%.2f)", liftPower);

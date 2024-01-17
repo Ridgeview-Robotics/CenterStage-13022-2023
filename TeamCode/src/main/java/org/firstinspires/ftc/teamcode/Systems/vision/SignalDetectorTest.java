@@ -57,6 +57,9 @@ public class SignalDetectorTest extends LinearOpMode
 
             telemetry.addLine("Found Tag: " + signalDetector.getPropLocation());
 
+
+
+
             telemetry.update();
         }
     }
