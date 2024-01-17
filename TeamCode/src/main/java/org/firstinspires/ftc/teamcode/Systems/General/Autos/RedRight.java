@@ -20,7 +20,8 @@ public class RedRight extends LinearOpMode {
         TO_DROP,
         RUNNING,
         DROP,
-        RETURN_AND_PARK
+        RETURN_AND_PARK,
+        IDLE
 
 
     }
@@ -75,6 +76,27 @@ public class RedRight extends LinearOpMode {
         mDropPixelSequences.add(rightSignalPathPart1);
     }
 
+    private void setupParkSequences(){
+        TrajectorySequence leftSignalPath2 = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(6.01, -33.00, Math.toRadians(131.33)))
+                .splineTo(new Vector2d(16.24, -43.97), Math.toRadians(144.46))
+                .splineTo(new Vector2d(57.47, -58.21), Math.toRadians(-29.07))
+                .build();
+        mReturnAndParkSequences.add(leftSignalPath2);
+
+        TrajectorySequence centerSignalPath2 = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(10.75, -35.07, Math.toRadians(88.79)))
+                .splineTo(new Vector2d(16.68, -48.57), Math.toRadians(94.86))
+                .splineTo(new Vector2d(51.83, -61.03), Math.toRadians(-19.52))
+                .build();
+        mReturnAndParkSequences.add(centerSignalPath2);
+
+        TrajectorySequence rightSignalPathPart2 = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(20.69, -38.63, Math.toRadians(65.97)))
+                .splineTo(new Vector2d(21.43, -48.87), Math.toRadians(11.77))
+                .splineTo(new Vector2d(52.42, -56.43), Math.toRadians(-13.71))
+                .build();
+        mReturnAndParkSequences.add(rightSignalPathPart2);
+
+    }
+
     private void detectObject(){
         String loc = mPipeline.getPropLocation();
         if (loc == "Left"){
@@ -106,49 +128,13 @@ public class RedRight extends LinearOpMode {
         mIsRoadRunning = true;
     }
 
-    private void toDropL(){
-        TrajectorySequence leftSignalPath1 = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(10.75, -62.81, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(13.57, -41.60), Math.toRadians(82.43))
-                .splineTo(new Vector2d(6.01, -33.00), Math.toRadians(131.33))
-                .build();
-        mRobot.autoDrive.setPoseEstimate(leftSignalPath1.start());
-
+    private void returnAndPark(){
+        mRobot.autoDrive.setPoseEstimate(mReturnAndParkSequences.get(mPropLoc.getLocation()).start());
+        mIsRoadRunning = true;
     }
 
-    private void toDropC(){
-        TrajectorySequence centerSignalPath1 = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(10.16, -63.25, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(10.75, -35.07), Math.toRadians(88.79))
-                .build();
-        mRobot.autoDrive.setPoseEstimate(centerSignalPath1.start());
-    }
 
-    private void toDropR(){
-        TrajectorySequence rightSignalPathPart1 = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(9.71, -63.25, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(20.69, -38.63), Math.toRadians(65.97))
-                .build();
-        mRobot.autoDrive.setPoseEstimate(rightSignalPathPart1.start());
-    }
-    private void toParkL(){
-        TrajectorySequence leftSignalPath2 = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(6.01, -33.00, Math.toRadians(131.33)))
-                .splineTo(new Vector2d(16.24, -43.97), Math.toRadians(144.46))
-                .splineTo(new Vector2d(57.47, -58.21), Math.toRadians(-29.07))
-                .build();
-        mRobot.autoDrive.setPoseEstimate(leftSignalPath2.start());
-    }
-    private void toParkC(){
-        TrajectorySequence centerSignalPath2 = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(10.75, -35.07, Math.toRadians(88.79)))
-                .splineTo(new Vector2d(16.68, -48.57), Math.toRadians(94.86))
-                .splineTo(new Vector2d(51.83, -61.03), Math.toRadians(-19.52))
-                .build();
-        mRobot.autoDrive.setPoseEstimate(centerSignalPath2.start());
-    }
-    private void toParkR(){
-        TrajectorySequence rightSignalPathPart2 = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(20.69, -38.63, Math.toRadians(65.97)))
-                .splineTo(new Vector2d(21.43, -48.87), Math.toRadians(11.77))
-                .splineTo(new Vector2d(52.42, -56.43), Math.toRadians(-13.71))
-                .build();
-        mRobot.autoDrive.setPoseEstimate(rightSignalPathPart2.start());
-    }
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -169,40 +155,38 @@ public class RedRight extends LinearOpMode {
 
         while (opModeIsActive()){
 
-            switch(mRobotState){
-                case SEE:
-                    detectObject();
-                    break;
-                case TO_DROPL:
-                    toDropL();
-                    break;
-                case TO_DROPC:
-                    toDropC();
-                    break;
-                case TO_DROPR:
-                    toDropR();
-                    break;
-                case DROP:
-                    dropPixel();
-                    break;
-                case TO_PARKL:
-                    toParkL();
-                    break;
-                case TO_PARKC:
-                    toParkC();
-                    break;
-                case TO_PARKR:
-                    toParkR();
-                    break;
-
-            }
-            /*if(!robot.autoDrive.isBusy()){
-                switch(mRobotState){
-                    case TO_DROPL:
-                        mRobotState = ROBOT_STATE.DROP;
-                        break;
+            if(mIsRoadRunning){
+                if(!mRobot.autoDrive.isBusy()){
+                    switch(mRobotState){
+                        case TO_DROP:
+                            mRobotState = ROBOT_STATE.DROP;
+                            break;
+                        case RETURN_AND_PARK:
+                            mRobotState = ROBOT_STATE.IDLE;
+                            break;
+                    }
                 }
-            }*/
+            }
+            else {
+
+                switch (mRobotState) {
+                    case SEE:
+                        detectObject();
+                        break;
+                    case TO_DROP:
+                        toDrop();
+                        break;
+                    case DROP:
+                        dropPixel();
+                        break;
+                    case RETURN_AND_PARK:
+                        returnAndPark();
+                        break;
+                    case IDLE:
+                        mRobot.autoDrive.setMotorPowers(0,0,0,0);
+
+                }
+            }
 
 
             mRobot.autoDrive.getPoseEstimate();
