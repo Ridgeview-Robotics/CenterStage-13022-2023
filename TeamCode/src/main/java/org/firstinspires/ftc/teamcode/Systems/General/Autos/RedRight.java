@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Systems.General.Robot;
 import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
@@ -52,11 +53,7 @@ public class RedRight extends LinearOpMode {
     List<TrajectorySequence> mDropPixelSequences;
     List <TrajectorySequence> mReturnAndParkSequences;
 
-    public RedRight(){
-        mDropPixelSequences = new ArrayDeque<TrajectorySequence>();
-        mReturnAndParkSequences = new ArrayDeque<TrajectorySequence>();
-        mPropLoc = PROP_LOC.NONE;
-    }
+
     private void setupDropSequences()
     {
         TrajectorySequence leftSignalPath1 = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(10.75, -62.81, Math.toRadians(90.00)))
@@ -124,7 +121,8 @@ public class RedRight extends LinearOpMode {
     }
 
     private void toDrop(){
-        mRobot.autoDrive.setPoseEstimate(mDropPixelSequences.get(mPropLoc.getLocation()).start());
+        TrajectorySequence tempSeq = mDropPixelSequences.get(2);
+        mRobot.autoDrive.setPoseEstimate(tempSeq.start());
         mIsRoadRunning = true;
     }
 
@@ -137,14 +135,17 @@ public class RedRight extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-
         mPipeline = new SignalDetector(hardwareMap, telemetry);
         mRobot = new Robot(telemetry, hardwareMap, false);
-
+        mDropPixelSequences = new ArrayDeque<TrajectorySequence>();
+        setupDropSequences();
+        mReturnAndParkSequences = new ArrayDeque<TrajectorySequence>();
+        setupParkSequences();
+        mPropLoc = PROP_LOC.NONE;
+        mRobotState = ROBOT_STATE.SEE;
+        ElapsedTime timer = new ElapsedTime();
         telemetry.addLine("Here we go");
         telemetry.update();
-        mRobotState = ROBOT_STATE.SEE;
         waitForStart();
 
         if (isStopRequested()) return;
@@ -157,14 +158,14 @@ public class RedRight extends LinearOpMode {
 
             if(mIsRoadRunning){
                 if(!mRobot.autoDrive.isBusy()){
-                    switch(mRobotState){
+                    /*switch(mRobotState){
                         case TO_DROP:
                             mRobotState = ROBOT_STATE.DROP;
                             break;
                         case RETURN_AND_PARK:
                             mRobotState = ROBOT_STATE.IDLE;
                             break;
-                    }
+                    }*/
                 }
             }
             else {
@@ -188,11 +189,10 @@ public class RedRight extends LinearOpMode {
                 }
             }
 
-
-            mRobot.autoDrive.getPoseEstimate();
-
-
             telemetry.addLine("Prop Location: " + mPipeline.getPropLocation());
+            telemetry.addLine("Robot State: " + mRobotState);
+            telemetry.addLine("Is Roadrunner Running: " + mIsRoadRunning);
+            telemetry.addLine("Current Time: " + timer.seconds());
             telemetry.update();
         }
 
