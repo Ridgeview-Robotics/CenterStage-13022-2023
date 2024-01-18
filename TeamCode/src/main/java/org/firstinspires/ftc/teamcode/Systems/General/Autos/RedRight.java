@@ -14,9 +14,9 @@ import java.util.List;
 
 import kotlin.collections.ArrayDeque;
 
-@Autonomous(name= "Signal Finders")
+@Autonomous(name= "RedRight")
 public class RedRight extends LinearOpMode {
-    public enum ROBOT_STATE{
+    private enum ROBOT_STATE{
         SEE,
         TO_DROP,
         RUNNING,
@@ -27,7 +27,7 @@ public class RedRight extends LinearOpMode {
 
     }
 
-    public enum PROP_LOC{
+    private enum PROP_LOC{
         LEFT(0),
         CENTER(1),
         RIGHT(2),
@@ -157,7 +157,7 @@ public class RedRight extends LinearOpMode {
 
         telemetry.addLine("Here we go");
         telemetry.update();
-        
+
         waitForStart();
 
         if (isStopRequested()) return;
