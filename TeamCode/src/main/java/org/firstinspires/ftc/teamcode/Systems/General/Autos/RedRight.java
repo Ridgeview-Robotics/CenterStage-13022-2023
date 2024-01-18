@@ -97,7 +97,7 @@ public class RedRight extends LinearOpMode {
 
     private void detectObject(){
         sleep(100);
-        String loc = mPipeline.getPropLocation();
+        String loc = mPipeline.getRedPropLocation();
         if (loc == "Left"){
             mPropLoc = PROP_LOC.LEFT;
         }
@@ -141,17 +141,23 @@ public class RedRight extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         mPipeline = new SignalDetector(hardwareMap, telemetry);
         mRobot = new Robot(telemetry, hardwareMap, false);
+
         mDropPixelSequences = new ArrayDeque<TrajectorySequence>();
         setupDropSequences();
         mReturnAndParkSequences = new ArrayDeque<TrajectorySequence>();
         setupParkSequences();
+
         mPropLoc = PROP_LOC.NONE;
         mRobotState = ROBOT_STATE.SEE;
         ElapsedTime timer = new ElapsedTime();
+
+
         telemetry.addLine("Here we go");
         telemetry.update();
+        
         waitForStart();
 
         if (isStopRequested()) return;
@@ -196,7 +202,7 @@ public class RedRight extends LinearOpMode {
                 }
             }
 
-            telemetry.addLine("Prop Location: " + mPipeline.getPropLocation());
+            telemetry.addLine("Prop Location: " + mPipeline.getRedPropLocation());
             telemetry.addLine("Robot State: " + mRobotState);
             telemetry.addLine("Is Roadrunner Running: " + mIsRoadRunning);
             telemetry.addLine("Current Time: " + timer.seconds());

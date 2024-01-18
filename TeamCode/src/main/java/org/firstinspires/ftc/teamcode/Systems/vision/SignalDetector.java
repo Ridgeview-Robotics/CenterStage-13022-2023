@@ -36,8 +36,12 @@ public class SignalDetector {
         return FOUND_TAG;
     }
 
-    public String getPropLocation(){
-        return pipeline.getPropLocation();
+    public String getRedPropLocation(){
+        return pipeline.getPropLocation(true);
+    }
+
+    public String getBluePropLocation(){
+        return pipeline.getPropLocation(false);
     }
 
     // Opens video stream

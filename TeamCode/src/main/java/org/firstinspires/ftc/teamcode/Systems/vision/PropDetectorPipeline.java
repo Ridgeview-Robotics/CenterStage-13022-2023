@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Systems.vision;
 
 import org.checkerframework.common.value.qual.StringVal;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Systems.General.Autos.BlueLeft;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
@@ -32,6 +33,17 @@ public class PropDetectorPipeline extends OpenCvPipeline {
 
     Mat RGBMat = new Mat();
     String propLocation = null;
+    public boolean mRedBol;
+
+    public Scalar mScalCheck(){
+         if(mRedBol){
+             return SCALAR_RED_COLOR;
+         }
+         else if(!mRedBol){
+             return SCALAR_BLUE_COLOR;
+         }
+         else return null;
+    }
 
     public PropDetectorPipeline(Telemetry t){
         telemetry = t;
@@ -95,9 +107,9 @@ public class PropDetectorPipeline extends OpenCvPipeline {
         Scalar centerAvg            = Core.mean(centerCropMat);
         Scalar rightAvg             = Core.mean(rightCropMat);
 
-        double leftDistanceToRed    = calculateDistance(leftAvg,    SCALAR_RED_COLOR);
-        double centerDistanceToRed  = calculateDistance(centerAvg,  SCALAR_RED_COLOR);
-        double rightDistanceToRed   = calculateDistance(rightAvg,   SCALAR_RED_COLOR);
+        double leftDistanceToRed    = calculateDistance(leftAvg,    mScalCheck());
+        double centerDistanceToRed  = calculateDistance(centerAvg,  mScalCheck());
+        double rightDistanceToRed   = calculateDistance(rightAvg,  mScalCheck());
 
         if(leftDistanceToRed < centerDistanceToRed)
         {
@@ -130,7 +142,8 @@ public class PropDetectorPipeline extends OpenCvPipeline {
         return distance;
     }
 
-    public String getPropLocation(){
+    public String getPropLocation(boolean color){
+        color = mRedBol;
         return propLocation;
     }
 

@@ -55,7 +55,8 @@ public class SignalDetectorTest extends LinearOpMode
                 telemetry.addLine("Parking Spot: " + parkingSpot);
             }*/
 
-            telemetry.addLine("Found Tag: " + signalDetector.getPropLocation());
+            telemetry.addLine("Found Red Tag: " + signalDetector.getRedPropLocation());
+            telemetry.addLine("Found Blue Tag: " + signalDetector.getBluePropLocation());
 
 
 
