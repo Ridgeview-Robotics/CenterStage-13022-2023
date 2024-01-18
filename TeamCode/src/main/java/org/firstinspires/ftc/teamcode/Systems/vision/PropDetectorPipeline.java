@@ -19,7 +19,7 @@ public class PropDetectorPipeline extends OpenCvPipeline {
 
     Telemetry telemetry;
 
-    static final Scalar BLUE = new Scalar(0, 0, 255);
+    static final Scalar SCALAR_BLUE_COLOR = new Scalar(0, 0, 255);
     static final Scalar SCALAR_RED_COLOR = new Scalar(255, 0, 0);
     double leftAvgFin;
     double centerAvgFin;

@@ -20,7 +20,7 @@ public class DroneTester extends OpMode {
 
     @Override
     public void loop() {
-        double motorPower = 0.1*gamepad1.right_trigger;
+        double motorPower = gamepad1.right_trigger;
 
         flywheels.setFlywheelsPower(motorPower);
 
