@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Systems.General.TeleOps;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,11 +13,13 @@ public class FullSystemDriving extends OpMode {
     Robot robot;
 
     ElapsedTime timer;
+    RevBlinkinLedDriver.BlinkinPattern rainbow;
     @Override
     public void init() {
         robot = new Robot(telemetry, hardwareMap, false);
         timer = new ElapsedTime();
-
+        rainbow = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
+        robot.lights.setPattern(rainbow);
         telemetry.addLine("Ready for Start!");
         telemetry.update();
     }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Systems.General;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -22,6 +23,8 @@ public class Robot {
     Flywheels drone;
     SignalDetector signalDetector;
 
+    public RevBlinkinLedDriver lights;
+
 
     public Robot(Telemetry telemetry, HardwareMap hardwareMap, boolean isAuto){
         autoDrive = new SampleMecanumDrive(hardwareMap);
@@ -31,6 +34,7 @@ public class Robot {
         trapdoorServo = new TrapdoorServo(hardwareMap);
         intake = new Intake(hardwareMap);
         drone = new Flywheels(hardwareMap);
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "LEDs");
 
         if(isAuto){
             signalDetector = new SignalDetector(hardwareMap, telemetry);
