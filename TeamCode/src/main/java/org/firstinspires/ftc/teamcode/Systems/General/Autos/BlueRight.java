@@ -143,7 +143,7 @@ public class BlueRight extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        mPipeline = new SignalDetector(hardwareMap, telemetry);
+        mPipeline = new SignalDetector(hardwareMap, telemetry, false);
         mRobot = new Robot(telemetry, hardwareMap, false);
 
         mDropPixelSequences = new ArrayDeque<TrajectorySequence>();

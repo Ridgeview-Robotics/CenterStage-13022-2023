@@ -20,12 +20,12 @@ public class SignalDetector {
 
     private int FOUND_TAG;
 
-    public SignalDetector(HardwareMap hardwareMap, Telemetry telemetry) {
+    public SignalDetector(HardwareMap hardwareMap, Telemetry telemetry, boolean colorRed) {
 
         // Initialize webcam
         int cameraMonitorViewId = hardwareMap.appContext.getResources( ).getIdentifier( "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam( hardwareMap.get( WebcamName.class, "webcam1"), cameraMonitorViewId);
-        pipeline = new PropDetectorPipeline(telemetry);
+        pipeline = new PropDetectorPipeline(telemetry, colorRed);
         webcam.setPipeline(pipeline);
         openCameraDevice();
 
@@ -43,6 +43,7 @@ public class SignalDetector {
     public String getBluePropLocation(){
         return pipeline.getPropLocation(false);
     }
+
 
     // Opens video stream
     public void openCameraDevice() {

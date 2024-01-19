@@ -20,3 +20,4 @@ M2: liftYaw
 
 M3: intake (Right encoder here)
     S0:trapdoorServo   S1:boxServo   S2:droneServo S3:   S4: 
+DIGITAL     0/1: boxTouch

@@ -36,9 +36,9 @@ public class Robot {
         drone = new Flywheels(hardwareMap);
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "LEDs");
 
-        if(isAuto){
-            signalDetector = new SignalDetector(hardwareMap, telemetry);
-        }
+        /*if(isAuto){
+            signalDetector = new SignalDetector(hardwareMap, telemetry, );
+        }*/
 
     }
 

@@ -20,10 +20,11 @@ public class SignalDetectorTest extends LinearOpMode
     public void runOpMode() {
 
         // Initialize vision object
-        signalDetector = new SignalDetector(hardwareMap, telemetry);
+        signalDetector = new SignalDetector(hardwareMap, telemetry, false);
 
         // Alert driver init finished
         telemetry.addLine("Ready for Start!");
+
         telemetry.update();
 
         // Wait for opMode start
@@ -57,6 +58,13 @@ public class SignalDetectorTest extends LinearOpMode
 
             telemetry.addLine("Found Red Tag: " + signalDetector.getRedPropLocation());
             telemetry.addLine("Found Blue Tag: " + signalDetector.getBluePropLocation());
+
+            telemetry.addLine( "Left Distance: " + signalDetector.pipeline.leftDistanceToRed + "Left Avg " + signalDetector.pipeline.leftAvg);
+            telemetry.addLine( "Center Distance: " + signalDetector.pipeline.centerDistanceToRed + "Center Avg " + signalDetector.pipeline.centerAvg);
+            telemetry.addLine( "Right Distance: " + signalDetector.pipeline.rightDistanceToRed + "Right Avg " + signalDetector.pipeline.rightAvg);
+
+            telemetry.addLine("Center: " + signalDetector.pipeline.centerCropMat);
+
 
 
 

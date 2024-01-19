@@ -22,9 +22,15 @@ public class PropDetectorPipeline extends OpenCvPipeline {
 
     static final Scalar SCALAR_BLUE_COLOR = new Scalar(0, 0, 255);
     static final Scalar SCALAR_RED_COLOR = new Scalar(255, 0, 0);
+    public Scalar leftAvg;
+    public Scalar centerAvg;
+    public Scalar rightAvg;
     double leftAvgFin;
     double centerAvgFin;
     double rightAvgFin;
+    double leftDistanceToRed;
+    double centerDistanceToRed;
+    double rightDistanceToRed;
     Mat YCbCr = new Mat();
     Mat outPut = new Mat();
     Mat leftCropMat;
@@ -45,44 +51,9 @@ public class PropDetectorPipeline extends OpenCvPipeline {
          else return null;
     }
 
-    public PropDetectorPipeline(Telemetry t){
+    public PropDetectorPipeline(Telemetry t, boolean colorRed){
         telemetry = t;
-    }
-
-    public Mat processFrame2(Mat input){
-
-        Imgproc.cvtColor(input, YCbCr, Imgproc.COLOR_RGB2YCrCb);
-
-        int zoneWidth= (639/3);
-
-        Rect leftRect   = new Rect(1, 1, zoneWidth, 320);
-        Rect centerRect = new Rect(213,1,zoneWidth, 359);
-        Rect rightRect  = new Rect(426,1,zoneWidth, 359);
-
-        input.copyTo(outPut);
-        Imgproc.rectangle(outPut, leftRect, SCALAR_RED_COLOR, 1);
-        Imgproc.rectangle(outPut, centerRect, SCALAR_RED_COLOR, 1);
-        Imgproc.rectangle(outPut, rightRect, SCALAR_RED_COLOR, 1);
-
-        leftCropMat = YCbCr.submat(leftRect);  //crash point
-        centerCropMat = YCbCr.submat(centerRect);
-        rightCropMat = YCbCr.submat(rightRect);
-
-        Core.extractChannel(leftCropMat, leftCropMat, 2);
-        Core.extractChannel(centerCropMat, centerCropMat, 2);
-        Core.extractChannel(rightCropMat, rightCropMat, 2);
-
-        Scalar leftAvg = Core.mean(leftCropMat);
-        Scalar centerAvg = Core.mean(centerCropMat);
-        Scalar rightAvg = Core.mean(rightCropMat);
-
-        leftAvgFin = leftAvg.val[0];
-        centerAvgFin = centerAvg.val[0];
-        rightAvgFin = rightAvg.val[0];
-
-
-
-        return outPut;
+        mRedBol = colorRed;
     }
 
     @Override
@@ -103,23 +74,23 @@ public class PropDetectorPipeline extends OpenCvPipeline {
         centerCropMat               = input.submat(centerRect);
         rightCropMat                = input.submat(rightRect);
 
-        Scalar leftAvg              = Core.mean(leftCropMat);
-        Scalar centerAvg            = Core.mean(centerCropMat);
-        Scalar rightAvg             = Core.mean(rightCropMat);
+        leftAvg              = Core.mean(leftCropMat);
+        centerAvg            = Core.mean(centerCropMat);
+        rightAvg             = Core.mean(rightCropMat);
 
-        double leftDistanceToRed    = calculateDistance(leftAvg,    mScalCheck());
-        double centerDistanceToRed  = calculateDistance(centerAvg,  mScalCheck());
-        double rightDistanceToRed   = calculateDistance(rightAvg,  mScalCheck());
+        leftDistanceToRed    = calculateDistance(leftAvg,    mScalCheck());
+        centerDistanceToRed  = calculateDistance(centerAvg,  mScalCheck());
+        rightDistanceToRed   = calculateDistance(rightAvg,   mScalCheck());
 
-        if(leftDistanceToRed < centerDistanceToRed)
+        if(leftDistanceToRed < centerDistanceToRed && leftDistanceToRed < rightDistanceToRed)
         {
-            if(leftDistanceToRed < rightDistanceToRed)
-                propLocation = "Left";
+            propLocation = "Left";
         }
-        else if(centerDistanceToRed < rightDistanceToRed)
+        else if(centerDistanceToRed < rightDistanceToRed && centerDistanceToRed < leftDistanceToRed)
             propLocation = "Center";
-        else
+        else if(rightDistanceToRed < leftDistanceToRed && rightDistanceToRed < centerDistanceToRed) {
             propLocation = "Right";
+        }
 
         return outPut;
     }
@@ -143,9 +114,11 @@ public class PropDetectorPipeline extends OpenCvPipeline {
     }
 
     public String getPropLocation(boolean color){
-        color = mRedBol;
+        //mRedBol = color;
         return propLocation;
     }
+
+
 
 
 }

@@ -20,9 +20,16 @@ public class DroneTester extends OpMode {
 
     @Override
     public void loop() {
-        double motorPower = gamepad1.right_trigger;
+        if(gamepad1.right_trigger > 0.0){
+            flywheels.setFlywheelsPower(0.30);
+        }
 
-        flywheels.setFlywheelsPower(motorPower);
+
+        if(gamepad1.left_trigger >0.0){
+            flywheels.setFlywheelsPower(0.29);
+        }
+
+        //29 IS THE NUMBER
 
         if(gamepad1.a){
             droneServo.setDroneServoTaut();

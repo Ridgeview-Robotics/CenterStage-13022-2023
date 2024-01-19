@@ -30,9 +30,9 @@ public class CombineLiftC extends BasicLift {
         yaw = new RREMX(hardwareMap, "liftYaw", 1.0);
         yaw.setReverse();
 
-        yaw.runToPositionMode();
-        setYawTargetPos(getYawPos());
-        setOutboardTargetPos(getOutboardPos());
+        //yaw.runToPositionMode();
+        //setYawTargetPos(getYawPos());
+        //setOutboardTargetPos(getOutboardPos());
 
         touchSensor = hardwareMap.get(TouchSensor.class, "boxTouch");
 

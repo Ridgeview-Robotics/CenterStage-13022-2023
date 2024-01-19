@@ -102,7 +102,7 @@ public class Stage1Autonomous extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        mPipeline = new SignalDetector(hardwareMap, telemetry);
+        mPipeline = new SignalDetector(hardwareMap, telemetry, true);
         mRobot = new Robot(telemetry, hardwareMap, false);
 
         mDropPixelSequences = new ArrayDeque<TrajectorySequence>();

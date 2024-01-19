@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 public class LiftTester extends OpMode {
     CombineLiftC lift;
 
-    double obPower;
+
 
     @Override
     public void init() {
@@ -21,9 +21,12 @@ public class LiftTester extends OpMode {
 
 
     public void loop(){
-        double liftPower = gamepad1.left_stick_x;
+        double liftPower = gamepad1.left_stick_y;
+        double yawPower = gamepad1.right_stick_x;
 
-        lift.outboard.setPower(liftPower);
+        lift.setOutboardPower(liftPower);
+
+        lift.setYawPower(yawPower);
 
         telemetry.addLine("Yaw Motor Position: " + lift.getYawPos());
 
