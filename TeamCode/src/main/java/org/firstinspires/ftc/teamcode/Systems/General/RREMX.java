@@ -52,7 +52,7 @@ public class RREMX {
     }
 
     public void setReverse(){
-        rcsMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        rcsMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public double getPower(){
@@ -80,7 +80,6 @@ public class RREMX {
 
     public void setTargetPos(int target){
         rcsMotor.setTargetPosition(target);
-        rcsMotor.setPower(target);
     }
 
 

@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class TrapdoorServo {
     Servo trapdoorServo;
 
-    double trapdoorOpen= 0;
+    public double trapdoorOpen= 0.326;
 
-    double trapdoorClosed = 0.274;
+    public double trapdoorClosed = 0.65;
 
     public TrapdoorServo(HardwareMap hardwareMap){
         trapdoorServo = hardwareMap.get(Servo.class, "trapdoorServo");

@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.Systems.General;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Systems.Drone.Flywheels;
@@ -22,6 +25,7 @@ public class Robot {
     Intake intake;
     Flywheels drone;
     SignalDetector signalDetector;
+    ElapsedTime timer;
 
     public RevBlinkinLedDriver lights;
 
@@ -35,6 +39,7 @@ public class Robot {
         intake = new Intake(hardwareMap);
         drone = new Flywheels(hardwareMap);
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "LEDs");
+        timer = new ElapsedTime();
 
         /*if(isAuto){
             signalDetector = new SignalDetector(hardwareMap, telemetry, );
@@ -95,4 +100,95 @@ public class Robot {
         return lift.outboardRetractedPos;
     }
 
+    public void setYawScore(){
+        lift.setYawScore();
+    }
+
+    public void setYawDown(){
+        lift.setYawDown();
+    }
+
+    public void setOutboardFirstLine(){
+        lift.setOutboardFirstLinePos();
+    }
+    public void setOutboardTop(){
+        lift.setOutboardHighestPos();
+    }
+    public void setOutboardRetracted(){
+        lift.setOutboardRetracted();
+    }
+
+    public void toHighScore(){
+            setYawScore();
+            while(lift.getYawPos() < 1000){
+                setOutboardTop();
+            }
+            while(lift.getYawPos() < 1500){
+                setTrapdoorClosed();
+                setBoxScore();
+            }
+            while(lift.getYawPos() < 1800){
+                timer.reset();
+                while(timer.seconds() < 0.3){
+                    setTrapdoorOpen();
+                }
+            }
+
+    }
+
+    public void toFirstLine(){
+            setYawScore();
+            setTrapdoorClosed();
+            setBoxScore();
+            setOutboardFirstLine();
+            //at end
+            setTrapdoorOpen();
+    }
+
+    public void toIntake(){
+            setYawDown();
+            setOutboardRetracted();
+            setBoxIntake();
+            setTrapdoorClosed();
+    }
+
+    public void liftCalibration(){
+        lift.yawCalibrate();
+    }
+
+    public void shootDrone(){
+        drone.shootDrone();
+    }
+
+    public void setDronePower(double power){
+        drone.setFlywheelsPower(power);
+    }
+
+    public void primeDrone(){
+        drone.primeDrone();
+    }
+
+    /*Trapdoor:
+        Open: 0.365   Closed: 0.65
+
+      Box:
+        Down:1.00   Scoring: 0.833
+
+      Yaw Scoring Pos: 1800
+
+      Outboard:
+        First Line: 695
+        Second Line/Highest Position: 1600
+
+Finished Autos:
+STAGE1:
+RL, RR, BL, BR
+
+STAGE2:
+RL, RR
+
+
+
+
+    */
 }

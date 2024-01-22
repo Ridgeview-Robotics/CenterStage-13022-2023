@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.Systems.General.TeleOps;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.checkerframework.checker.units.qual.C;
 import org.firstinspires.ftc.teamcode.Systems.Drone.DroneHolderServo;
 import org.firstinspires.ftc.teamcode.Systems.Drone.Flywheels;
 import org.firstinspires.ftc.teamcode.Systems.General.Drive;
@@ -13,8 +11,6 @@ import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 import org.firstinspires.ftc.teamcode.Systems.ServoSystems.BoxServo;
 import org.firstinspires.ftc.teamcode.Systems.ServoSystems.TrapdoorServo;
 
-import java.util.concurrent.TransferQueue;
-
 @TeleOp(name= "Test Module")
 public class TestModule extends OpMode {
     CombineLiftC lift;
@@ -22,11 +18,12 @@ public class TestModule extends OpMode {
     Drive drive;
     BoxServo boxServo;
     TrapdoorServo trapdoorServo;
-    Intake flywheels;
+    Intake intake;
     DroneHolderServo droneHolderServo;
     Flywheels droneLauncher;
 
-    double flywheelPow;
+    double intakeFowPower;
+    double intakeRevPower;
     @Override
     public void init() {
         lift = new CombineLiftC(hardwareMap);
@@ -34,7 +31,7 @@ public class TestModule extends OpMode {
         drive = new Drive(hardwareMap);
         boxServo = new BoxServo(hardwareMap);
         trapdoorServo = new TrapdoorServo(hardwareMap);
-        flywheels = new Intake(hardwareMap);
+        intake = new Intake(hardwareMap);
         droneLauncher = new Flywheels(hardwareMap);
         droneHolderServo = new DroneHolderServo(hardwareMap);
 
@@ -50,7 +47,6 @@ public class TestModule extends OpMode {
         int yawPos = lift.getYawPos();
         int outboardPos = lift.getOutboardPos();
 
-
         double y = -(gamepad1.left_stick_y);
         double x = (gamepad1.left_stick_x);
         double r = gamepad1.right_stick_x;
@@ -62,11 +58,8 @@ public class TestModule extends OpMode {
 
         drive.setMotorPower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
 
-        flywheels.setIntakePower(flywheelPow);
-
-        if(gamepad1.right_trigger >= 0){
-            flywheelPow = gamepad1.right_trigger;
-        }
+        intake.setIntakePower(-gamepad1.right_trigger);
+        intake.setIntakePower(gamepad1.left_trigger);
 
         if(gamepad1.dpad_left){
             lift.setYawTargetPos(yawPos + 10);

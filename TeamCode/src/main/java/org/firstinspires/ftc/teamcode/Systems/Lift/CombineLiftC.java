@@ -1,10 +1,15 @@
 package org.firstinspires.ftc.teamcode.Systems.Lift;
 
 
+import static java.lang.Thread.sleep;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Systems.General.RREMX;
+
+import java.util.Timer;
 
 public class CombineLiftC extends BasicLift {
 
@@ -18,8 +23,12 @@ public class CombineLiftC extends BasicLift {
     private boolean calibrated = false;
 
     public int yawDownPos;
+    public final int yawScorePos = 1800;
+    public final int outboardFirstLinePos = 695;
+    public final int outboardHighestPos = 1600;
 
     public int outboardRetractedPos;
+    ElapsedTime timer;
 
     //defines our RREMX motors.
     public CombineLiftC(HardwareMap hardwareMap) {
@@ -28,11 +37,16 @@ public class CombineLiftC extends BasicLift {
         outboard = new RREMX(hardwareMap, "liftOutboard", 1.0);
 
         yaw = new RREMX(hardwareMap, "liftYaw", 1.0);
-        yaw.setReverse();
 
-        //yaw.runToPositionMode();
-        //setYawTargetPos(getYawPos());
-        //setOutboardTargetPos(getOutboardPos());
+        timer = new ElapsedTime();
+        yaw.setReverse();
+        outboard.setReverse();
+
+        setYawTargetPos(getYawPos());
+        setOutboardTargetPos(getOutboardPos());
+        yaw.runToPositionMode();
+        outboard.runToPositionMode();
+
 
         touchSensor = hardwareMap.get(TouchSensor.class, "boxTouch");
 
@@ -64,6 +78,24 @@ public class CombineLiftC extends BasicLift {
     public void setYawTargetPos(int yawTarget){
         yaw.setTargetPos(yawTarget);
     }
+    public void setYawScore(){
+        setYawTargetPos(yawScorePos);
+    }
+
+    public void setYawDown(){
+        setYawTargetPos(yawDownPos);
+    }
+
+    public void setOutboardRetracted(){
+        setOutboardTargetPos(outboardRetractedPos);
+    }
+
+    public void setOutboardFirstLinePos(){
+        setOutboardTargetPos(outboardFirstLinePos);
+    }
+    public void setOutboardHighestPos(){
+        setOutboardTargetPos(outboardHighestPos);
+    }
 
     public void setOutboardTargetPos(int outboardTarget){
         outboard.setTargetPos(outboardTarget);
@@ -74,14 +106,11 @@ public class CombineLiftC extends BasicLift {
     public void yawCalibrate(){
         if(!calibrated) {
             setYawPower(-0.1);
-
+            outboard.setTargetPos(0);
             if (touchSensor.isPressed()) {
-
+                resetLiftEncoders();
                 setYawPower(0);
                 calibrated = true;
-                yaw.resetEncoder();
-                yawDownPos = getYawPos();
-                outboardRetractedPos = getOutboardPos();
             }
         }
     }

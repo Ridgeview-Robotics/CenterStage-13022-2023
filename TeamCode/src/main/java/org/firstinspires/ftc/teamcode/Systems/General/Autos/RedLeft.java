@@ -61,7 +61,7 @@ public class RedLeft extends LinearOpMode {
 
     private void setupDropSequences(){
         TrajectorySequence leftToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, -63.00, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(-43.82, -41.01), Math.toRadians(122.30))
+                .splineTo(new Vector2d(-43.82, -39.50), Math.toRadians(122.30))
                 .build();
         mDropPixelSequences.add(leftToPixel);
 
@@ -79,24 +79,26 @@ public class RedLeft extends LinearOpMode {
     }
 
     private void setupParkSequences(){
-        TrajectorySequence leftToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-43.82, -41.01, Math.toRadians(122.30)))
-                .lineTo(new Vector2d(-31.51, -33.89))
-                .splineTo(new Vector2d(-35.96, -16.54), Math.toRadians(102.22))
-                .splineTo(new Vector2d(60.58, -13.42), Math.toRadians(0.00))
+        TrajectorySequence leftToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-44.27, -38.93, Math.toRadians(125.25)))
+                .lineTo(new Vector2d(-45.60, -58.36))
+                .splineTo(new Vector2d(-34.63, -35.96), Math.toRadians(78.69))
+                .splineTo(new Vector2d(-37.74, -19.65), Math.toRadians(98.55))
+                .splineTo(new Vector2d(57.02, -13.12), Math.toRadians(5.64))
                 .build();
+
         mReturnAndParkSequences.add(leftToPark);
 
         TrajectorySequence centerToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-33.59, -33.74, Math.toRadians(88.93)))
                 .lineTo(new Vector2d(-49.16, -49.90))
                 .splineTo(new Vector2d(-52.13, -16.24), Math.toRadians(85.19))
-                .splineTo(new Vector2d(61.62, -13.42), Math.toRadians(0.00))
+                .splineTo(new Vector2d(58.50, -13.00), Math.toRadians(0.00))
                 .build();
         mReturnAndParkSequences.add(centerToPark);
 
         TrajectorySequence rightToBackStage = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-31.96, -39.37, Math.toRadians(33.23)))
                 .lineTo(new Vector2d(-49.75, -49.46))
                 .splineTo(new Vector2d(-48.87, -19.65), Math.toRadians(85.99))
-                .splineTo(new Vector2d(60.14, -13.42), Math.toRadians(0.00))
+                .splineTo(new Vector2d(58.50, -13.00), Math.toRadians(0.00))
                 .build();
         mReturnAndParkSequences.add(rightToBackStage);
 
