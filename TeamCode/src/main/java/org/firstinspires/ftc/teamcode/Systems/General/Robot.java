@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Systems.General;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -26,6 +24,7 @@ public class Robot {
     Flywheels drone;
     SignalDetector signalDetector;
     ElapsedTime timer;
+    public DistanceFromBoard distanceFromBoard;
 
     RevBlinkinLedDriver lights;
 
@@ -40,6 +39,7 @@ public class Robot {
         drone = new Flywheels(hardwareMap);
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "LEDs");
         timer = new ElapsedTime();
+        distanceFromBoard = new DistanceFromBoard(hardwareMap);
 
         /*if(isAuto){
             signalDetector = new SignalDetector(hardwareMap, telemetry, );
@@ -170,6 +170,10 @@ public class Robot {
 
     public void setLightsPattern(RevBlinkinLedDriver.BlinkinPattern pattern){
         lights.setPattern(pattern);
+    }
+
+    public  int getBoardDistRange(){
+        return distanceFromBoard.getBoardDistRange();
     }
 
     /*Trapdoor:

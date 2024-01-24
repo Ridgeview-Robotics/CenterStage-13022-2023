@@ -43,6 +43,8 @@ public class FullSystemDriving extends OpMode {
     RevBlinkinLedDriver.BlinkinPattern red;
     RevBlinkinLedDriver.BlinkinPattern blue;
     RevBlinkinLedDriver.BlinkinPattern green;
+    RevBlinkinLedDriver.BlinkinPattern orange;
+
     @Override
     public void init() {
         robot = new Robot(telemetry, hardwareMap, false);
@@ -54,6 +56,7 @@ public class FullSystemDriving extends OpMode {
         red = RevBlinkinLedDriver.BlinkinPattern.RED;
         blue = RevBlinkinLedDriver.BlinkinPattern.BLUE;
         green = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+        orange = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
         robot.setLightsPattern(rainbow);
 
         robot.primeDrone();
@@ -154,17 +157,30 @@ public class FullSystemDriving extends OpMode {
             robot.setBoxIntake();
         }
 
+        int pixNum = 0;
+
         if(robot.intake.getNumPix() == 2){
             robot.setLightsPattern(green);
-        }
-        else{
+            pixNum = 2;
+        } else if (robot.intake.getNumPix() == 1) {
+            robot.setLightsPattern(purple);
+            pixNum = 1;
+        } else{
             robot.setLightsPattern(blue);
+            pixNum = 0;
         }
 
+        int boardDistRange = robot.getBoardDistRange();
 
-
-
-
+        if(boardDistRange == 1 && pixNum > 0){
+            robot.setLightsPattern(red);
+        } else if (boardDistRange == 2 && pixNum > 0) {
+            robot.setLightsPattern(orange);
+        } else if (boardDistRange == 3 && pixNum > 0) {
+            robot.setLightsPattern(gold);
+        } else if (pixNum > 0) {
+            robot.setLightsPattern(green);
+        }
 
 
         telemetry.update();
