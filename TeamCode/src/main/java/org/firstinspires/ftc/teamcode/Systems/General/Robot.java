@@ -22,12 +22,12 @@ public class Robot {
     public Drive drive;
     BoxServo boxServo;
     TrapdoorServo trapdoorServo;
-    Intake intake;
+    public Intake intake;
     Flywheels drone;
     SignalDetector signalDetector;
     ElapsedTime timer;
 
-    public RevBlinkinLedDriver lights;
+    RevBlinkinLedDriver lights;
 
 
     public Robot(Telemetry telemetry, HardwareMap hardwareMap, boolean isAuto){
@@ -166,6 +166,10 @@ public class Robot {
 
     public void primeDrone(){
         drone.primeDrone();
+    }
+
+    public void setLightsPattern(RevBlinkinLedDriver.BlinkinPattern pattern){
+        lights.setPattern(pattern);
     }
 
     /*Trapdoor:

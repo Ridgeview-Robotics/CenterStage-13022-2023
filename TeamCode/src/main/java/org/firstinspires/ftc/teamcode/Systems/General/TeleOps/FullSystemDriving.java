@@ -38,12 +38,23 @@ public class FullSystemDriving extends OpMode {
     ElapsedTime timer;
 
     RevBlinkinLedDriver.BlinkinPattern rainbow;
+    RevBlinkinLedDriver.BlinkinPattern gold;
+    RevBlinkinLedDriver.BlinkinPattern purple;
+    RevBlinkinLedDriver.BlinkinPattern red;
+    RevBlinkinLedDriver.BlinkinPattern blue;
+    RevBlinkinLedDriver.BlinkinPattern green;
     @Override
     public void init() {
         robot = new Robot(telemetry, hardwareMap, false);
         timer = new ElapsedTime();
+
         rainbow = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
-        robot.lights.setPattern(rainbow);
+        gold = RevBlinkinLedDriver.BlinkinPattern.GOLD;
+        purple = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
+        red = RevBlinkinLedDriver.BlinkinPattern.RED;
+        blue = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+        green = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+        robot.setLightsPattern(rainbow);
 
         robot.primeDrone();
         robot.setTrapdoorClosed();
@@ -143,7 +154,12 @@ public class FullSystemDriving extends OpMode {
             robot.setBoxIntake();
         }
 
-
+        if(robot.intake.getNumPix() == 2){
+            robot.setLightsPattern(green);
+        }
+        else{
+            robot.setLightsPattern(blue);
+        }
 
 
 

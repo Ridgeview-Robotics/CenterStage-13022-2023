@@ -9,7 +9,11 @@ public class Intake {
 
 private final DcMotorEx intake;
 
+private PixNumSensor pixNumSensor;
+
     public Intake(HardwareMap hardwareMap){
+        pixNumSensor = new PixNumSensor(hardwareMap);
+
         intake = hardwareMap.get(DcMotorEx.class, "intake");  //E0
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         setIntakePower(0);
@@ -17,6 +21,10 @@ private final DcMotorEx intake;
 
     public void setIntakePower(double power){
         intake.setPower(power);
+    }
+
+    public int getNumPix(){
+        return pixNumSensor.getNumPix();
     }
 
 }
