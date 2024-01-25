@@ -103,19 +103,19 @@ public class RedRight extends LinearOpMode {
                 .lineTo(new Vector2d(27.95, -61.32))
                 .lineTo(new Vector2d(58.21, -61.17))
                 .build();
-        mReturnAndScoreSequences.add(leftToParking);
+        mOffToParkSequences.add(leftToParking);
 
         TrajectorySequence centerToParking = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(50.35, -36.41, Math.toRadians(180.00)))
                 .lineTo(new Vector2d(27.95, -61.32))
                 .lineTo(new Vector2d(58.21, -61.17))
                 .build();
-        mReturnAndScoreSequences.add(centerToParking);
+        mOffToParkSequences.add(centerToParking);
 
         TrajectorySequence rightToParking = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(50.64, -42.49, Math.toRadians(180.00)))
                 .lineTo(new Vector2d(27.95, -61.32))
                 .lineTo(new Vector2d(58.21, -61.17))
                 .build();
-        mReturnAndScoreSequences.add(rightToParking);
+        mOffToParkSequences.add(rightToParking);
     }
 
     private void detectObject(){
@@ -143,7 +143,7 @@ public class RedRight extends LinearOpMode {
         mRobot.setIntakeSpeed(-0.2);
         sleep(500);
         mRobot.setIntakeSpeed(0);
-        mRobotState = ROBOT_STATE.RETURN_AND_PARK;
+        mRobotState = ROBOT_STATE.GO_TO_SCORE;
     }
 
     private void toDrop(){
@@ -154,7 +154,8 @@ public class RedRight extends LinearOpMode {
     }
 
     private void score(){ //input while loop
-        mRobot.toFirstLine();
+        sleep(1000);
+        mRobotState = ROBOT_STATE.RETURN_AND_PARK;
     }
 
     private void returnAndScore(){

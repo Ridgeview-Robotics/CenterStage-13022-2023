@@ -88,6 +88,7 @@ public class RREMX {
         rcsMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+
     public void runToPositionMode(){
         rcsMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
