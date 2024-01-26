@@ -107,6 +107,7 @@ public class HardingAuto extends LinearOpMode {
         //Open trap door to score
         rightRedSBuilder.addDisplacementMarker(() -> {
             mRobot.setTrapdoorOpen();
+            mRobotState = ROBOT_STATE.AUTO_END;
         });
 
         mTS = rightRedSBuilder.build();
