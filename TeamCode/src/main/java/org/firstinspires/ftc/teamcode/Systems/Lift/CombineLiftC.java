@@ -23,9 +23,9 @@ public class CombineLiftC extends BasicLift {
     private boolean calibrated = false;
 
     public int yawDownPos;
-    public final int yawScorePos = 1800;
-    public final int outboardFirstLinePos = 695;
-    public final int outboardHighestPos = 1600;
+    public final int yawScorePos = 1750;
+    public final int outboardFirstLinePos = 525;
+    public final int outboardHighestPos = 1950;
 
     public int outboardRetractedPos;
     ElapsedTime timer;
@@ -46,6 +46,8 @@ public class CombineLiftC extends BasicLift {
         setOutboardTargetPos(getOutboardPos());
         yaw.runToPositionMode();
         outboard.runToPositionMode();
+        yaw.setPower(0.6);
+        outboard.setPower(0.7);
 
 
         touchSensor = hardwareMap.get(TouchSensor.class, "boxTouch");

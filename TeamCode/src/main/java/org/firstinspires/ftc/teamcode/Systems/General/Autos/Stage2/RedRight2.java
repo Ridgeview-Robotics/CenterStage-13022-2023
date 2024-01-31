@@ -15,12 +15,13 @@ import java.util.List;
 import kotlin.collections.ArrayDeque;
 
 @Autonomous(name= "RedRight(st2)")
-public class RedRight extends LinearOpMode {
+public class RedRight2 extends LinearOpMode {
     private enum ROBOT_STATE{
         SEE,
         TO_DROP,
-        RUNNING,
         DROP,
+        GO_TO_INTAKE,
+        INTAKE,
         GO_TO_SCORE,
         SCORE,
         RETURN_AND_PARK,
@@ -53,6 +54,7 @@ public class RedRight extends LinearOpMode {
     ROBOT_STATE mRobotState;
     boolean mIsRoadRunning;
     List<TrajectorySequence> mDropPixelSequences;
+    List<TrajectorySequence> mGetPixelSequences;
     List <TrajectorySequence> mReturnAndScoreSequences;
     List <TrajectorySequence> mOffToParkSequences;
 
@@ -77,22 +79,50 @@ public class RedRight extends LinearOpMode {
         mDropPixelSequences.add(rightToPixel);
     }
 
-    private void setupScoreSequences(){
-        TrajectorySequence leftToScore = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(11.49, -63.40, Math.toRadians(90.00)))
-                .lineTo(new Vector2d(23.06, -51.39))
-                .splineTo(new Vector2d(50.94, -31.81), Math.toRadians(180.00))
+    private void setupGrabbingSequences(){
+        TrajectorySequence leftToIntake = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(9.12, -38.19, Math.toRadians(149.37)))
+                .lineTo(new Vector2d(20.39, -49.61))
+                .splineTo(new Vector2d(31.07, -31.96), Math.toRadians(90.00))
+                .splineTo(new Vector2d(-7.93, -12.23), Math.toRadians(180.00))
+                .splineTo(new Vector2d(-60.14, -11.94), Math.toRadians(180.00))
                 .build();
+        mGetPixelSequences.add(leftToIntake);
+
+        TrajectorySequence centerToIntake = mRobot.autoDrive.trajectorySequenceBuilder(mDropPixelSequences.get(1).end())
+                .lineToLinearHeading(new Pose2d(19.65, -53.02, Math.toRadians(180.00)))
+                .lineTo(new Vector2d(39.08, -43.08))
+                .lineTo(new Vector2d(39.37, -12.09))
+                .lineTo(new Vector2d(-60.14, -12.09))
+                .build();
+        mGetPixelSequences.add(centerToIntake);
+
+        TrajectorySequence rightToIntake = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(23.06, -44.12, Math.toRadians(90.00)))
+                .lineTo(new Vector2d(20.39, -49.61))
+                .splineTo(new Vector2d(31.07, -31.96), Math.toRadians(90.00))
+                .splineTo(new Vector2d(-7.93, -12.23), Math.toRadians(180.00))
+                .splineTo(new Vector2d(-60.14, -11.94), Math.toRadians(180.00))
+                .build();
+        mGetPixelSequences.add(rightToIntake);
+
+    }
+
+    private void setupScoreSequences(){
+        TrajectorySequence leftToScore = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-60.14, -11.94, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(46.34, -12.09, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(51.09, -30.62, Math.toRadians(180.00)))
+                .build();
+
         mReturnAndScoreSequences.add(leftToScore);
 
-        TrajectorySequence centerToScore = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(13.57, -35.81, Math.toRadians(83.21)))
-                .lineTo(new Vector2d(20.98, -45.90))
-                .splineTo(new Vector2d(51.09, -37.00), Math.toRadians(180.00))
+        TrajectorySequence centerToScore = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-60.14, -11.94, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(46.34, -12.09, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(50.64, -35.67, Math.toRadians(180.00)))
                 .build();
         mReturnAndScoreSequences.add(centerToScore);
 
-        TrajectorySequence rightToScore = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(23.06, -44.12, Math.toRadians(90.00)))
-                .lineTo(new Vector2d(18.17, -50.50))
-                .splineTo(new Vector2d(50.64, -42.49), Math.toRadians(180.00))
+        TrajectorySequence rightToScore = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-59.69, -11.49, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(46.34, -12.09, Math.toRadians(180.00)))
+                .lineToLinearHeading(new Pose2d(50.79, -42.34, Math.toRadians(180.00)))
                 .build();
         mReturnAndScoreSequences.add(rightToScore);
 
@@ -143,7 +173,7 @@ public class RedRight extends LinearOpMode {
         mRobot.setIntakeSpeed(-0.2);
         sleep(500);
         mRobot.setIntakeSpeed(0);
-        mRobotState = ROBOT_STATE.GO_TO_SCORE;
+        mRobotState = ROBOT_STATE.GO_TO_INTAKE;
     }
 
     private void toDrop(){
@@ -151,6 +181,20 @@ public class RedRight extends LinearOpMode {
         mRobot.autoDrive.setPoseEstimate(toDrop.start());
         mRobot.autoDrive.followTrajectorySequence(toDrop);
         mIsRoadRunning = true;
+    }
+
+    private void toIntake(){
+        TrajectorySequence toIntake = mGetPixelSequences.get(mPropLoc.getLocation());
+        mRobot.autoDrive.setPoseEstimate(toIntake.start());
+        mRobot.autoDrive.followTrajectorySequence(toIntake);
+        mIsRoadRunning = true;
+    }
+
+    private void intakePixel(){
+        mRobot.setIntakeSpeed(1.0);
+        sleep(200);
+        mRobot.setIntakeSpeed(0.0);
+        mRobotState = ROBOT_STATE.GO_TO_SCORE;
     }
 
     private void score(){ //input while loop
@@ -182,6 +226,8 @@ public class RedRight extends LinearOpMode {
 
         mDropPixelSequences = new ArrayDeque<TrajectorySequence>();
         setupDropSequences();
+        mGetPixelSequences = new ArrayDeque<TrajectorySequence>();
+        setupGrabbingSequences();
         mReturnAndScoreSequences = new ArrayDeque<TrajectorySequence>();
         setupScoreSequences();
         mOffToParkSequences = new ArrayDeque<TrajectorySequence>();
@@ -211,6 +257,8 @@ public class RedRight extends LinearOpMode {
                         case TO_DROP:
                             mRobotState = ROBOT_STATE.DROP;
                             break;
+                        case GO_TO_INTAKE:
+                            mRobotState = ROBOT_STATE.INTAKE;
                         case GO_TO_SCORE:
                             mRobotState = ROBOT_STATE.SCORE;
                             break;
@@ -232,6 +280,12 @@ public class RedRight extends LinearOpMode {
                         break;
                     case DROP:
                         dropPixel();
+                        break;
+                    case GO_TO_INTAKE:
+                        toIntake();
+                        break;
+                    case INTAKE:
+                        intakePixel();
                         break;
                     case GO_TO_SCORE:
                         returnAndScore();

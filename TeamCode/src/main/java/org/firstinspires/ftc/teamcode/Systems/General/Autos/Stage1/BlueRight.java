@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Systems.General.Autos;
+package org.firstinspires.ftc.teamcode.Systems.General.Autos.Stage1;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -6,18 +6,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.teamcode.Systems.General.Robot;
-import org.firstinspires.ftc.teamcode.Systems.vision.PropDetectorPipeline;
 import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import java.util.List;
 
 import kotlin.collections.ArrayDeque;
-
-@Autonomous(name = "RLP")
-public class RLPixel extends LinearOpMode {
+@Autonomous(name = "Blue Right")
+public class BlueRight extends LinearOpMode {
 
     private enum ROBOT_STATE{
         SEE,
@@ -47,11 +44,11 @@ public class RLPixel extends LinearOpMode {
         }
     }
 
-    private PROP_LOC mPropLoc;
+    private BlueRight.PROP_LOC mPropLoc;
     private SignalDetector mPipeline;
     Robot mRobot;
 
-    ROBOT_STATE mRobotState;
+    BlueRight.ROBOT_STATE mRobotState;
     boolean mIsRoadRunning;
     List<TrajectorySequence> mDropPixelSequences;
     List <TrajectorySequence> mReturnAndParkSequences;
@@ -60,61 +57,65 @@ public class RLPixel extends LinearOpMode {
     ///SEQUENCES HERE///
 
     private void setupDropSequences(){
-        TrajectorySequence leftToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, -63.00, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(-43.82, -39.50), Math.toRadians(122.30))
+        TrajectorySequence leftToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, 64.00, Math.toRadians(270.00)))
+                .splineTo(new Vector2d(-45.31, 47.68), Math.toRadians(-75.53))
+                .splineTo(new Vector2d(-33.44, 38.48), Math.toRadians(-31.94))
                 .build();
         mDropPixelSequences.add(leftToPixel);
 
-        TrajectorySequence centerToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, -63.00, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(-33.59, -33.74), Math.toRadians(88.93))
+        TrajectorySequence centerToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, 64.00, Math.toRadians(270.00)))
+                .splineTo(new Vector2d(-40.26, 34.92), Math.toRadians(270.00))
                 .build();
         mDropPixelSequences.add(centerToPixel);
 
-        TrajectorySequence rightToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, -63.00, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(-44.27, -47.68), Math.toRadians(93.69))
-                .splineTo(new Vector2d(-31.96, -39.37), Math.toRadians(33.23))
+        TrajectorySequence rightToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, 64.00, Math.toRadians(270.00)))
+                .splineTo(new Vector2d(-47.09, 41.30), Math.toRadians(-89.14))
                 .build();
         mDropPixelSequences.add(rightToPixel);
-
     }
 
     private void setupParkSequences(){
-        TrajectorySequence leftToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-44.27, -38.93, Math.toRadians(125.25)))
-                .lineTo(new Vector2d(-36.00, -63.00))
+        TrajectorySequence leftToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-32.55, 39.08, Math.toRadians(-24.32)))
+                .lineTo(new Vector2d(-53.61, 36.85))
+                .splineTo(new Vector2d(-19.35, -11.05), Math.toRadians(6.34))
+                .splineTo(new Vector2d(59.10, 6.45), Math.toRadians(17.67))
                 .build();
-
         mReturnAndParkSequences.add(leftToPark);
 
-        TrajectorySequence centerToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-33.59, -33.74, Math.toRadians(88.93)))
-                .lineTo(new Vector2d(-36.00, -63.00))
+        TrajectorySequence centerToBackStage = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-32.55, 34.18, Math.toRadians(268.19)))
+                .lineTo(new Vector2d(-52.72, 38.78))
+                .splineTo(new Vector2d(-19.35, -11.05), Math.toRadians(6.34))
+                .splineTo(new Vector2d(59.10, 6.45), Math.toRadians(17.67))
                 .build();
-        mReturnAndParkSequences.add(centerToPark);
+        mReturnAndParkSequences.add(centerToBackStage);
 
-        TrajectorySequence rightToBackStage = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-31.96, -39.37, Math.toRadians(33.23)))
-                .lineTo(new Vector2d(-36.00, -63.00))
+        TrajectorySequence rightToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-44.56, 43.23, Math.toRadians(250.07)))
+                .lineTo(new Vector2d(-31.81, 39.08))
+                .splineTo(new Vector2d(-19.35, -11.05), Math.toRadians(6.34))
+                .splineTo(new Vector2d(59.10, 6.45), Math.toRadians(17.67))
                 .build();
-        mReturnAndParkSequences.add(rightToBackStage);
+        mReturnAndParkSequences.add(rightToPark);
 
     }
 
     private void detectObject(){
         sleep(100);
-        String loc = mPipeline.getRedPropLocation();
+        String loc = mPipeline.getBluePropLocation();
         if (loc == "Left"){
-            mPropLoc = PROP_LOC.LEFT;
+            mPropLoc = BlueRight.PROP_LOC.LEFT;
         }
         else if(loc == "Center"){
-            mPropLoc = PROP_LOC.CENTER;
+            mPropLoc = BlueRight.PROP_LOC.CENTER;
         }
         else if(loc == "Right"){
-            mPropLoc = PROP_LOC.RIGHT;
+            mPropLoc = BlueRight.PROP_LOC.RIGHT;
         }
         else{
-            mPropLoc = PROP_LOC.NONE;
+            mPropLoc = BlueRight.PROP_LOC.NONE;
         }
 
-        if(mPropLoc != PROP_LOC.NONE){
-            mRobotState = ROBOT_STATE.TO_DROP;
+        if(mPropLoc != BlueRight.PROP_LOC.NONE){
+            mRobotState = BlueRight.ROBOT_STATE.TO_DROP;
         }
 
     }
@@ -122,7 +123,7 @@ public class RLPixel extends LinearOpMode {
         mRobot.setIntakeSpeed(-0.2);
         sleep(500);
         mRobot.setIntakeSpeed(0);
-        mRobotState = ROBOT_STATE.RETURN_AND_PARK;
+        mRobotState = BlueRight.ROBOT_STATE.RETURN_AND_PARK;
     }
 
     private void toDrop(){
@@ -142,7 +143,7 @@ public class RLPixel extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        mPipeline = new SignalDetector(hardwareMap, telemetry, true);
+        mPipeline = new SignalDetector(hardwareMap, telemetry, false);
         mRobot = new Robot(telemetry, hardwareMap, false);
 
         mDropPixelSequences = new ArrayDeque<TrajectorySequence>();
@@ -150,13 +151,12 @@ public class RLPixel extends LinearOpMode {
         mReturnAndParkSequences = new ArrayDeque<TrajectorySequence>();
         setupParkSequences();
 
-        mPropLoc = PROP_LOC.NONE;
-        mRobotState = ROBOT_STATE.SEE;
+        mPropLoc = BlueRight.PROP_LOC.NONE;
+        mRobotState = BlueRight.ROBOT_STATE.SEE;
         ElapsedTime timer = new ElapsedTime();
 
 
         telemetry.addLine("Here we go");
-        telemetry.addLine("Loc: " + mPipeline.getRedPropLocation());
         telemetry.update();
 
         waitForStart();
@@ -173,10 +173,10 @@ public class RLPixel extends LinearOpMode {
                 if(!mRobot.autoDrive.isBusy()){
                     switch(mRobotState){
                         case TO_DROP:
-                            mRobotState = ROBOT_STATE.DROP;
+                            mRobotState = BlueRight.ROBOT_STATE.DROP;
                             break;
                         case RETURN_AND_PARK:
-                            mRobotState = ROBOT_STATE.IDLE;
+                            mRobotState = BlueRight.ROBOT_STATE.IDLE;
                             break;
                     }
                     mIsRoadRunning = false;

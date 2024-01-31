@@ -6,9 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.teamcode.Systems.General.Robot;
-import org.firstinspires.ftc.teamcode.Systems.vision.PropDetectorPipeline;
 import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
@@ -17,7 +15,7 @@ import java.util.List;
 import kotlin.collections.ArrayDeque;
 
 @Autonomous(name = "RedLeft(st2)")
-public class RedLeft extends LinearOpMode {
+public class RedLeft2 extends LinearOpMode {
 
     private enum ROBOT_STATE{
         SEE,
@@ -157,7 +155,7 @@ public class RedLeft extends LinearOpMode {
         mRobot.setIntakeSpeed(-0.2);
         sleep(500);
         mRobot.setIntakeSpeed(0);
-        mRobotState = RedLeft.ROBOT_STATE.RETURN_AND_PARK;
+        mRobotState = RedLeft2.ROBOT_STATE.RETURN_AND_PARK;
     }
 
     private void toDrop(){

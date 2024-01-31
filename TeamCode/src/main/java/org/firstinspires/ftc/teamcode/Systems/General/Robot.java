@@ -119,21 +119,16 @@ public class Robot {
     }
 
     public void toHighScore(){
-            setYawScore();
-            while(lift.getYawPos() < 1000){
-                setOutboardTop();
-            }
-            while(lift.getYawPos() < 1500){
-                setTrapdoorClosed();
-                setBoxScore();
+            while(lift.getYawPos() < 1600){
+                lift.setYawScore();
             }
             while(lift.getYawPos() < 1800){
-                timer.reset();
-                while(timer.seconds() < 0.3){
-                    setTrapdoorOpen();
-                }
+                lift.setOutboardHighestPos();
             }
+            while(lift.getOutboardPos() < 1600){
+                boxServo.setBoxScore();
 
+            }
     }
 
     public void toFirstLine(){
@@ -151,6 +146,7 @@ public class Robot {
             setBoxIntake();
             setTrapdoorClosed();
     }
+
 
     public void liftCalibration(){
         lift.yawCalibrate();

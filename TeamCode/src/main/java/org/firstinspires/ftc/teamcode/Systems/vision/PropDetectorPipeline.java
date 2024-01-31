@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.Systems.vision;
 
-import org.checkerframework.common.value.qual.StringVal;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Systems.General.Autos.BlueLeft;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
