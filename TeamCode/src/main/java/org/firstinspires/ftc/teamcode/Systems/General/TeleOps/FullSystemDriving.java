@@ -38,6 +38,10 @@ public class FullSystemDriving extends OpMode {
     ElapsedTime timer;
 
     RevBlinkinLedDriver.BlinkinPattern rainbow;
+
+    private boolean mTrapdoorOpen;
+
+    private double wasAPressed;
     @Override
     public void init() {
         robot = new Robot(telemetry, hardwareMap, false);
@@ -46,15 +50,19 @@ public class FullSystemDriving extends OpMode {
         robot.lights.setPattern(rainbow);
 
         robot.primeDrone();
-        robot.setTrapdoorClosed();
+        robot.setTrapdoorOpen();
         robot.setBoxIntake();
+        mTrapdoorOpen = true;
+        wasAPressed = 0;
         telemetry.addLine("Ready for Start!");
         telemetry.update();
     }
 
     @Override
     public void loop() {
+        robot.robotUpdate();
         double max;
+
 
 
         double x = -gamepad1.left_stick_y;
@@ -79,6 +87,39 @@ public class FullSystemDriving extends OpMode {
 
 
 
+        if(gamepad1.a){
+            if(robot.isTrapdoorAtDesiredPosition()){
+                if(mTrapdoorOpen){
+                    robot.setTrapdoorClosed();
+                    mTrapdoorOpen = false;
+                    telemetry.addLine("Closed");
+
+                }
+                else{
+                    robot.setTrapdoorOpen();
+                    mTrapdoorOpen = true;
+                    telemetry.addLine("Open");
+                }
+            }
+
+//            if(wasAPressed > 0){
+//                if((getRuntime() - wasAPressed) > 0.5){
+//                    wasAPressed = 0;
+//                }
+//                else{
+//                    return;
+//                }
+//            }
+//            wasAPressed = getRuntime();
+
+
+
+        }
+
+        if(gamepad1.b){
+            robot.setTrapdoorOpen();
+        }
+
         robot.setDrivePower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
 
         robot.setIntakeSpeed(-2*gamepad1.right_trigger);
@@ -94,10 +135,10 @@ public class FullSystemDriving extends OpMode {
             robot.shootDrone();
         }
 
-        if(gamepad1.a){
-            robot.setYawTarget(1750);
-            robot.setYawPower(0.6);
-        }
+//        if(gamepad1.a){
+//            robot.setYawTarget(1750);
+//            robot.setYawPower(0.6);
+//        }
 
         if(gamepad1.dpad_left){
             robot.setOutboardTarget(525); //top of 1st line
@@ -127,6 +168,10 @@ public class FullSystemDriving extends OpMode {
             robot.setOutboardPower(0.5);
         }
 
+//        if(gamepad1.a){
+//            while(robot.pos)
+//        }
+
         if(gamepad1.x){
             robot.setTrapdoorOpen();
         }
@@ -135,13 +180,13 @@ public class FullSystemDriving extends OpMode {
             robot.setTrapdoorClosed();
         }
 
-        if(gamepad1.b){
-            robot.setYawTarget(0);
-            robot.setYawPower(0.6);
-            robot.setOutboardTarget(0);
-            robot.setTrapdoorClosed();
-            robot.setBoxIntake();
-        }
+//        if(gamepad1.b){
+//            robot.setYawTarget(0);
+//            robot.setYawPower(0.6);
+//            robot.setOutboardTarget(0);
+//            robot.setTrapdoorClosed();
+//            robot.setBoxIntake();
+//        }
 
 
 

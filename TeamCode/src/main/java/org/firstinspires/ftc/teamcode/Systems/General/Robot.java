@@ -47,6 +47,14 @@ public class Robot {
 
     }
 
+    public void robotUpdate(){
+        trapdoorServo.update();
+    }
+
+    public boolean isTrapdoorAtDesiredPosition(){
+        return trapdoorServo.mIsAtDesiredPosition;
+    }
+
     public void setDrivePower(double power1, double power2, double power3, double power4){
         drive.setMotorPower(power1, power2, power3, power4);
     }
@@ -132,12 +140,21 @@ public class Robot {
     }
 
     public void toFirstLine(){
+        while(lift.getYawPos() < 1000){
             setYawScore();
-            setTrapdoorClosed();
-            setBoxScore();
+        }
+        while(lift.getYawPos() < 1500){
             setOutboardFirstLine();
-            //at end
-            setTrapdoorOpen();
+            setBoxScore();
+        }
+//        while()
+//
+//
+//            setTrapdoorClosed();
+//
+//
+//            //at end
+//            setTrapdoorOpen();
     }
 
     public void toIntake(){

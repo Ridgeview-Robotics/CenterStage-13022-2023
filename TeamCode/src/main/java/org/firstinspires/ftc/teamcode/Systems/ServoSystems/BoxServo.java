@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class BoxServo {
     Servo boxServo;
 
-    double intake = 0.7338;
+    double intake = 0.337;
     double score = 0.491;
     double storage = 0.790;
 
