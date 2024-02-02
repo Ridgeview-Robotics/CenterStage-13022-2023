@@ -36,17 +36,21 @@ public class TrapdoorServo {
     }
 
     public void setTrapdoorOpen(){
-        setPosition(trapdoorPositions.OPEN.position);
+        LSetPosition(trapdoorPositions.OPEN.position);
     }
 
     public void setTrapdoorClosed(){
-        setPosition(trapdoorPositions.CLOSED.position);
+        LSetPosition(trapdoorPositions.CLOSED.position);
     }
 
-    public void setPosition(double trapdoorPosition){
+    public void GSetPosition(double newPos){
+        trapdoorServo.setPosition(newPos);
+    }
+
+    public void LSetPosition(double trapdoorPosition){
         trapdoorServo.setPosition(trapdoorPosition);
         mDesiredPosition = trapdoorPosition;
-        mIsAtDesiredPosition = false;
+//        mIsAtDesiredPosition = false;
     }
     public double getPosition(){
         return trapdoorServo.getPosition();
@@ -65,9 +69,10 @@ public class TrapdoorServo {
     }
 
     public void togglePosition(){
+        mIsAtDesiredPosition = false;
         if(mDesiredPosition == trapdoorPositions.CLOSED.getPosition())
-            setPosition(trapdoorPositions.OPEN.getPosition());
+            LSetPosition(trapdoorPositions.OPEN.getPosition());
         else
-            setPosition(trapdoorPositions.CLOSED.getPosition());
+            LSetPosition(trapdoorPositions.CLOSED.getPosition());
     }
 }

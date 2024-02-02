@@ -81,10 +81,10 @@ public class TestModule extends OpMode {
             boxServo.setPosition(boxServo.getPosition() + 0.001);
         }
         if(gamepad1.x){
-            trapdoorServo.setPosition(trapdoorServo.getPosition() - 0.001);
+            trapdoorServo.LSetPosition(trapdoorServo.getPosition() - 0.001);
         }
         if(gamepad1.b){
-            trapdoorServo.setPosition(trapdoorServo.getPosition() + 0.001);
+            trapdoorServo.LSetPosition(trapdoorServo.getPosition() + 0.001);
         }
 
         if (gamepad1.right_bumper) {

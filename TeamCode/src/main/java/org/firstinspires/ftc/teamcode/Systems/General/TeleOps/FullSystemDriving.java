@@ -185,7 +185,7 @@ public class FullSystemDriving extends OpMode {
 
 
 
-
+        telemetry.addLine("Trapdoor At Desired: " + robot.isTrapdoorAtDesiredPosition());
         telemetry.update();
     }
 }

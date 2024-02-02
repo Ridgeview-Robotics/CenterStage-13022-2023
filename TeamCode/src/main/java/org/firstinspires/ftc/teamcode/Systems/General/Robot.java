@@ -40,6 +40,7 @@ public class Robot {
         drone = new Flywheels(hardwareMap);
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "LEDs");
         timer = new ElapsedTime();
+        trapdoorServo.mIsAtDesiredPosition = true;
 
         /*if(isAuto){
             signalDetector = new SignalDetector(hardwareMap, telemetry, );
