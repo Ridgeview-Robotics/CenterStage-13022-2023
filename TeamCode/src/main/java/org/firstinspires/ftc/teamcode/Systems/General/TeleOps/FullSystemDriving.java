@@ -89,17 +89,7 @@ public class FullSystemDriving extends OpMode {
 
         if(gamepad1.a){
             if(robot.isTrapdoorAtDesiredPosition()){
-                if(mTrapdoorOpen){
-                    robot.setTrapdoorClosed();
-                    mTrapdoorOpen = false;
-                    telemetry.addLine("Closed");
-
-                }
-                else{
-                    robot.setTrapdoorOpen();
-                    mTrapdoorOpen = true;
-                    telemetry.addLine("Open");
-                }
+                robot.trapDoorTogglePosition();
             }
 
 //            if(wasAPressed > 0){

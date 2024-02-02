@@ -32,22 +32,28 @@ public class TrapdoorServo {
     public TrapdoorServo(HardwareMap hardwareMap){
         trapdoorServo = hardwareMap.get(Servo.class, "trapdoorServo");
         setTrapdoorOpen();
+        mIsAtDesiredPosition = true;
     }
 
     public void setTrapdoorOpen(){
         trapdoorServo.setPosition(trapdoorPositions.OPEN.position);
-        mDesiredPosition = trapdoorPositions.OPEN.position;
-        mIsAtDesiredPosition = false;
     }
 
     public void setTrapdoorClosed(){
-        trapdoorServo.setPosition(trapdoorPositions.CLOSED.position);
-        mDesiredPosition = trapdoorPositions.CLOSED.position;
-        mIsAtDesiredPosition = false;
+        setPosition(trapdoorPositions.CLOSED.position);
     }
 
     public void setPosition(double trapdoorPosition){
         trapdoorServo.setPosition(trapdoorPosition);
+        mDesiredPosition = trapdoorPosition;
+        mIsAtDesiredPosition = false;
+    }
+    public void togglePosition()
+    {
+        if(mDesiredPosition == trapdoorPositions.CLOSED.getPosition())
+            setPosition(trapdoorPositions.OPEN.getPosition());
+        else
+            setPosition(trapdoorPositions.CLOSED.getPosition());
     }
     public double getPosition(){
         return trapdoorServo.getPosition();

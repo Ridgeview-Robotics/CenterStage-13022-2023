@@ -55,6 +55,10 @@ public class Robot {
         return trapdoorServo.mIsAtDesiredPosition;
     }
 
+    public void trapDoorTogglePosition()
+    {
+        trapdoorServo.togglePosition();
+    }
     public void setDrivePower(double power1, double power2, double power3, double power4){
         drive.setMotorPower(power1, power2, power3, power4);
     }
