@@ -51,6 +51,10 @@ public class Robot {
         trapdoorServo.update();
     }
 
+    public void trapdoorTogglePosition(){
+        trapdoorServo.togglePosition();
+    }
+
     public boolean isTrapdoorAtDesiredPosition(){
         return trapdoorServo.mIsAtDesiredPosition;
     }
