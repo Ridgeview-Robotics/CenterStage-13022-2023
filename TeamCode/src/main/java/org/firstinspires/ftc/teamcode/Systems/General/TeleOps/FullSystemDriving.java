@@ -39,9 +39,7 @@ public class FullSystemDriving extends OpMode {
 
     RevBlinkinLedDriver.BlinkinPattern rainbow;
 
-    private boolean mTrapdoorOpen;
 
-    private double wasAPressed;
     @Override
     public void init() {
         robot = new Robot(telemetry, hardwareMap, false);
@@ -50,10 +48,8 @@ public class FullSystemDriving extends OpMode {
         robot.lights.setPattern(rainbow);
 
         robot.primeDrone();
-        robot.setTrapdoorOpen();
         robot.setBoxIntake();
-        mTrapdoorOpen = true;
-        wasAPressed = 0;
+
         telemetry.addLine("Ready for Start!");
         telemetry.update();
     }
@@ -88,9 +84,7 @@ public class FullSystemDriving extends OpMode {
 
 
         if(gamepad1.a){
-            if(robot.isTrapdoorAtDesiredPosition()){
                 robot.trapdoorTogglePosition();
-            }
 
 //            if(wasAPressed > 0){
 //                if((getRuntime() - wasAPressed) > 0.5){
@@ -177,15 +171,6 @@ public class FullSystemDriving extends OpMode {
 //            robot.setTrapdoorClosed();
 //            robot.setBoxIntake();
 //        }
-
-
-
-
-
-
-
-
-        telemetry.addLine("Trapdoor At Desired: " + robot.isTrapdoorAtDesiredPosition());
         telemetry.update();
     }
 }

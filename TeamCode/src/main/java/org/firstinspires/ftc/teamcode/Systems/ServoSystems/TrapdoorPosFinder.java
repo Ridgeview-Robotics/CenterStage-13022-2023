@@ -8,7 +8,7 @@ public class TrapdoorPosFinder extends OpMode {
     TrapdoorServo trapdoorServo;
     @Override
     public void init() {
-        trapdoorServo = new TrapdoorServo(hardwareMap);
+        trapdoorServo = new TrapdoorServo(hardwareMap, telemetry);
 
         telemetry.addLine("Ready for Start!");
         telemetry.update();
@@ -17,16 +17,16 @@ public class TrapdoorPosFinder extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.right_trigger > 0){
-            trapdoorServo.LSetPosition(trapdoorServo.getPosition() + 0.001);
+            trapdoorServo.GSetPosition(trapdoorServo.getPosition() + 0.001);
         }
         if(gamepad1.left_trigger > 0){
-            trapdoorServo.LSetPosition(trapdoorServo.getPosition() - 0.001);
+            trapdoorServo.GSetPosition(trapdoorServo.getPosition() - 0.001);
         }
         if(gamepad1.a){
-            trapdoorServo.LSetPosition(0);
+            trapdoorServo.GSetPosition(0);
         }
         if (gamepad1.y) {
-            trapdoorServo.LSetPosition(1);
+            trapdoorServo.GSetPosition(1);
         }
 
         telemetry.addLine("Use the right trigger for positive gain");

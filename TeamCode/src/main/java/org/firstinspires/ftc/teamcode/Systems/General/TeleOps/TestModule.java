@@ -30,7 +30,7 @@ public class TestModule extends OpMode {
 
         drive = new Drive(hardwareMap);
         boxServo = new BoxServo(hardwareMap);
-        trapdoorServo = new TrapdoorServo(hardwareMap);
+        trapdoorServo = new TrapdoorServo(hardwareMap, telemetry);
         intake = new Intake(hardwareMap);
         droneLauncher = new Flywheels(hardwareMap);
         droneHolderServo = new DroneHolderServo(hardwareMap);
@@ -81,10 +81,10 @@ public class TestModule extends OpMode {
             boxServo.setPosition(boxServo.getPosition() + 0.001);
         }
         if(gamepad1.x){
-            trapdoorServo.LSetPosition(trapdoorServo.getPosition() - 0.001);
+            trapdoorServo.GSetPosition(trapdoorServo.getPosition() - 0.001);
         }
         if(gamepad1.b){
-            trapdoorServo.LSetPosition(trapdoorServo.getPosition() + 0.001);
+            trapdoorServo.GSetPosition(trapdoorServo.getPosition() + 0.001);
         }
 
         if (gamepad1.right_bumper) {

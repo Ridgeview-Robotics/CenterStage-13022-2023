@@ -35,7 +35,7 @@ public class Robot {
         lift = new CombineLiftC(hardwareMap);
         drive = new Drive(hardwareMap);
         boxServo = new BoxServo(hardwareMap);
-        trapdoorServo = new TrapdoorServo(hardwareMap);
+        trapdoorServo = new TrapdoorServo(hardwareMap, telemetry);
         intake = new Intake(hardwareMap);
         drone = new Flywheels(hardwareMap);
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "LEDs");
@@ -56,10 +56,7 @@ public class Robot {
         trapdoorServo.togglePosition();
     }
 
-    public boolean isTrapdoorAtDesiredPosition(){
-        return trapdoorServo.mIsAtDesiredPosition;
-    }
-
+    
     public void setDrivePower(double power1, double power2, double power3, double power4){
         drive.setMotorPower(power1, power2, power3, power4);
     }
