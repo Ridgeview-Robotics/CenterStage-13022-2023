@@ -40,7 +40,6 @@ public class Robot {
         drone = new Flywheels(hardwareMap);
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "LEDs");
         timer = new ElapsedTime();
-        trapdoorServo.mIsAtDesiredPosition = true;
 
         /*if(isAuto){
             signalDetector = new SignalDetector(hardwareMap, telemetry, );
@@ -50,13 +49,30 @@ public class Robot {
 
     public void robotUpdate(){
         trapdoorServo.update();
+        lift.yawClearanceCkr();
     }
 
     public void trapdoorTogglePosition(){
         trapdoorServo.togglePosition();
     }
 
-    
+    public void liftWithClearanceCheck(String outboardPosition, String yawPosition){
+        if(yawPosition == "Score"){
+            lift.yawStateAssigner(yawPosition);
+            lift.outboardStateAssigner(outboardPosition, CombineLiftC.yawPositions.CLEAR);
+        }
+        else if(yawPosition == "Clearance"){
+            lift.setOutboardRetracted();
+            lift.setYawClearance();
+        }
+        else if(yawPosition == "Down"){
+            lift.setOutboardRetracted();
+            lift.setYawDown();
+        }
+
+    }
+
+
     public void setDrivePower(double power1, double power2, double power3, double power4){
         drive.setMotorPower(power1, power2, power3, power4);
     }
@@ -103,11 +119,11 @@ public class Robot {
     }
 
     public int yawDownPos(){
-        return lift.yawDownPos;
+        return CombineLiftC.yawDownPos;
     }
 
     public int outboardRetractedPos(){
-        return lift.outboardRetractedPos;
+        return CombineLiftC.outboardRetractedPos;
     }
 
     public void setYawScore(){
@@ -181,6 +197,18 @@ public class Robot {
 
     public void primeDrone(){
         drone.primeDrone();
+    }
+
+    public void droneAction(double droneFlywheelPower){
+        timer.reset();
+        while(timer.milliseconds() > 1500) {
+            setDronePower(droneFlywheelPower);
+        }
+        while(timer.milliseconds() > 2000){
+            shootDrone();
+        }
+
+
     }
 
     /*Trapdoor:

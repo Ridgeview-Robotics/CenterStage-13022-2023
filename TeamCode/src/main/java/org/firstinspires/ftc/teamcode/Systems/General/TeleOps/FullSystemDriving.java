@@ -56,20 +56,24 @@ public class FullSystemDriving extends OpMode {
 
     @Override
     public void loop() {
+        //constant robot position updates
         robot.robotUpdate();
+
+        //normalizer addition
         double max;
 
-
-
+        //define powers
         double x = -gamepad1.left_stick_y;
         double y = gamepad1.left_stick_x;
         double r = gamepad1.right_stick_x;
 
+        //assn powers
         double leftFrontPower = x + y + r;
         double rightFrontPower = x - y - r;
         double leftBackPower = x - y + r;
         double rightBackPower = x + y - r;
 
+        //normalization
         max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
         max = Math.max(max, Math.abs(leftBackPower));
         max = Math.max(max, Math.abs(rightBackPower));
@@ -81,96 +85,61 @@ public class FullSystemDriving extends OpMode {
             rightBackPower  /= max;
         }
 
-
-
-        if(gamepad1.a){
-                robot.trapdoorTogglePosition();
-
-//            if(wasAPressed > 0){
-//                if((getRuntime() - wasAPressed) > 0.5){
-//                    wasAPressed = 0;
-//                }
-//                else{
-//                    return;
-//                }
-//            }
-//            wasAPressed = getRuntime();
-
-
-
-        }
-
-        if(gamepad1.b){
-            robot.setTrapdoorOpen();
-        }
-
+        //set drive power
         robot.setDrivePower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
 
-        robot.setIntakeSpeed(-2*gamepad1.right_trigger);
-        robot.setIntakeSpeed(gamepad1.left_trigger);
-        if(gamepad1.left_bumper){
-            robot.setDronePower(0.29);
-        }
-        else{
-            robot.setDronePower(0);
+        //trapdoor toggle
+        if(gamepad1.x){
+            robot.trapdoorTogglePosition();
         }
 
-        if(gamepad1.right_bumper){
-            robot.shootDrone();
-        }
-
-//        if(gamepad1.a){
-//            robot.setYawTarget(1750);
-//            robot.setYawPower(0.6);
-//        }
-
-        if(gamepad1.dpad_left){
-            robot.setOutboardTarget(525); //top of 1st line
-            robot.setOutboardPower(0.75);
+        //lift to high
+        if(gamepad1.y && gamepad1.dpad_up){
+            robot.setTrapdoorClosed();
             robot.setBoxScore();
+            robot.liftWithClearanceCheck("High", "Score");
         }
 
-        if(gamepad1.dpad_right){
-            robot.setOutboardTarget(1000);
-            robot.setOutboardPower(0.75);
+        //lift to middle
+        if(gamepad1.y && gamepad1.dpad_left){
+            robot.setTrapdoorClosed();
             robot.setBoxScore();
+            robot.liftWithClearanceCheck("Middle", "Score");
         }
 
-        if(gamepad1.right_stick_button){
-            robot.setYawTarget(350);
+        //lift to first line
+        if(gamepad1.y && gamepad1.dpad_right){
+            robot.setTrapdoorClosed();
+            robot.setBoxScore();
+            robot.liftWithClearanceCheck("First Line", "Score");
+        }
+
+        //lift to clearance position
+        if(gamepad1.b){
+            robot.liftWithClearanceCheck("Retracted", "Clearance");
             robot.setBoxStorage();
         }
 
-        if(gamepad1.dpad_up){
-            robot.setOutboardTarget(1950);
-            robot.setOutboardPower(0.75);
-            robot.setBoxScore();
+        //set box down
+        if(gamepad1.a){
+            robot.setBoxIntake();
+            robot.liftWithClearanceCheck("Retracted", "Down");
         }
 
-        if(gamepad1.dpad_down){
-            robot.setOutboardTarget(0);
-            robot.setOutboardPower(0.5);
+        //drone launching
+        if(gamepad1.share){
+            robot.shootDrone();
         }
 
-//        if(gamepad1.a){
-//            while(robot.pos)
-//        }
-
-        if(gamepad1.x){
-            robot.setTrapdoorOpen();
+        //hanging system
+        if(gamepad1.options){
+            
         }
 
-        if(gamepad1.y){
-            robot.setTrapdoorClosed();
-        }
+        //sets intake correct directions
+        robot.setIntakeSpeed(-gamepad1.right_trigger);
+        robot.setIntakeSpeed(gamepad1.left_trigger);
 
-//        if(gamepad1.b){
-//            robot.setYawTarget(0);
-//            robot.setYawPower(0.6);
-//            robot.setOutboardTarget(0);
-//            robot.setTrapdoorClosed();
-//            robot.setBoxIntake();
-//        }
         telemetry.update();
     }
 }

@@ -21,3 +21,19 @@ M2: liftYaw
 M3: intake (Right encoder here)
     S0:trapdoorServo   S1:boxServo   S2:droneServo S3:   S4: 
 DIGITAL     0/1: boxTouch
+
+
+
+
+
+
+Trapdoor thingy
+//            if(wasAPressed > 0){
+//                if((getRuntime() - wasAPressed) > 0.5){
+//                    wasAPressed = 0;
+//                }
+//                else{
+//                    return;
+//                }
+//            }
+//            wasAPressed = getRuntime();

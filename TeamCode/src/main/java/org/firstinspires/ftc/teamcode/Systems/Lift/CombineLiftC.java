@@ -9,26 +9,61 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Systems.General.RREMX;
 
-import java.util.Timer;
-
 public class CombineLiftC extends BasicLift {
-
-
 
     public RREMX outboard;
     public RREMX yaw;
 
-    private TouchSensor touchSensor;
+    private final TouchSensor touchSensor;
 
     private boolean calibrated = false;
 
-    public int yawDownPos;
-    public final int yawScorePos = 1750;
-    public final int outboardFirstLinePos = 525;
-    public final int outboardHighestPos = 1950;
+    public static int yawDownPos = 0;
+    public static int outboardRetractedPos = 0;
+    public static final int yawClearPos = 900;
+    public static final int yawScorePos = 1750;
+    public static final int outboardFirstLinePos = 525;
+    public static final int outboardMiddlePos = 1200;
+    public static final int outboardHighestPos = 1950;
 
-    public int outboardRetractedPos;
+    public int mBoundary = 50;
+    private yawPositions mBoundaryPosition;
+    public boolean mCheckerPos;
     ElapsedTime timer;
+
+    public enum yawPositions{
+        DOWN(yawDownPos),
+        CLEAR(yawClearPos),
+        SCORE(yawScorePos);
+
+        private final int yawPosition;
+
+        yawPositions(final int newYawPos){
+            yawPosition = newYawPos;
+        }
+
+        private int getYawPosition(){
+            return yawPosition;
+        }
+    }
+
+    public enum outboardPositions{
+        DOWN(outboardRetractedPos),
+        FIRST_LINE(outboardFirstLinePos),
+        MIDDLE(outboardMiddlePos),
+        HIGHEST(outboardHighestPos);
+
+        private final int outboardPosition;
+
+        outboardPositions(final int newOutboardPos){
+            outboardPosition = newOutboardPos;
+        }
+
+        private int getOutboardPosition(){
+            return outboardPosition;
+        }
+
+    }
 
     //defines our RREMX motors.
     public CombineLiftC(HardwareMap hardwareMap) {
@@ -46,6 +81,7 @@ public class CombineLiftC extends BasicLift {
         setOutboardTargetPos(getOutboardPos());
         yaw.runToPositionMode();
         outboard.runToPositionMode();
+        //change
         yaw.setPower(0.6);
         outboard.setPower(0.7);
 
@@ -80,30 +116,76 @@ public class CombineLiftC extends BasicLift {
     public void setYawTargetPos(int yawTarget){
         yaw.setTargetPos(yawTarget);
     }
+
+    public void yawClearanceCkr(){
+        double currentPos = getYawPos();
+        double underPos = (-mBoundary) + mBoundaryPosition.getYawPosition();
+        double overPos = (mBoundary) + mBoundaryPosition.getYawPosition();
+        if(!mCheckerPos){
+            if(currentPos > underPos && currentPos < overPos){
+                mCheckerPos = true;
+            }
+        }
+    }
+
+    public void outboardStateAssigner(String position, yawPositions yawBoundaryPos){
+        mBoundaryPosition = yawBoundaryPos;
+        if (mCheckerPos) {
+            if (position == "Highest") {
+                setOutboardHighestPos();
+            } else if (position == "Middle") {
+                setOutboardMiddlePos();
+            } else if (position == "First Line") {
+                setOutboardFirstLinePos();
+            } else if (position == "Retracted") {
+                setOutboardRetracted();
+            }
+        }
+    }
+
+    public void yawStateAssigner(String position){
+        if(position == "Score"){
+            setYawScore();
+        }
+        else if(position == "Clearance"){
+            setYawClearance();
+        }
+        else if(position == "Down"){
+            setYawDown();
+        }
+    }
+
     public void setYawScore(){
-        setYawTargetPos(yawScorePos);
+        setYawTargetPos(yawPositions.SCORE.getYawPosition());
+    }
+
+    public void setYawClearance(){
+        setYawTargetPos(yawPositions.CLEAR.getYawPosition());
     }
 
     public void setYawDown(){
-        setYawTargetPos(yawDownPos);
+        setYawTargetPos(yawPositions.SCORE.getYawPosition());
     }
 
     public void setOutboardRetracted(){
-        setOutboardTargetPos(outboardRetractedPos);
+        setOutboardTargetPos(outboardPositions.DOWN.getOutboardPosition());
     }
 
     public void setOutboardFirstLinePos(){
-        setOutboardTargetPos(outboardFirstLinePos);
+        setOutboardTargetPos(outboardPositions.FIRST_LINE.getOutboardPosition());
     }
+
+    public void setOutboardMiddlePos(){
+        setOutboardTargetPos(outboardPositions.MIDDLE.getOutboardPosition());
+    }
+
     public void setOutboardHighestPos(){
-        setOutboardTargetPos(outboardHighestPos);
+        setOutboardTargetPos(outboardPositions.HIGHEST.getOutboardPosition());
     }
 
     public void setOutboardTargetPos(int outboardTarget){
         outboard.setTargetPos(outboardTarget);
     }
-
-
 
     public void yawCalibrate(){
         if(!calibrated) {
