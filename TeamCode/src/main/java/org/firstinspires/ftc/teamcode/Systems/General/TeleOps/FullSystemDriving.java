@@ -133,7 +133,7 @@ public class FullSystemDriving extends OpMode {
 
         //hanging system
         if(gamepad1.options){
-            
+
         }
 
         //sets intake correct directions
