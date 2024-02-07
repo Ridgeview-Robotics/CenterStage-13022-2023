@@ -28,7 +28,7 @@ public class CombineLiftC extends BasicLift {
 
 
     public int mBoundary = 100;
-    private yawPositions mBoundaryPosition;
+    public yawPositions mBoundaryPosition;
     public boolean mCheckerPos;
     ElapsedTime timer;
 
@@ -149,11 +149,11 @@ public class CombineLiftC extends BasicLift {
         mBoundaryPosition = yawBoundaryPos;
         if (mCheckerPos) {
             setOutboardTargetPos(position);
-
         }
     }
 
     public void yawStateAssigner(yawPositions position){
+        mCheckerPos = false;
         setYawTargetPos(position);
         mYawPosition = position;
     }
