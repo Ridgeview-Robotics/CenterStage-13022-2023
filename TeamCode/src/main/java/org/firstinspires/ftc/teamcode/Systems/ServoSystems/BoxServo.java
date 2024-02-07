@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class BoxServo {
     Servo boxServo;
 
-    double intake = 0.337;
-    double score = 0.491;
-    double storage = 0.790;
+    double intake = 0.3844444;
+    double score = 0.8089;
+    double storage = 0.39;
 
     public BoxServo(HardwareMap hardwareMap){
         boxServo = hardwareMap.get(Servo.class, "boxServo");

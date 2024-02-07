@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.Systems.General.Autos.Stage1;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -13,10 +14,8 @@ import java.util.List;
 
 import kotlin.collections.ArrayDeque;
 
-@Autonomous
-@Disabled
-public class Stage1Autonomous extends LinearOpMode {
-
+@Autonomous(name = "BlueLeft")
+public class BlueLeft1 extends LinearOpMode {
     private enum ROBOT_STATE{
         SEE,
         TO_DROP,
@@ -45,36 +44,73 @@ public class Stage1Autonomous extends LinearOpMode {
         }
     }
 
-    private Stage1Autonomous.PROP_LOC mPropLoc;
+    private BlueLeft1.PROP_LOC mPropLoc;
     private SignalDetector mPipeline;
     Robot mRobot;
 
-    Stage1Autonomous.ROBOT_STATE mRobotState;
+    BlueLeft1.ROBOT_STATE mRobotState;
     boolean mIsRoadRunning;
     List<TrajectorySequence> mDropPixelSequences;
     List <TrajectorySequence> mReturnAndParkSequences;
 
 
     ///SEQUENCES HERE///
+    private void setupDropSequences(){
+        TrajectorySequence leftToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(12.00, 63.00, Math.toRadians(270.00)))
+                .splineTo(new Vector2d(20.09, 43.23), Math.toRadians(-69.08))
+                .build();
+        mDropPixelSequences.add(leftToPixel);
+
+        TrajectorySequence centerToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(12.00, 63.00, Math.toRadians(270.00)))
+                .splineTo(new Vector2d(8.38, 33.48), Math.toRadians(-89.44))
+                .build();
+        mDropPixelSequences.add(centerToPixel);
+
+        TrajectorySequence rightToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(12.00, 63.00, Math.toRadians(270.00)))
+                .splineTo(new Vector2d(14.01, 50.94), Math.toRadians(-64.52))
+                .splineTo(new Vector2d(7.93, 39.08), Math.toRadians(214.66))
+                .build();
+        mDropPixelSequences.add(rightToPixel);
+
+    }
+
+    private void setupParkSequences(){
+        TrajectorySequence leftToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(20.09, 43.23, Math.toRadians(-69.08)))
+                .lineTo(new Vector2d(17.28, 54.35))
+                .lineTo(new Vector2d(58.95, 59.39))
+                .build();
+        mReturnAndParkSequences.add(leftToPark);
+
+        TrajectorySequence centerToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(8.38, 34.48, Math.toRadians(-89.44)))
+                .lineTo(new Vector2d(59.10, 62.21))
+                .build();
+        mReturnAndParkSequences.add(centerToPark);
+
+        TrajectorySequence rightToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(7.93, 39.08, Math.toRadians(214.66)))
+                .lineTo(new Vector2d(59.69, 60.28))
+                .build();
+        mReturnAndParkSequences.add(rightToPark);
+
+    }
 
     private void detectObject(){
         sleep(100);
-        String loc = mPipeline.getRedPropLocation();
+        String loc = mPipeline.getBluePropLocation();
         if (loc == "Left"){
-            mPropLoc = Stage1Autonomous.PROP_LOC.LEFT;
+            mPropLoc = BlueLeft1.PROP_LOC.LEFT;
         }
         else if(loc == "Center"){
-            mPropLoc = Stage1Autonomous.PROP_LOC.CENTER;
+            mPropLoc = BlueLeft1.PROP_LOC.CENTER;
         }
         else if(loc == "Right"){
-            mPropLoc = Stage1Autonomous.PROP_LOC.RIGHT;
+            mPropLoc = BlueLeft1.PROP_LOC.RIGHT;
         }
         else{
-            mPropLoc = Stage1Autonomous.PROP_LOC.NONE;
+            mPropLoc = BlueLeft1.PROP_LOC.NONE;
         }
 
-        if(mPropLoc != Stage1Autonomous.PROP_LOC.NONE){
-            mRobotState = Stage1Autonomous.ROBOT_STATE.TO_DROP;
+        if(mPropLoc != BlueLeft1.PROP_LOC.NONE){
+            mRobotState = BlueLeft1.ROBOT_STATE.TO_DROP;
         }
 
     }
@@ -82,7 +118,7 @@ public class Stage1Autonomous extends LinearOpMode {
         mRobot.setIntakeSpeed(-0.2);
         sleep(500);
         mRobot.setIntakeSpeed(0);
-        mRobotState = Stage1Autonomous.ROBOT_STATE.RETURN_AND_PARK;
+        mRobotState = BlueLeft1.ROBOT_STATE.RETURN_AND_PARK;
     }
 
     private void toDrop(){
@@ -102,16 +138,16 @@ public class Stage1Autonomous extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        mPipeline = new SignalDetector(hardwareMap, telemetry, true);
+        mPipeline = new SignalDetector(hardwareMap, telemetry, false);
         mRobot = new Robot(telemetry, hardwareMap, false);
 
         mDropPixelSequences = new ArrayDeque<TrajectorySequence>();
-
+        setupDropSequences();
         mReturnAndParkSequences = new ArrayDeque<TrajectorySequence>();
+        setupParkSequences();
 
-
-        mPropLoc = Stage1Autonomous.PROP_LOC.NONE;
-        mRobotState = Stage1Autonomous.ROBOT_STATE.SEE;
+        mPropLoc = BlueLeft1.PROP_LOC.NONE;
+        mRobotState = BlueLeft1.ROBOT_STATE.SEE;
         ElapsedTime timer = new ElapsedTime();
 
 
@@ -132,10 +168,10 @@ public class Stage1Autonomous extends LinearOpMode {
                 if(!mRobot.autoDrive.isBusy()){
                     switch(mRobotState){
                         case TO_DROP:
-                            mRobotState = Stage1Autonomous.ROBOT_STATE.DROP;
+                            mRobotState = BlueLeft1.ROBOT_STATE.DROP;
                             break;
                         case RETURN_AND_PARK:
-                            mRobotState = Stage1Autonomous.ROBOT_STATE.IDLE;
+                            mRobotState = BlueLeft1.ROBOT_STATE.IDLE;
                             break;
                     }
                     mIsRoadRunning = false;
@@ -162,7 +198,7 @@ public class Stage1Autonomous extends LinearOpMode {
                 }
             }
 
-            telemetry.addLine("Prop Location: " + mPipeline.getRedPropLocation());
+            telemetry.addLine("Prop Location: " + mPipeline.getBluePropLocation());
             telemetry.addLine("Robot State: " + mRobotState);
             telemetry.addLine("Is Roadrunner Running: " + mIsRoadRunning);
             telemetry.addLine("Current Time: " + timer.seconds());
@@ -173,4 +209,6 @@ public class Stage1Autonomous extends LinearOpMode {
 
 
     }
+
+
 }

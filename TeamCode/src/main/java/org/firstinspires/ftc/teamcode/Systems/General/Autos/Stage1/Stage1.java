@@ -1,10 +1,11 @@
-package org.firstinspires.ftc.teamcode.Systems.General.Autos.Stage3;
+package org.firstinspires.ftc.teamcode.Systems.General.Autos.Stage1;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -13,8 +14,9 @@ import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 
-@Autonomous(name = "RedRight(st3)")
-public class RedRight3 extends LinearOpMode {
+@Disabled
+@Autonomous(name = "Stage1")
+public class Stage1 extends LinearOpMode {
     private enum ROBOT_STATE{
         SEE,
         SCORING,
@@ -47,8 +49,12 @@ public class RedRight3 extends LinearOpMode {
 
     private void setupSequence()
     {
+        //Building Traj sequence
+
+        //This is the starting position
         TrajectorySequenceBuilder rightRedSBuilder = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(11.49, -63.40, Math.toRadians(90.00)));
 
+        //Vision Section
         if(mPropLoc == PROP_LOC.LEFT)
         {
             rightRedSBuilder.splineTo(new Vector2d(23.80, -44.56), Math.toRadians(65.61));
@@ -79,134 +85,14 @@ public class RedRight3 extends LinearOpMode {
         //Move backwards to clear the bot of any pixel that has been placed
         rightRedSBuilder.lineToLinearHeading(new Pose2d(11.67, -47.72, Math.toRadians(0.0)));
 
-        //Rotate yaw
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setYawScore();
-        });
-
-        //Move to the front of the score board
-        rightRedSBuilder.lineToLinearHeading(new Pose2d(50.89, -36.51, Math.toRadians(180.0)));
-
-        //Raise arm
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setOutboardFirstLine();
-        });
-
-        rightRedSBuilder.waitSeconds(0.5);
-
-        //Prep wrist to score
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setBoxScore();
-        });
-
-        rightRedSBuilder.waitSeconds(0.5);
-
-        //Open trap door to score
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setTrapdoorOpen();
-
-        });
-
-        rightRedSBuilder.waitSeconds(1.5);
-
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
-            mRobot.setBoxIntake();
-            mRobot.setOutboardRetracted();
-        });
-
-        //Line away from Drop Board
-        rightRedSBuilder.lineToLinearHeading(new Pose2d(34.63, -12.72, Math.toRadians(180.00)));
-
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
-
-            mRobot.setYawDown();
-        });
-
-        //Line to Pixel line
-        rightRedSBuilder.lineTo(new Vector2d(-59.99, -12.35));
-
-       rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    mRobot.setIntakeSpeed(1.0);
-        });
-
-       rightRedSBuilder.waitSeconds(0.5);
-
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset( 0,() ->{
-            mRobot.setIntakeSpeed(0.0);
-        });
-
-        //drive back toward board
-        rightRedSBuilder.lineToLinearHeading(new Pose2d(34.63, -3.00, Math.toRadians(180.00)));
-
-        //raise yaw
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setYawScore();
-        });
-
-        //stop the burnouts
-        TrajectoryAccelerationConstraint trajConstraint = new ProfileAccelerationConstraint(25);
-        rightRedSBuilder.setAccelConstraint(trajConstraint);
-
-        //drive to actual board
-        rightRedSBuilder.lineToLinearHeading(new Pose2d(50.89, -36.51, Math.toRadians(180.00)));
-
-
-
-        rightRedSBuilder.resetAccelConstraint();
-
-        //INSERT SCORING HERE  DONE
-
-        //Raise arm
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setOutboardFirstLine();
-        });
-
-        rightRedSBuilder.waitSeconds(0.5);
-
-        //Prep wrist to score
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setBoxScore();
-        });
-
-        rightRedSBuilder.waitSeconds(0.5);
-
-        //Open trap door to score
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setTrapdoorOpen();
-        });
-
-        rightRedSBuilder.waitSeconds(1.5);
-
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
-           mRobot.setBoxIntake();
-           mRobot.setOutboardRetracted();
-        });
-
-        rightRedSBuilder.waitSeconds(0.5);
-
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
-            mRobot.setYawDown();
-            });
-
-
-        //drive out to get to parking line
-        rightRedSBuilder.lineTo(new Vector2d(52.00, -63.00));
-
-        //line to get to parking
-        rightRedSBuilder.lineTo(new Vector2d(63.00, -63.00));
-
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
-            mRobotState = ROBOT_STATE.AUTO_END;
-                });
-
-
+        //Building the Trajectory
         mTS = rightRedSBuilder.build();
     }
 
     private void detectObject()
     {
         sleep(100);
-        String loc = mPipeline.getRedPropLocation();
+        String loc = mPipeline.getRedPropLocation();  //(Or mPipeline.getBluePropLocation();
         if (loc == "Left"){
             mPropLoc = PROP_LOC.LEFT;
         }

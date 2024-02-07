@@ -22,13 +22,13 @@ public class LosingMyMindLift extends OpMode {
 
         int yawPos = lift.getYawPos();
 
-        if(gamepad1.a){
-            lift.setYawTargetPos(10);
-        }
-
-        if(gamepad1.b){
-            lift.setYawTargetPos(yawPos +10);
-        }
+//        if(gamepad1.a){
+//            lift.setYawTargetPos(10);
+//        }
+//
+//        if(gamepad1.b){
+//            lift.setYawTargetPos(yawPos +10);
+//        }
 
 
 

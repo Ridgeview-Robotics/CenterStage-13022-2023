@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 public class Robot {
     public SampleMecanumDrive autoDrive;
 
-    CombineLiftC lift;
+    public CombineLiftC lift;
     public Drive drive;
     BoxServo boxServo;
     TrapdoorServo trapdoorServo;
@@ -56,19 +56,12 @@ public class Robot {
         trapdoorServo.togglePosition();
     }
 
-    public void liftWithClearanceCheck(String outboardPosition, String yawPosition){
-        if(yawPosition == "Score"){
-            lift.yawStateAssigner(yawPosition);
-            lift.outboardStateAssigner(outboardPosition, CombineLiftC.yawPositions.CLEAR);
-        }
-        else if(yawPosition == "Clearance"){
-            lift.setOutboardRetracted();
-            lift.setYawClearance();
-        }
-        else if(yawPosition == "Down"){
-            lift.setOutboardRetracted();
-            lift.setYawDown();
-        }
+    public void liftWithClearanceCheck(CombineLiftC.outboardPositions nOPos, CombineLiftC.yawPositions nYPos, CombineLiftC.yawPositions nBPos){
+       lift.yawStateAssigner(nYPos);
+       lift.outboardStateAssigner(nOPos, nBPos);
+    }
+
+    public void liftTest(CombineLiftC position){
 
     }
 
@@ -77,13 +70,11 @@ public class Robot {
         drive.setMotorPower(power1, power2, power3, power4);
     }
 
-    public void setYawTarget(int pos){
-        lift.setYawTargetPos(pos);
-    }
+//    public void setYawTarget(int pos){
+//        lift.setYawTargetPos(pos);
+//    }
 
-    public void setOutboardTarget(int pos){
-        lift.setOutboardTargetPos(pos);
-    }
+
 
     public void setYawPower(double power){
         lift.setYawPower(power);

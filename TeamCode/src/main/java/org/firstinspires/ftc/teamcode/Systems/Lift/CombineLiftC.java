@@ -20,16 +20,20 @@ public class CombineLiftC extends BasicLift {
 
     public static int yawDownPos = 0;
     public static int outboardRetractedPos = 0;
-    public static final int yawClearPos = 900;
-    public static final int yawScorePos = 1750;
+    public static final int yawClearPos = 675;
+    public static final int yawScorePos = 1820;
     public static final int outboardFirstLinePos = 525;
     public static final int outboardMiddlePos = 1200;
     public static final int outboardHighestPos = 1950;
 
-    public int mBoundary = 50;
+
+    public int mBoundary = 100;
     private yawPositions mBoundaryPosition;
     public boolean mCheckerPos;
     ElapsedTime timer;
+
+    public yawPositions mYawPosition;
+    public outboardPositions mOutboardPosition;
 
     public enum yawPositions{
         DOWN(yawDownPos),
@@ -42,7 +46,7 @@ public class CombineLiftC extends BasicLift {
             yawPosition = newYawPos;
         }
 
-        private int getYawPosition(){
+        public int getYawPosition(){
             return yawPosition;
         }
     }
@@ -55,13 +59,14 @@ public class CombineLiftC extends BasicLift {
 
         private final int outboardPosition;
 
-        outboardPositions(final int newOutboardPos){
+        outboardPositions(int newOutboardPos){
             outboardPosition = newOutboardPos;
         }
 
         private int getOutboardPosition(){
             return outboardPosition;
         }
+
 
     }
 
@@ -76,18 +81,20 @@ public class CombineLiftC extends BasicLift {
         timer = new ElapsedTime();
         yaw.setReverse();
         outboard.setReverse();
-
-        setYawTargetPos(getYawPos());
-        setOutboardTargetPos(getOutboardPos());
+        mOutboardPosition = outboardPositions.DOWN;
+        mYawPosition = yawPositions.DOWN;
+        setYawTargetPos(getYawState());
+        setOutboardTargetPos(getOutboardState());
         yaw.runToPositionMode();
         outboard.runToPositionMode();
         //change
-        yaw.setPower(0.6);
-        outboard.setPower(0.7);
+        yaw.setPower(0.5);
+        outboard.setPower(1.0);
 
 
         touchSensor = hardwareMap.get(TouchSensor.class, "boxTouch");
 
+        mBoundaryPosition = null;
     }
 
     public void setOutboardCts(int outboardCts) {
@@ -98,6 +105,14 @@ public class CombineLiftC extends BasicLift {
     public void setYawCts(int yawCts) {
         yaw.runToPosition(yawCts);
         // setting a target for the yaw motor, reliant on encoder counts/ticks
+    }
+
+    public yawPositions getYawState(){
+        return mYawPosition;
+    }
+
+    public outboardPositions getOutboardState(){
+        return mOutboardPosition;
     }
 
     public void resetLiftEncoders(){
@@ -113,78 +128,67 @@ public class CombineLiftC extends BasicLift {
         return yaw.getPos();  //retrieves position of yaw motor, relative to encoder tick
     }
 
-    public void setYawTargetPos(int yawTarget){
-        yaw.setTargetPos(yawTarget);
+    public void setYawTargetPos(yawPositions yawTarget){
+        yaw.setTargetPos(yawTarget.getYawPosition());
     }
 
     public void yawClearanceCkr(){
-        double currentPos = getYawPos();
-        double underPos = (-mBoundary) + mBoundaryPosition.getYawPosition();
-        double overPos = (mBoundary) + mBoundaryPosition.getYawPosition();
-        if(!mCheckerPos){
-            if(currentPos > underPos && currentPos < overPos){
-                mCheckerPos = true;
+        if(mBoundaryPosition != null) {
+            double currentPos = getYawPos();
+            double underPos = (-mBoundary) + mBoundaryPosition.getYawPosition();
+            double overPos = (mBoundary) + mBoundaryPosition.getYawPosition();
+            if (!mCheckerPos) {
+                if (currentPos > underPos && currentPos < overPos) {
+                    mCheckerPos = true;
+                }
             }
         }
     }
 
-    public void outboardStateAssigner(String position, yawPositions yawBoundaryPos){
+    public void outboardStateAssigner(outboardPositions position, yawPositions yawBoundaryPos){
         mBoundaryPosition = yawBoundaryPos;
         if (mCheckerPos) {
-            if (position == "Highest") {
-                setOutboardHighestPos();
-            } else if (position == "Middle") {
-                setOutboardMiddlePos();
-            } else if (position == "First Line") {
-                setOutboardFirstLinePos();
-            } else if (position == "Retracted") {
-                setOutboardRetracted();
-            }
+            setOutboardTargetPos(position);
+
         }
     }
 
-    public void yawStateAssigner(String position){
-        if(position == "Score"){
-            setYawScore();
-        }
-        else if(position == "Clearance"){
-            setYawClearance();
-        }
-        else if(position == "Down"){
-            setYawDown();
-        }
+    public void yawStateAssigner(yawPositions position){
+        setYawTargetPos(position);
+        mYawPosition = position;
     }
 
     public void setYawScore(){
-        setYawTargetPos(yawPositions.SCORE.getYawPosition());
+        setYawTargetPos(yawPositions.SCORE);
     }
 
     public void setYawClearance(){
-        setYawTargetPos(yawPositions.CLEAR.getYawPosition());
+        setYawTargetPos(yawPositions.CLEAR);
     }
 
     public void setYawDown(){
-        setYawTargetPos(yawPositions.SCORE.getYawPosition());
+        setYawTargetPos(yawPositions.SCORE);
     }
 
     public void setOutboardRetracted(){
-        setOutboardTargetPos(outboardPositions.DOWN.getOutboardPosition());
+        setOutboardTargetPos(outboardPositions.DOWN);
     }
 
     public void setOutboardFirstLinePos(){
-        setOutboardTargetPos(outboardPositions.FIRST_LINE.getOutboardPosition());
+        setOutboardTargetPos(outboardPositions.FIRST_LINE);
     }
 
     public void setOutboardMiddlePos(){
-        setOutboardTargetPos(outboardPositions.MIDDLE.getOutboardPosition());
+        setOutboardTargetPos(outboardPositions.MIDDLE);
     }
 
     public void setOutboardHighestPos(){
-        setOutboardTargetPos(outboardPositions.HIGHEST.getOutboardPosition());
+        setOutboardTargetPos(outboardPositions.HIGHEST);
     }
 
-    public void setOutboardTargetPos(int outboardTarget){
-        outboard.setTargetPos(outboardTarget);
+    public void setOutboardTargetPos(outboardPositions outboardTarget){
+        outboard.setTargetPos(outboardTarget.getOutboardPosition());
+        mOutboardPosition = outboardTarget;
     }
 
     public void yawCalibrate(){

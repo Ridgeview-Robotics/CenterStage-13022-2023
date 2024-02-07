@@ -61,18 +61,18 @@ public class TestModule extends OpMode {
         intake.setIntakePower(-gamepad1.right_trigger);
         intake.setIntakePower(gamepad1.left_trigger);
 
-        if(gamepad1.dpad_left){
-            lift.setYawTargetPos(yawPos + 10);
-        }
-        if (gamepad1.dpad_right) {
-            lift.setYawTargetPos(yawPos - 10);
-        }
-        if(gamepad1.dpad_up){
-            lift.setOutboardTargetPos(outboardPos + 10);
-        }
-        if(gamepad1.dpad_down){
-            lift.setOutboardTargetPos(outboardPos - 10);
-        }
+//        if(gamepad1.dpad_left){
+//            lift.setYawTargetPos(yawPos + 10);
+//        }
+//        if (gamepad1.dpad_right) {
+//            lift.setYawTargetPos(yawPos - 10);
+//        }
+//        if(gamepad1.dpad_up){
+//            lift.setOutboardTargetPos(outboardPos + 10);
+//        }
+//        if(gamepad1.dpad_down){
+//            lift.setOutboardTargetPos(outboardPos - 10);
+//        }
 
         if(gamepad1.a){
             boxServo.setPosition(boxServo.getPosition() - 0.001);
