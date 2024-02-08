@@ -146,8 +146,17 @@ public class FullSystemDriving extends OpMode {
         }
 
         //sets intake correct directions
-        robot.setIntakeSpeed(gamepad1.right_trigger);
-        robot.setIntakeSpeed(-0.6*gamepad1.left_trigger);
+        if(gamepad1.right_trigger > 0.0){
+            robot.setIntakeSpeed(-gamepad1.right_trigger);
+        }
+        else if(gamepad1.left_trigger > 0.0) {
+            robot.setIntakeSpeed(gamepad1.left_trigger);
+        }
+        else{
+            robot.setIntakeSpeed(0);
+        }
+
+
 
         telemetry.addLine("Yaw Cts:" + robot.lift.yaw.getPos());
         telemetry.addLine("Outboard Cts: " + robot.lift.outboard.getPos());

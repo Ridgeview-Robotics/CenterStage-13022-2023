@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Systems.General.Robot;
+import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
@@ -51,8 +52,8 @@ public class RedRight3 extends LinearOpMode {
 
         if(mPropLoc == PROP_LOC.LEFT)
         {
-            rightRedSBuilder.splineTo(new Vector2d(23.80, -44.56), Math.toRadians(65.61));
-            rightRedSBuilder.splineTo(new Vector2d(9.12, -38.19), Math.toRadians(149.37));
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(14.01, -44.71, Math.toRadians(137.15)));
+            rightRedSBuilder.splineTo(new Vector2d(9.86, -40.86), Math.toRadians(137.35));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
@@ -67,6 +68,7 @@ public class RedRight3 extends LinearOpMode {
         //Spit the pixel out
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setIntakeSpeed(-0.2);
+            mRobot.setTrapdoorClosed();
         });
 
         rightRedSBuilder.waitSeconds(0.5);
@@ -77,7 +79,7 @@ public class RedRight3 extends LinearOpMode {
         });
 
         //Move backwards to clear the bot of any pixel that has been placed
-        rightRedSBuilder.lineToLinearHeading(new Pose2d(11.67, -47.72, Math.toRadians(0.0)));
+        rightRedSBuilder.lineToLinearHeading(new Pose2d(11.67, -48.72, Math.toRadians(0.0)));
 
         //Rotate yaw
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -90,12 +92,6 @@ public class RedRight3 extends LinearOpMode {
         //Raise arm
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setOutboardFirstLine();
-        });
-
-        rightRedSBuilder.waitSeconds(0.5);
-
-        //Prep wrist to score
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setBoxScore();
         });
 
@@ -104,7 +100,6 @@ public class RedRight3 extends LinearOpMode {
         //Open trap door to score
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setTrapdoorOpen();
-
         });
 
         rightRedSBuilder.waitSeconds(1.5);
@@ -113,6 +108,8 @@ public class RedRight3 extends LinearOpMode {
             mRobot.setBoxIntake();
             mRobot.setOutboardRetracted();
         });
+
+        rightRedSBuilder.waitSeconds(0.5);
 
         //Line away from Drop Board
         rightRedSBuilder.lineToLinearHeading(new Pose2d(34.63, -12.72, Math.toRadians(180.00)));
@@ -233,6 +230,7 @@ public class RedRight3 extends LinearOpMode {
         mRobot      = new Robot(telemetry, hardwareMap, false);
         mPropLoc    = PROP_LOC.NONE;
         mRobotState = ROBOT_STATE.SEE;
+        mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
     }
     @Override
     public void runOpMode() throws InterruptedException

@@ -19,7 +19,7 @@ public class CombineLiftC extends BasicLift {
     private boolean calibrated = false;
 
     public static int yawDownPos = 0;
-    public static int outboardRetractedPos = 0;
+    public static final int outboardRetractedPos = 0;
     public static final int yawClearPos = 675;
     public static final int yawScorePos = 1820;
     public static final int outboardFirstLinePos = 525;
@@ -27,7 +27,8 @@ public class CombineLiftC extends BasicLift {
     public static final int outboardHighestPos = 1950;
 
 
-    public int mBoundary = 100;
+    public int mLBoundary = 100;
+    public int mHBoundary = 1200;
     public yawPositions mBoundaryPosition;
     public boolean mCheckerPos;
     ElapsedTime timer;
@@ -133,10 +134,11 @@ public class CombineLiftC extends BasicLift {
     }
 
     public void yawClearanceCkr(){
+        mCheckerPos = false;
         if(mBoundaryPosition != null) {
             double currentPos = getYawPos();
-            double underPos = (-mBoundary) + mBoundaryPosition.getYawPosition();
-            double overPos = (mBoundary) + mBoundaryPosition.getYawPosition();
+            double underPos = (-mLBoundary) + mBoundaryPosition.getYawPosition();
+            double overPos = (mHBoundary) + mBoundaryPosition.getYawPosition();
             if (!mCheckerPos) {
                 if (currentPos > underPos && currentPos < overPos) {
                     mCheckerPos = true;
@@ -153,7 +155,6 @@ public class CombineLiftC extends BasicLift {
     }
 
     public void yawStateAssigner(yawPositions position){
-        mCheckerPos = false;
         setYawTargetPos(position);
         mYawPosition = position;
     }

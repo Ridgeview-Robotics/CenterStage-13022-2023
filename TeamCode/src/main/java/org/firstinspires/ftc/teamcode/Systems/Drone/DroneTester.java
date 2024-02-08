@@ -20,14 +20,7 @@ public class DroneTester extends OpMode {
 
     @Override
     public void loop() {
-        if(gamepad1.right_trigger > 0.0){
-            flywheels.setFlywheelsPower(0.30);
-        }
 
-
-        if(gamepad1.left_trigger >0.0){
-            flywheels.setFlywheelsPower(0.29);
-        }
 
         //29 IS THE NUMBER
 
@@ -39,7 +32,7 @@ public class DroneTester extends OpMode {
             droneServo.setDroneServoRelease();
         }
 
-        telemetry.addLine("Flywheel Input Power: " + flywheels.getPower());
+
         telemetry.addLine("Theoretical Flywheel Speed: " + (gamepad1.right_trigger * 6000));
     }
 }

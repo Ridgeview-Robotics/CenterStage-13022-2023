@@ -41,6 +41,8 @@ public class Robot {
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "LEDs");
         timer = new ElapsedTime();
 
+        trapdoorServo.setTrapdoorOpen();
+
         /*if(isAuto){
             signalDetector = new SignalDetector(hardwareMap, telemetry, );
         }*/
@@ -105,9 +107,7 @@ public class Robot {
         trapdoorServo.setTrapdoorClosed();
     }
 
-    public void setFlywheelSpeed(double power){
-        drone.setFlywheelsPower(power);
-    }
+
 
     public int yawDownPos(){
         return CombineLiftC.yawDownPos;
@@ -182,25 +182,13 @@ public class Robot {
         drone.shootDrone();
     }
 
-    public void setDronePower(double power){
-        drone.setFlywheelsPower(power);
-    }
+
 
     public void primeDrone(){
         drone.primeDrone();
     }
 
-    public void droneAction(double droneFlywheelPower){
-        timer.reset();
-        while(timer.milliseconds() > 1500) {
-            setDronePower(droneFlywheelPower);
-        }
-        while(timer.milliseconds() > 2000){
-            shootDrone();
-        }
 
-
-    }
 
     /*Trapdoor:
         Open: 0.365   Closed: 0.65

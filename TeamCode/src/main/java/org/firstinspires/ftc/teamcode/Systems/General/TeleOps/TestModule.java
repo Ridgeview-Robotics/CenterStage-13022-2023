@@ -87,13 +87,7 @@ public class TestModule extends OpMode {
             trapdoorServo.GSetPosition(trapdoorServo.getPosition() + 0.001);
         }
 
-        if (gamepad1.right_bumper) {
-            droneLauncher.setFlywheelsPower(0.75);
-        }
 
-        if (gamepad1.left_bumper) {
-            droneLauncher.setFlywheelsPower(0.25);
-        }
 
         telemetry.addLine("Use Y (+) and A (-) for box");
         telemetry.addLine("Box Position: " + boxServo.getPosition());

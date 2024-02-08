@@ -49,8 +49,9 @@ public class RedRight1 extends LinearOpMode {
 
         if(mPropLoc == PROP_LOC.LEFT)
         {
-            rightRedSBuilder.splineTo(new Vector2d(23.80, -44.56), Math.toRadians(65.61));
-            rightRedSBuilder.splineTo(new Vector2d(9.12, -38.19), Math.toRadians(149.37));
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(14.01, -44.71, Math.toRadians(137.15)));
+            rightRedSBuilder.splineTo(new Vector2d(7.34, -39.08), Math.toRadians(137.35));
+
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
@@ -61,6 +62,7 @@ public class RedRight1 extends LinearOpMode {
             rightRedSBuilder.splineTo(new Vector2d(-44.27, -47.68), Math.toRadians(93.69));
             rightRedSBuilder.splineTo(new Vector2d(-31.96, -39.37), Math.toRadians(33.23));
         }
+
 
         //Spit the pixel out
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
