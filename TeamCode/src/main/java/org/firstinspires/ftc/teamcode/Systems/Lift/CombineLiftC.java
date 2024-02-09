@@ -18,12 +18,13 @@ public class CombineLiftC extends BasicLift {
 
     private boolean calibrated = false;
 
-    public static int yawDownPos = 0;
+    public static final int yawDownPos = 0;
     public static final int outboardRetractedPos = 0;
     public static final int yawClearPos = 675;
-    public static final int yawScorePos = 1820;
+    public static final int yawScorePos = 1855;
     public static final int outboardFirstLinePos = 525;
-    public static final int outboardMiddlePos = 1200;
+    public static final int outboardAutoPos = 345;
+    public static final int outboardMiddlePos = 1000;
     public static final int outboardHighestPos = 1950;
 
 
@@ -54,6 +55,7 @@ public class CombineLiftC extends BasicLift {
 
     public enum outboardPositions{
         DOWN(outboardRetractedPos),
+        AUTO_POS(outboardAutoPos),
         FIRST_LINE(outboardFirstLinePos),
         MIDDLE(outboardMiddlePos),
         HIGHEST(outboardHighestPos);
@@ -168,11 +170,15 @@ public class CombineLiftC extends BasicLift {
     }
 
     public void setYawDown(){
-        setYawTargetPos(yawPositions.SCORE);
+        setYawTargetPos(yawPositions.DOWN);
     }
 
     public void setOutboardRetracted(){
         setOutboardTargetPos(outboardPositions.DOWN);
+    }
+
+    public void setOutboardAutoPos(){
+        setOutboardTargetPos(outboardPositions.AUTO_POS);
     }
 
     public void setOutboardFirstLinePos(){

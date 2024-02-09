@@ -60,7 +60,8 @@ public class Robot {
 
     public void liftWithClearanceCheck(CombineLiftC.outboardPositions nOPos, CombineLiftC.yawPositions nYPos, CombineLiftC.yawPositions nBPos){
        lift.yawStateAssigner(nYPos);
-       lift.outboardStateAssigner(nOPos, nBPos);
+       lift.outboardStateAssigner(nOPos, CombineLiftC.yawPositions.CLEAR);
+
     }
 
     public void liftTest(CombineLiftC position){

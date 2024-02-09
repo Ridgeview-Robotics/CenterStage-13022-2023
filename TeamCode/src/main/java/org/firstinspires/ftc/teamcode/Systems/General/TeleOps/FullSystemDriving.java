@@ -102,14 +102,14 @@ public class FullSystemDriving extends OpMode {
         }
 
         //lift to middle
-        if(gamepad1.dpad_left){
+        if(gamepad1.left_bumper){
             robot.setTrapdoorClosed();
             robot.setBoxScore();
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.MIDDLE, CombineLiftC.yawPositions.SCORE, CombineLiftC.yawPositions.CLEAR);
         }
 
         //lift to first line
-        if(gamepad1.dpad_right){
+        if(gamepad1.right_bumper){
             robot.setTrapdoorClosed();
             robot.setBoxScore();
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.FIRST_LINE, CombineLiftC.yawPositions.SCORE, CombineLiftC.yawPositions.CLEAR);
@@ -136,12 +136,12 @@ public class FullSystemDriving extends OpMode {
         }
 
         //drone launching
-        if(gamepad1.left_bumper){
+        if(gamepad1.dpad_left){
             robot.shootDrone();
         }
 
         //hanging system
-        if(gamepad1.right_bumper){
+        if(gamepad1.dpad_right){
             //hang things here
         }
 
@@ -150,7 +150,7 @@ public class FullSystemDriving extends OpMode {
             robot.setIntakeSpeed(-gamepad1.right_trigger);
         }
         else if(gamepad1.left_trigger > 0.0) {
-            robot.setIntakeSpeed(gamepad1.left_trigger);
+            robot.setIntakeSpeed(0.6*gamepad1.left_trigger);
         }
         else{
             robot.setIntakeSpeed(0);

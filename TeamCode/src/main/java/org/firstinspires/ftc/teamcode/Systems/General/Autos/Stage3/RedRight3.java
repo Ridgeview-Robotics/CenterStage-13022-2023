@@ -57,12 +57,12 @@ public class RedRight3 extends LinearOpMode {
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
-            rightRedSBuilder.splineTo(new Vector2d(13.57, -35.81), Math.toRadians(83.21));
+            rightRedSBuilder.splineTo(new Vector2d(13.57, -33.81), Math.toRadians(83.21));
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
-            rightRedSBuilder.splineTo(new Vector2d(-44.27, -47.68), Math.toRadians(93.69));
-            rightRedSBuilder.splineTo(new Vector2d(-31.96, -39.37), Math.toRadians(33.23));
+            rightRedSBuilder.splineTo(new Vector2d(22.50, -45.87), Math.toRadians(88.95));
+
         }
 
         //Spit the pixel out
@@ -79,7 +79,7 @@ public class RedRight3 extends LinearOpMode {
         });
 
         //Move backwards to clear the bot of any pixel that has been placed
-        rightRedSBuilder.lineToLinearHeading(new Pose2d(11.67, -48.72, Math.toRadians(0.0)));
+        rightRedSBuilder.lineTo(new Vector2d(21.67, -51.72));
 
         //Rotate yaw
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -87,26 +87,42 @@ public class RedRight3 extends LinearOpMode {
         });
 
         //Move to the front of the score board
-        rightRedSBuilder.lineToLinearHeading(new Pose2d(50.89, -36.51, Math.toRadians(180.0)));
+        if(mPropLoc == PROP_LOC.LEFT)
+        {
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(51.5, -31.50, Math.toRadians(180.0)));
+        }
+        else if(mPropLoc == PROP_LOC.CENTER)
+        {
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(51.2, -37.51, Math.toRadians(180.0)));
+        }
+        else if(mPropLoc == PROP_LOC.RIGHT)
+        {
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(51.2, -41.6, Math.toRadians(180.0)));
+        }
 
         //Raise arm
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setOutboardFirstLine();
             mRobot.setBoxScore();
         });
 
-        rightRedSBuilder.waitSeconds(0.5);
+        rightRedSBuilder.waitSeconds(1.0);
 
         //Open trap door to score
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setTrapdoorOpen();
         });
 
-        rightRedSBuilder.waitSeconds(1.5);
+        rightRedSBuilder.waitSeconds(0.5);
 
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobot.setBoxIntake();
             mRobot.setOutboardRetracted();
+        });
+
+        rightRedSBuilder.waitSeconds(0.2);
+
+        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+            mRobot.lift.setYawClearance();
         });
 
         rightRedSBuilder.waitSeconds(0.5);
@@ -114,40 +130,74 @@ public class RedRight3 extends LinearOpMode {
         //Line away from Drop Board
         rightRedSBuilder.lineToLinearHeading(new Pose2d(34.63, -12.72, Math.toRadians(180.00)));
 
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+        rightRedSBuilder.waitSeconds(0.1);
 
+        //Line to Pixel line
+        rightRedSBuilder.lineTo(new Vector2d(-58.00, -14.50));
+
+        rightRedSBuilder.waitSeconds(0.2);
+
+        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobot.setYawDown();
         });
 
-        //Line to Pixel line
-        rightRedSBuilder.lineTo(new Vector2d(-59.99, -12.35));
-
-       rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    mRobot.setIntakeSpeed(1.0);
+        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, ()->{
+        mRobot.setIntakeSpeed(0.75);
         });
 
-       rightRedSBuilder.waitSeconds(0.5);
+        rightRedSBuilder.lineTo(new Vector2d(-60.00, -12.90));
+
+       rightRedSBuilder.waitSeconds(0.8);
 
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset( 0,() ->{
-            mRobot.setIntakeSpeed(0.0);
+            mRobot.setIntakeSpeed(-0.75);
         });
 
+        rightRedSBuilder.waitSeconds(1.0);
+
+        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+            mRobot.setIntakeSpeed(0);
+        });
+
+        rightRedSBuilder.waitSeconds(0.5);
+
+        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+            mRobot.lift.setYawClearance();
+        });
+
+        rightRedSBuilder.lineToLinearHeading(new Pose2d(34.63, -12.72, Math.toRadians(180.00)));
+
+        //less burnout
+        TrajectoryAccelerationConstraint trajConstraint = new ProfileAccelerationConstraint(25);
+        rightRedSBuilder.setAccelConstraint(trajConstraint);
+
         //drive back toward board
-        rightRedSBuilder.lineToLinearHeading(new Pose2d(34.63, -3.00, Math.toRadians(180.00)));
+        if(mPropLoc == PROP_LOC.LEFT)
+        {
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(51.2, -41.6, Math.toRadians(180.0)));
+        }
+        else if(mPropLoc == PROP_LOC.CENTER)
+        {
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(51.2, -36.51, Math.toRadians(180.0)));
+        }
+        else if(mPropLoc == PROP_LOC.RIGHT)
+        {
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(51.2, -36.51, Math.toRadians(180.0)));
+        }
+
+        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, ()-> {
+            mRobot.setIntakeSpeed(0.5);
+        });
 
         //raise yaw
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setYawScore();
+            mRobot.setTrapdoorClosed();
         });
 
-        //stop the burnouts
-        TrajectoryAccelerationConstraint trajConstraint = new ProfileAccelerationConstraint(25);
-        rightRedSBuilder.setAccelConstraint(trajConstraint);
 
         //drive to actual board
-        rightRedSBuilder.lineToLinearHeading(new Pose2d(50.89, -36.51, Math.toRadians(180.00)));
-
-
+        rightRedSBuilder.lineToLinearHeading(new Pose2d(52.5, -36.51, Math.toRadians(180.00)));
 
         rightRedSBuilder.resetAccelConstraint();
 
@@ -155,42 +205,38 @@ public class RedRight3 extends LinearOpMode {
 
         //Raise arm
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setOutboardFirstLine();
-        });
-
-        rightRedSBuilder.waitSeconds(0.5);
-
-        //Prep wrist to score
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setBoxScore();
+            mRobot.lift.setOutboardAutoPos();
         });
 
-        rightRedSBuilder.waitSeconds(0.5);
+        rightRedSBuilder.waitSeconds(1.0);
 
         //Open trap door to score
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setTrapdoorOpen();
         });
 
-        rightRedSBuilder.waitSeconds(1.5);
+        rightRedSBuilder.waitSeconds(0.5);
 
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
            mRobot.setBoxIntake();
            mRobot.setOutboardRetracted();
+            mRobot.lift.setYawClearance();
         });
 
         rightRedSBuilder.waitSeconds(0.5);
-
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
-            mRobot.setYawDown();
-            });
-
 
         //drive out to get to parking line
         rightRedSBuilder.lineTo(new Vector2d(52.00, -63.00));
 
         //line to get to parking
         rightRedSBuilder.lineTo(new Vector2d(63.00, -63.00));
+
+        rightRedSBuilder.waitSeconds(0.2);
+
+        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+            mRobot.setYawDown();
+        });
 
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobotState = ROBOT_STATE.AUTO_END;

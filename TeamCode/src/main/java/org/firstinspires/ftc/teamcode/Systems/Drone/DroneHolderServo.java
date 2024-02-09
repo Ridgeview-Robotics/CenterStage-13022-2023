@@ -9,8 +9,8 @@ public class DroneHolderServo {
 
     Servo droneHolder;
 
-    double taut= 0.50;
-    double release= 1.00;
+    double taut= 0.7567;
+    double release= 0.0;
 
     public DroneHolderServo(HardwareMap hardwareMap){
         droneHolder = hardwareMap.get(Servo.class, "droneServo");
