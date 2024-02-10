@@ -52,7 +52,7 @@ public class BlueLeft2 extends LinearOpMode {
 
         if(mPropLoc == PROP_LOC.LEFT)
         {
-            blueLeftSequenceBuilder.splineTo(new Vector2d(20.09, 43.23), Math.toRadians(-69.08));
+            blueLeftSequenceBuilder.splineTo(new Vector2d(17.09, 43.23), Math.toRadians(-69.08));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
@@ -88,7 +88,7 @@ public class BlueLeft2 extends LinearOpMode {
         //Move to the front of the score board
         if(mPropLoc == PROP_LOC.LEFT)
         {
-            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.5, 31.50, Math.toRadians(180.0)));
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.5, 41.6, Math.toRadians(180.0)));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
@@ -96,7 +96,7 @@ public class BlueLeft2 extends LinearOpMode {
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
-            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 41.6, Math.toRadians(180.0)));
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 30.00, Math.toRadians(180.0)));
         }
 
         //Raise arm
@@ -175,7 +175,7 @@ public class BlueLeft2 extends LinearOpMode {
     {
         mPipeline   = new SignalDetector(hardwareMap, telemetry, true);
         mRobot      = new Robot(telemetry, hardwareMap, false);
-        mPropLoc    = PROP_LOC.CENTER;
+        mPropLoc    = PROP_LOC.LEFT;
         mRobotState = ROBOT_STATE.SEE;
         mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
     }
