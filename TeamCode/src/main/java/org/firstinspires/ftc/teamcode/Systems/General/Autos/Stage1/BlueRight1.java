@@ -59,7 +59,7 @@ public class BlueRight1 extends LinearOpMode {
         if(mPropLoc == PROP_LOC.LEFT)
         {
            blueRightBuilder.lineToLinearHeading(new Pose2d(-38.93, 43.92, Math.toRadians(-41.78)));
-           blueRightBuilder.splineTo(new Vector2d(-32.08, 39.28), Math.toRadians(-38.29));
+           blueRightBuilder.splineTo(new Vector2d(-34.08, 39.28), Math.toRadians(-38.29));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
@@ -67,7 +67,7 @@ public class BlueRight1 extends LinearOpMode {
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
-            blueRightBuilder.lineToLinearHeading(new Pose2d(-47.09, 41.30, Math.toRadians(-89.14)));
+            blueRightBuilder.lineToLinearHeading(new Pose2d(-48.09, 42.30, Math.toRadians(-89.14)));
 
         }
 
@@ -122,7 +122,7 @@ public class BlueRight1 extends LinearOpMode {
     {
         mPipeline   = new SignalDetector(hardwareMap, telemetry, true);
         mRobot      = new Robot(telemetry, hardwareMap, false);
-        mPropLoc    = PROP_LOC.CENTER;
+        mPropLoc    = PROP_LOC.RIGHT;
         mRobotState = ROBOT_STATE.SEE;
         mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
     }
