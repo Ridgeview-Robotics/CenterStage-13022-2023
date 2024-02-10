@@ -96,7 +96,8 @@ public class BlueLeft2 extends LinearOpMode {
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
-            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 30.00, Math.toRadians(180.0)));
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(42.41, 38.81, Math.toRadians(180.0)));
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 27.50, Math.toRadians(180.0)));
         }
 
         //Raise arm
@@ -175,7 +176,7 @@ public class BlueLeft2 extends LinearOpMode {
     {
         mPipeline   = new SignalDetector(hardwareMap, telemetry, true);
         mRobot      = new Robot(telemetry, hardwareMap, false);
-        mPropLoc    = PROP_LOC.LEFT;
+        mPropLoc    = PROP_LOC.RIGHT;
         mRobotState = ROBOT_STATE.SEE;
         mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
     }
