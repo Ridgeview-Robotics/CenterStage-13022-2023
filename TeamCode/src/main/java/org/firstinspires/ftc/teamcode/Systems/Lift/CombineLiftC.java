@@ -30,7 +30,7 @@ public class CombineLiftC extends BasicLift {
 
 
     public int mLBoundary = 100;
-    public int mHBoundary = 800;
+    public int mHBoundary = 1200;
     public yawPositions mBoundaryPosition;
     public boolean mCheckerPos;
     public outboardPositions mNOutPosition;

@@ -38,4 +38,8 @@ public class HangMotor {
         setHangTargetPosition(hangTargetPosition);
     }
 
+    public double getPower(){
+        return hangMotor.getPower();
+    }
+
 }

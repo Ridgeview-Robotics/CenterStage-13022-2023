@@ -97,7 +97,7 @@ public class BlueRight1 extends LinearOpMode {
     private void detectObject()
     {
         sleep(100);
-        String loc = mPipeline.getRedPropLocation();  //(Or mPipeline.getBluePropLocation();
+        String loc = mPipeline.getBluePropLocation();  //(Or mPipeline.getBluePropLocation();
         if (loc == "Left"){
             mPropLoc = PROP_LOC.LEFT;
         }
@@ -122,7 +122,7 @@ public class BlueRight1 extends LinearOpMode {
     {
         mPipeline   = new SignalDetector(hardwareMap, telemetry, true);
         mRobot      = new Robot(telemetry, hardwareMap, false);
-        mPropLoc    = PROP_LOC.RIGHT;
+        mPropLoc    = PROP_LOC.NONE;
         mRobotState = ROBOT_STATE.SEE;
         mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
     }

@@ -66,7 +66,7 @@ public class BlueLeft2 extends LinearOpMode {
 
         //Spit the pixel out
         blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setIntakeSpeed(-0.3);
+            mRobot.setIntakeSpeed(-0.2);
             mRobot.setTrapdoorClosed();
         });
 
@@ -85,6 +85,8 @@ public class BlueLeft2 extends LinearOpMode {
             mRobot.setYawScore();
         });
 
+        blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(36.96, 51.35, Math.toRadians(180.0)));
+
         //Move to the front of the score board
         if(mPropLoc == PROP_LOC.LEFT)
         {
@@ -99,6 +101,8 @@ public class BlueLeft2 extends LinearOpMode {
             blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(42.41, 38.81, Math.toRadians(180.0)));
             blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 27.50, Math.toRadians(180.0)));
         }
+
+        blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(53.0, 37.51, Math.toRadians(180.0)));
 
         //Raise arm
         blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {

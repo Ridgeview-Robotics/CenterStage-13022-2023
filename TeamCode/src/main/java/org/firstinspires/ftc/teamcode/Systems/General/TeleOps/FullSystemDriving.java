@@ -105,21 +105,21 @@ public class FullSystemDriving extends OpMode {
 
         //lift to middle
         if(gamepad1.left_bumper){
-            robot.setTrapdoorClosed();
+            robot.setTrapdoor(TrapdoorServo.trapdoorPositions.CLOSED);
             robot.setBoxScore();
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.MIDDLE, CombineLiftC.yawPositions.SCORE, CombineLiftC.yawPositions.CLEAR);
         }
 
         //lift to first line
         if(gamepad1.right_bumper){
-            robot.setTrapdoorClosed();
+            robot.setTrapdoor(TrapdoorServo.trapdoorPositions.CLOSED);
             robot.setBoxScore();
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.FIRST_LINE, CombineLiftC.yawPositions.SCORE, CombineLiftC.yawPositions.CLEAR);
         }
 
         //lift to no extension, score.
         if(gamepad1.dpad_down){
-            robot.setTrapdoorClosed();
+            robot.setTrapdoor(TrapdoorServo.trapdoorPositions.CLOSED);
             robot.setBoxScore();
             robot.setTrapdoor(TrapdoorServo.trapdoorPositions.OPEN);
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.SCORE, CombineLiftC.yawPositions.CLEAR);

@@ -92,7 +92,7 @@ public class BlueLeft1 extends LinearOpMode {
     private void detectObject()
     {
         sleep(100);
-        String loc = mPipeline.getRedPropLocation();  //(Or mPipeline.getBluePropLocation();
+        String loc = mPipeline.getBluePropLocation();  //(Or mPipeline.getBluePropLocation();
         if (loc == "Left"){
             mPropLoc = PROP_LOC.LEFT;
         }

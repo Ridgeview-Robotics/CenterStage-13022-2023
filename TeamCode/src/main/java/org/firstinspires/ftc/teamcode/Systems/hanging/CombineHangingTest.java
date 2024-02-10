@@ -16,6 +16,7 @@ public class CombineHangingTest extends OpMode {
     public void init() {
         lift = new CombineLiftC(hardwareMap);
         hangMotor = new HangMotor(hardwareMap);
+        hangServo = new HangServo(hardwareMap);
 
         hangMotor.runWithEncoderMode();
         lift.yaw.runUsingEncoderMode();
@@ -30,6 +31,13 @@ public class CombineHangingTest extends OpMode {
         lift.setYawPower(gamepad1.left_stick_y);
         lift.setOutboardPower(gamepad1.right_stick_y);
 
+        if(gamepad1.right_bumper){
+            hangServo.setPosition(hangServo.getPosition() + 0.001);
+        }
+
+        if(gamepad1.left_bumper){
+            hangServo.setPosition(hangServo.getPosition() - 0.001);
+        }
 
         if(gamepad1.right_trigger > 0.0){
             hangMotor.setHangMotorPower(gamepad1.right_trigger);
@@ -45,5 +53,9 @@ public class CombineHangingTest extends OpMode {
         telemetry.addLine("Outboard Encoder Position: " + lift.getOutboardPos());
         telemetry.addLine("Yaw Encoder Position: " + lift.getYawPos());
         telemetry.addLine("Lift Encoder Position: " + hangMotor.getHangPos());
+        telemetry.addLine("Hang Power: " + hangMotor.getPower());
+        telemetry.addLine("Outboard Power: " + lift.outboard.getPower());
+        telemetry.addLine("Yaw Power: " + lift.yaw.getPower());
+        telemetry.addLine("Hang Servo Pos: " + hangServo.getPosition());
     }
 }
