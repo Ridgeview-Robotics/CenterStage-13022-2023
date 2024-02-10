@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Systems.General.Autos.Stage1;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -15,10 +16,11 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuild
 import java.util.List;
 
 import kotlin.collections.ArrayDeque;
-
+@Config
 @Autonomous(name = "Red Left(st1)")
 public class RedLeft1 extends LinearOpMode {
 
+    public static double rightX = -32.00;
     private enum ROBOT_STATE{
         SEE,
         SCORING,
@@ -63,8 +65,8 @@ public class RedLeft1 extends LinearOpMode {
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
-            rightRedSBuilder.lineToLinearHeading(new Pose2d(-39.52, -54.50, Math.toRadians(75.20)));
-            rightRedSBuilder.lineToLinearHeading(new Pose2d(-30.77, -39.82, Math.toRadians(56.82)));
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(-42.00, -42.00, Math.toRadians(34.82)));
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(rightX, -40.82, Math.toRadians(34.82)));
 
         }
 
@@ -118,7 +120,7 @@ public class RedLeft1 extends LinearOpMode {
     {
         mPipeline   = new SignalDetector(hardwareMap, telemetry, true);
         mRobot      = new Robot(telemetry, hardwareMap, false);
-        mPropLoc    = PROP_LOC.LEFT;
+        mPropLoc    = PROP_LOC.RIGHT;
         mRobotState = ROBOT_STATE.SEE;
         mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
     }
