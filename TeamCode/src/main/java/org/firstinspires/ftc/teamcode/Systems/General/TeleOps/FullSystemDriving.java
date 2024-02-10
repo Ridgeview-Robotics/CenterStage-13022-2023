@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.Systems.General.TeleOps;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Systems.General.Robot;
@@ -31,6 +33,7 @@ import org.firstinspires.ftc.teamcode.Systems.hanging.HangServo;
 
 */
 
+
 @TeleOp(name="FullSystemDriving")
 public class FullSystemDriving extends OpMode {
 
@@ -49,6 +52,9 @@ public class FullSystemDriving extends OpMode {
         timer = new ElapsedTime();
         rainbow = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE;
         robot.lights.setPattern(rainbow);
+//        robot.hangMotor.stopAndReset();
+//        robot.hangMotor.runToPosMode();
+
 
         robot.primeDrone();
         robot.setBoxIntake();
@@ -158,14 +164,41 @@ public class FullSystemDriving extends OpMode {
 
 
         //hanging
-        if(gamepad1.share){
-            robot.hangServo.togglePosition();
-        }
+//        if(gamepad1.share){
+//            robot.drive.stopAndReset();
+//            robot.drive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            robot.hangServo.setRaisedPosition();
+//            robot.hangMotor.setFloat();
+//            robot.hangMotor.setTarget(robot.hangMotor.getHangPos());
+//            robot.lift.setYawPower(0.5);
+//            robot.lift.setOutboardPower(0.1);
+//            robot.hangMotor.setHangMotorPower(1.0);
+//            robot.drive.setMotorPower(0.3, 0.3, 0.3, 0.3);
+//            robot.drive.setDriveTarget(12);
+//            while(robot.drive.isBusy()){
+//
+//            }
+//            robot.drive.setDriveTarget(-6);
+//            while(robot.drive.isBusy()){
+//
+//            }
+//            robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.HANG_TARGET_POS, CombineLiftC.yawPositions.HANG_POS, CombineLiftC.yawPositions.CLEAR);
+//            robot.boxServo.setBoxHang();
+//            robot.drive.setDriveTarget(16);
+//            while(robot.drive.isBusy()){
+//
+//            }
+//            robot.hangServo.setDownPosition();
+//            robot.lift.setOutboardTargetBasic(robot.lift.getOutboardPos() - 150);
+//            robot.hangMotor.setHangtoHang();
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//            robot.lift.setOutboardTargetPos(CombineLiftC.outboardPositions.HANG_TARGET_POS);
+//        }
 
-        if(gamepad1.options){
-            robot.hangMotor.setHangtoHang();
-            robot.lift.setOutboardTargetPos(CombineLiftC.outboardPositions.HANG_TARGET_POS);
-        }
 
 
 

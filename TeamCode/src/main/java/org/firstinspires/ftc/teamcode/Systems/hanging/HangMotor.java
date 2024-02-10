@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Systems.hanging;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Systems.General.RREMX;
@@ -26,7 +27,7 @@ public class HangMotor {
         hangMotor.runUsingEncoderMode();
     }
 
-    public double getHangPos(){
+    public int getHangPos(){
         return hangMotor.getPos();
     }
 
@@ -42,4 +43,15 @@ public class HangMotor {
         return hangMotor.getPower();
     }
 
+    public void setTarget(int target){
+        hangMotor.setTargetPos(target);
+    }
+
+    public void setFloat(){
+        hangMotor.brakeMode(DcMotor.ZeroPowerBehavior.FLOAT);
+    }
+
+    public void stopAndReset(){
+        hangMotor.stopAndReset();
+    }
 }

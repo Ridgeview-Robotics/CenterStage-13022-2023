@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.Systems.Lift;
 
 import static java.lang.Thread.sleep;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Systems.General.RREMX;
 
+@Config
 public class CombineLiftC extends BasicLift {
 
     public RREMX outboard;
@@ -26,7 +28,9 @@ public class CombineLiftC extends BasicLift {
     public static final int outboardAutoPos = 345;
     public static final int outboardMiddlePos = 1000;
     public static final int outboardHighestPos = 1950;
-    public static final int outboardHangingPos = 100;
+    public static final int outboardHangingPos = 1338;
+    public static int outboardHighHangPos = 1950;
+    public static int yawHangPos = 1455;
 
 
     public int mLBoundary = 100;
@@ -42,6 +46,7 @@ public class CombineLiftC extends BasicLift {
     public enum yawPositions{
         DOWN(yawDownPos),
         CLEAR(yawClearPos),
+        HANG_POS(yawHangPos),
         SCORE(yawScorePos);
 
         private final int yawPosition;
@@ -61,6 +66,7 @@ public class CombineLiftC extends BasicLift {
         HANG_TARGET_POS(outboardHangingPos),
         FIRST_LINE(outboardFirstLinePos),
         MIDDLE(outboardMiddlePos),
+        HIGH_HANG_TARGET(outboardHighHangPos),
         HIGHEST(outboardHighestPos);
 
         private final int outboardPosition;
@@ -136,6 +142,10 @@ public class CombineLiftC extends BasicLift {
 
     public void setYawTargetPos(yawPositions yawTarget){
         yaw.setTargetPos(yawTarget.getYawPosition());
+    }
+
+    public void setOutboardTargetBasic(int ticks){
+        outboard.setTargetPos(ticks);
     }
 
     public void yawClearanceCkr(){

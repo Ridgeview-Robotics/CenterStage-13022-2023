@@ -12,6 +12,10 @@ public class Drive {
     private final DcMotorEx rightFrontDrive;
     private final DcMotorEx rightBackDrive;
 
+    private final double mTicksPerRev = 383.6;
+
+    private final double mWheelRadius = 1.8898;
+
     public Drive(HardwareMap hardwareMap){
         leftFrontDrive  = hardwareMap.get(DcMotorEx.class, "left_front_drive");
         leftBackDrive  = hardwareMap.get(DcMotorEx.class, "left_back_drive");
@@ -36,8 +40,31 @@ public class Drive {
         rightBackDrive.setPower(rightBack);
     }
 
+    public void setMode(DcMotor.RunMode runMode){
+        leftFrontDrive.setMode(runMode);
+        rightFrontDrive.setMode(runMode);
+        leftBackDrive.setMode(runMode);
+        rightBackDrive.setMode(runMode);
+    }
 
+    public void setDriveTarget(double inches){
+        int ticks = (int) inchesToTicks(inches);
+        leftFrontDrive.setTargetPosition(ticks);
+        rightFrontDrive.setTargetPosition(ticks);
+        leftBackDrive.setTargetPosition(ticks);
+        rightBackDrive.setTargetPosition(ticks);
+    }
 
+    private double inchesToTicks(double inches){
+        return ((inches*mTicksPerRev)/mWheelRadius * 2 * Math.PI);
+    }
 
+    public boolean isBusy(){
+        return leftFrontDrive.isBusy();
+    }
+
+    public void stopAndReset(){
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 
 }

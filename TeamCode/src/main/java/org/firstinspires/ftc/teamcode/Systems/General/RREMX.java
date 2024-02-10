@@ -92,5 +92,13 @@ public class RREMX {
     public void runToPositionMode(){
         rcsMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
+
+    public void brakeMode(DcMotor.ZeroPowerBehavior zeroPowerBehavior){
+        rcsMotor.setZeroPowerBehavior(zeroPowerBehavior);
+    }
+
+    public void stopAndReset(){
+        rcsMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 }
 

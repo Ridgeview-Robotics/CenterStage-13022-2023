@@ -22,7 +22,7 @@ public class Robot {
 
     public CombineLiftC lift;
     public Drive drive;
-    BoxServo boxServo;
+    public BoxServo boxServo;
     TrapdoorServo trapdoorServo;
     Intake intake;
     Flywheels drone;

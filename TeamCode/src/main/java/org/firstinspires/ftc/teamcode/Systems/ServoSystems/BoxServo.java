@@ -10,6 +10,8 @@ public class BoxServo {
     double score = 0.8089;
     double storage = 0.39;
 
+    double hangPos = 0.5988;
+
     public BoxServo(HardwareMap hardwareMap){
         boxServo = hardwareMap.get(Servo.class, "boxServo");
     }
@@ -24,6 +26,10 @@ public class BoxServo {
     }
 
     public void setBoxStorage(){boxServo.setPosition(storage);}
+
+    public void setBoxHang(){
+        boxServo.setPosition(hangPos);
+    }
     public void setPosition(double boxPosition){
         boxServo.setPosition(boxPosition);
     }

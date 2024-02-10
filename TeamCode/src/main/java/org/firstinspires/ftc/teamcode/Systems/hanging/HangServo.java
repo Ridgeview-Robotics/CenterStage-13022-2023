@@ -10,10 +10,10 @@ public class HangServo {
     Servo servo;
     ElapsedTime timer;
 
-    public static double downPosition ;
+    public static double downPosition = 0.598;
     public hangPositions mDesiredPosition;
 
-    public static double raisedPosition;
+    public static double raisedPosition = 0.775;
 
     public enum hangPositions{
         DOWN(downPosition),
