@@ -53,7 +53,7 @@ public class BlueLeft1 extends LinearOpMode {
         //Building Traj sequence
 
         //This is the starting position
-        TrajectorySequenceBuilder rightRedSBuilder = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(11.49, -63.40, Math.toRadians(90.00)));
+        TrajectorySequenceBuilder rightRedSBuilder = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(11.49, 63.40, Math.toRadians(90.00)));
 
         //Vision Section
         if(mPropLoc == PROP_LOC.LEFT)
@@ -68,7 +68,6 @@ public class BlueLeft1 extends LinearOpMode {
         {
             rightRedSBuilder.lineToLinearHeading(new Pose2d(14.76, 42.93, Math.toRadians(219.51)));
             rightRedSBuilder.splineTo(new Vector2d(7.53, 38.11), Math.toRadians(219.88));
-
         }
 
         //Spit the pixel out

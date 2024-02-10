@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Systems.General.Robot;
 
 public class TrapdoorServo {
     Servo trapdoorServo;
@@ -12,6 +13,7 @@ public class TrapdoorServo {
     Telemetry mTelemetry;
 
     ElapsedTime timer;
+
 
     public static double mTrapdoorOpen = 0.809;
     private static final double mPosError = 0.01;
@@ -59,8 +61,6 @@ public class TrapdoorServo {
         timer.reset();
         mDesiredPosition = trapdoorPosition;
         trapdoorServo.setPosition(trapdoorPosition.getPosition());
-
-
     }
     public double getPosition(){
         return trapdoorServo.getPosition();
@@ -86,9 +86,11 @@ public class TrapdoorServo {
     public void togglePosition(){
         if(timer.milliseconds() > 500){
             if(mDesiredPosition == trapdoorPositions.CLOSED) {
+                Robot.mTrapdoorPos = trapdoorPositions.OPEN;
                 LSetPosition(trapdoorPositions.OPEN);
             }
             else {
+                Robot.mTrapdoorPos = trapdoorPositions.CLOSED;
                 LSetPosition(trapdoorPositions.CLOSED);
             }
         }

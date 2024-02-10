@@ -26,12 +26,14 @@ public class CombineLiftC extends BasicLift {
     public static final int outboardAutoPos = 345;
     public static final int outboardMiddlePos = 1000;
     public static final int outboardHighestPos = 1950;
+    public static final int outboardHangingPos = 100;
 
 
     public int mLBoundary = 100;
-    public int mHBoundary = 1200;
+    public int mHBoundary = 800;
     public yawPositions mBoundaryPosition;
     public boolean mCheckerPos;
+    public outboardPositions mNOutPosition;
     ElapsedTime timer;
 
     public yawPositions mYawPosition;
@@ -56,6 +58,7 @@ public class CombineLiftC extends BasicLift {
     public enum outboardPositions{
         DOWN(outboardRetractedPos),
         AUTO_POS(outboardAutoPos),
+        HANG_TARGET_POS(outboardHangingPos),
         FIRST_LINE(outboardFirstLinePos),
         MIDDLE(outboardMiddlePos),
         HIGHEST(outboardHighestPos);

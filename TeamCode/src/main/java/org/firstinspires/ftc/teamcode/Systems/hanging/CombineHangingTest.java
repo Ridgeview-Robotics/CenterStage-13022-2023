@@ -41,5 +41,9 @@ public class CombineHangingTest extends OpMode {
             hangMotor.setHangMotorPower(0.0);
         }
 
+
+        telemetry.addLine("Outboard Encoder Position: " + lift.getOutboardPos());
+        telemetry.addLine("Yaw Encoder Position: " + lift.getYawPos());
+        telemetry.addLine("Lift Encoder Position: " + hangMotor.getHangPos());
     }
 }

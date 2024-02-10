@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Systems.General.Autos.Stage2;
+package org.firstinspires.ftc.teamcode.Systems.General.Autos.Stage3;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 
-@Autonomous(name = "Blue Left(st2)")
-public class BlueLeft2 extends LinearOpMode {
+@Autonomous(name = "Blue Left(st3)")
+public class BlueLeft3 extends LinearOpMode {
     private enum ROBOT_STATE{
         SEE,
         SCORING,
@@ -56,7 +56,7 @@ public class BlueLeft2 extends LinearOpMode {
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
-            blueLeftSequenceBuilder.splineTo(new Vector2d(8.38, 37.00), Math.toRadians(-89.44));
+            blueLeftSequenceBuilder.splineTo(new Vector2d(8.38, 33.48), Math.toRadians(-89.44));
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
@@ -124,6 +124,107 @@ public class BlueLeft2 extends LinearOpMode {
             mRobot.lift.setYawClearance();
         });
 
+        blueLeftSequenceBuilder.waitSeconds(0.35);
+
+        blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.5, 38.51, Math.toRadians(180.00)));
+        //Line away from Drop Board
+        blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(34.63, 5.00, Math.toRadians(180.00)));
+
+        blueLeftSequenceBuilder.waitSeconds(0.1);
+
+        //Line to Pixel line
+        blueLeftSequenceBuilder.lineTo(new Vector2d(-58.00, 12.00));
+
+        blueLeftSequenceBuilder.waitSeconds(0.5);
+
+        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+            mRobot.setYawDown();
+        });
+
+        blueLeftSequenceBuilder.waitSeconds(0.5);
+
+        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, ()->{
+        mRobot.setIntakeSpeed(0.75);
+        });
+
+        blueLeftSequenceBuilder.lineTo(new Vector2d(-60.00, 12.90));
+
+       blueLeftSequenceBuilder.waitSeconds(0.225);
+
+        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset( 0,() ->{
+            mRobot.setIntakeSpeed(-0.75);
+        });
+
+        blueLeftSequenceBuilder.waitSeconds(1.0);
+
+        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+            mRobot.setIntakeSpeed(0);
+            mRobot.lift.setYawClearance();
+        });
+
+
+        blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(34.63, 12.72, Math.toRadians(180.00)));
+
+        //less burnout
+        TrajectoryAccelerationConstraint trajConstraint = new ProfileAccelerationConstraint(25);
+        blueLeftSequenceBuilder.setAccelConstraint(trajConstraint);
+
+        //drive back toward board
+        if(mPropLoc == PROP_LOC.LEFT)
+        {
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 41.6, Math.toRadians(180.0)));
+        }
+        else if(mPropLoc == PROP_LOC.CENTER)
+        {
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 36.51, Math.toRadians(180.0)));
+        }
+        else if(mPropLoc == PROP_LOC.RIGHT)
+        {
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 36.51, Math.toRadians(180.0)));
+        }
+
+        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, ()-> {
+            mRobot.setIntakeSpeed(0.5);
+        });
+
+        //raise yaw
+        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+            mRobot.setYawScore();
+            mRobot.setTrapdoorClosed();
+        });
+
+
+        //drive to actual board
+        blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(52.5, 36.51, Math.toRadians(180.00)));
+
+        blueLeftSequenceBuilder.resetAccelConstraint();
+
+        //INSERT SCORING HERE  DONE
+
+        //Raise arm
+        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+            mRobot.setBoxScore();
+            mRobot.lift.setOutboardAutoPos();
+        });
+
+        blueLeftSequenceBuilder.waitSeconds(1.0);
+
+        //Open trap door to score
+        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+            mRobot.setTrapdoorOpen();
+        });
+
+        blueLeftSequenceBuilder.waitSeconds(0.5);
+
+        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+           mRobot.setBoxIntake();
+           mRobot.setOutboardRetracted();
+           mRobot.lift.setYawClearance();
+        });
+
+        blueLeftSequenceBuilder.waitSeconds(0.5);
+
+
         blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(52.5, 40.51, Math.toRadians(180.00)));
         //drive out to get to parking line
         blueLeftSequenceBuilder.lineTo(new Vector2d(50.00, 63.00));
@@ -175,7 +276,7 @@ public class BlueLeft2 extends LinearOpMode {
     {
         mPipeline   = new SignalDetector(hardwareMap, telemetry, true);
         mRobot      = new Robot(telemetry, hardwareMap, false);
-        mPropLoc    = PROP_LOC.CENTER;
+        mPropLoc    = PROP_LOC.NONE;
         mRobotState = ROBOT_STATE.SEE;
         mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
     }

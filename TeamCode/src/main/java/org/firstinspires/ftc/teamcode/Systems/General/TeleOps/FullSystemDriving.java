@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Systems.General.Robot;
 import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
+import org.firstinspires.ftc.teamcode.Systems.ServoSystems.TrapdoorServo;
+import org.firstinspires.ftc.teamcode.Systems.hanging.HangServo;
 
 /*         Intake Exhume                        Intake Intake
              _=====_                               _=====_
@@ -96,7 +98,7 @@ public class FullSystemDriving extends OpMode {
 
         //lift to high
         if(gamepad1.dpad_up){
-            robot.setTrapdoorClosed();
+            robot.setTrapdoor(TrapdoorServo.trapdoorPositions.CLOSED);
             robot.setBoxScore();
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.HIGHEST, CombineLiftC.yawPositions.SCORE, CombineLiftC.yawPositions.CLEAR);
         }
@@ -119,6 +121,7 @@ public class FullSystemDriving extends OpMode {
         if(gamepad1.dpad_down){
             robot.setTrapdoorClosed();
             robot.setBoxScore();
+            robot.setTrapdoor(TrapdoorServo.trapdoorPositions.OPEN);
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.SCORE, CombineLiftC.yawPositions.CLEAR);
         }
 
@@ -131,19 +134,16 @@ public class FullSystemDriving extends OpMode {
         //set box down
         if(gamepad1.x){
             robot.setBoxIntake();
-            robot.setTrapdoorOpen();
+            robot.setTrapdoor(TrapdoorServo.trapdoorPositions.OPEN);
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.DOWN, CombineLiftC.yawPositions.CLEAR);
         }
 
         //drone launching
-        if(gamepad1.dpad_left){
+        if(gamepad1.ps){
             robot.shootDrone();
         }
 
-        //hanging system
-        if(gamepad1.dpad_right){
-            //hang things here
-        }
+
 
         //sets intake correct directions
         if(gamepad1.right_trigger > 0.0){
@@ -154,6 +154,17 @@ public class FullSystemDriving extends OpMode {
         }
         else{
             robot.setIntakeSpeed(0);
+        }
+
+
+        //hanging
+        if(gamepad1.share){
+            robot.hangServo.togglePosition();
+        }
+
+        if(gamepad1.options){
+            robot.hangMotor.setHangtoHang();
+            robot.lift.setOutboardTargetPos(CombineLiftC.outboardPositions.HANG_TARGET_POS);
         }
 
 

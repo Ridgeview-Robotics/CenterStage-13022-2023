@@ -2,15 +2,33 @@ package org.firstinspires.ftc.teamcode.Systems.hanging;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.Systems.ServoSystems.TrapdoorServo;
 
 public class HangServo {
     Servo servo;
+    ElapsedTime timer;
 
-    public double downPosition;
+    public static double downPosition;
+    public hangPositions mDesiredPosition;
 
-    public double raisedPosition;
+    public static double raisedPosition;
 
-    public double pullOffPosition;
+    public enum hangPositions{
+        DOWN(downPosition),
+        RAISED(raisedPosition);
+
+        private final double position;
+
+        hangPositions(final double newPosition){
+            position = newPosition;
+        }
+
+        private double getPosition(){
+            return position;
+        }
+    }
 
     public HangServo(HardwareMap hardwareMap){
         servo = hardwareMap.get(Servo.class, "liftingServo");
@@ -32,8 +50,26 @@ public class HangServo {
         servo.setPosition(raisedPosition);
     }
 
-    public void setPullOffPosition(){
-        servo.setPosition(pullOffPosition);
+    public void LSetPosition(hangPositions hangPositions){
+        timer.reset();
+        mDesiredPosition = hangPositions;
+        servo.setPosition(hangPositions.getPosition());
+
+
     }
+
+    public void togglePosition(){
+        if(timer.milliseconds() > 500){
+            if(mDesiredPosition == hangPositions.DOWN) {
+                LSetPosition(hangPositions.RAISED);
+            }
+            else {
+                LSetPosition(hangPositions.DOWN);
+            }
+        }
+//        mIsAtDesiredPosition = false;
+
+    }
+
 
 }

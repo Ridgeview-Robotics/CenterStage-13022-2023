@@ -4,7 +4,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Systems.General.RREMX;
 
+
 public class HangMotor {
+
+    public int hangTargetPosition;
     RREMX hangMotor;
 
     public HangMotor(HardwareMap hardwareMap){
@@ -21,6 +24,18 @@ public class HangMotor {
 
     public void runWithEncoderMode(){
         hangMotor.runUsingEncoderMode();
+    }
+
+    public double getHangPos(){
+        return hangMotor.getPos();
+    }
+
+    public void setHangTargetPosition(int Position){
+        hangMotor.setTargetPos(Position);
+    }
+
+    public void setHangtoHang(){
+        setHangTargetPosition(hangTargetPosition);
     }
 
 }

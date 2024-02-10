@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -14,8 +15,9 @@ import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 
-@Autonomous(name = "Blue Left(st2)")
-public class BlueLeft2 extends LinearOpMode {
+@Disabled
+@Autonomous(name = "Name")
+public class Stage2 extends LinearOpMode {
     private enum ROBOT_STATE{
         SEE,
         SCORING,
@@ -48,109 +50,106 @@ public class BlueLeft2 extends LinearOpMode {
 
     private void setupSequence()
     {
-        TrajectorySequenceBuilder blueLeftSequenceBuilder = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(11.49, 63.40, Math.toRadians(270.00)));
+        TrajectorySequenceBuilder SequenceBuilder = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(11.49, -63.40, Math.toRadians(90.00)));
 
         if(mPropLoc == PROP_LOC.LEFT)
         {
-            blueLeftSequenceBuilder.splineTo(new Vector2d(20.09, 43.23), Math.toRadians(-69.08));
+            SequenceBuilder.lineToLinearHeading(new Pose2d(14.01, -44.71, Math.toRadians(137.15)));
+            SequenceBuilder.splineTo(new Vector2d(9.86, -40.86), Math.toRadians(137.35));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
-            blueLeftSequenceBuilder.splineTo(new Vector2d(8.38, 37.00), Math.toRadians(-89.44));
+            SequenceBuilder.splineTo(new Vector2d(13.57, -33.81), Math.toRadians(83.21));
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
-            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(14.76, 42.93, Math.toRadians(219.51)));
-            blueLeftSequenceBuilder.splineTo(new Vector2d(7.53, 38.11), Math.toRadians(219.88));
+            SequenceBuilder.splineTo(new Vector2d(22.50, -45.87), Math.toRadians(88.95));
+
         }
 
         //Spit the pixel out
-        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setIntakeSpeed(-0.3);
+        SequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+            mRobot.setIntakeSpeed(-0.2);
             mRobot.setTrapdoorClosed();
         });
 
-        blueLeftSequenceBuilder.waitSeconds(0.45);
+        SequenceBuilder.waitSeconds(0.5);
 
         //Stop the intake flippers
-        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+        SequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setIntakeSpeed(0);
         });
 
         //Move backwards to clear the bot of any pixel that has been placed
-        blueLeftSequenceBuilder.lineTo(new Vector2d(21.67, 51.72));
+        SequenceBuilder.lineTo(new Vector2d(21.67, -51.72));
 
         //Rotate yaw
-        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+        SequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setYawScore();
         });
 
         //Move to the front of the score board
         if(mPropLoc == PROP_LOC.LEFT)
         {
-            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.5, 31.50, Math.toRadians(180.0)));
+            SequenceBuilder.lineToLinearHeading(new Pose2d(51.5, -31.50, Math.toRadians(180.0)));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
-            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 37.51, Math.toRadians(180.0)));
+            SequenceBuilder.lineToLinearHeading(new Pose2d(51.2, -37.51, Math.toRadians(180.0)));
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
-            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 41.6, Math.toRadians(180.0)));
+            SequenceBuilder.lineToLinearHeading(new Pose2d(51.2, -41.6, Math.toRadians(180.0)));
         }
 
         //Raise arm
-        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+        SequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setBoxScore();
         });
 
-        blueLeftSequenceBuilder.waitSeconds(0.875);
+        SequenceBuilder.waitSeconds(1.0);
 
         //Open trap door to score
-        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+        SequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setTrapdoorOpen();
         });
 
-        blueLeftSequenceBuilder.waitSeconds(0.45);
+        SequenceBuilder.waitSeconds(0.5);
 
-        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+        SequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobot.setBoxIntake();
             mRobot.setOutboardRetracted();
         });
 
-        blueLeftSequenceBuilder.waitSeconds(0.1);
+        SequenceBuilder.waitSeconds(0.2);
 
-        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+        SequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobot.lift.setYawClearance();
         });
 
-        blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(52.5, 40.51, Math.toRadians(180.00)));
         //drive out to get to parking line
-        blueLeftSequenceBuilder.lineTo(new Vector2d(50.00, 63.00));
-
-
+        SequenceBuilder.lineTo(new Vector2d(52.00, -63.00));
 
         //line to get to parking
-        blueLeftSequenceBuilder.lineTo(new Vector2d(63.00, 63.00));
+        SequenceBuilder.lineTo(new Vector2d(63.00, -63.00));
 
-        blueLeftSequenceBuilder.waitSeconds(0.2);
+        SequenceBuilder.waitSeconds(0.2);
 
-        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+        SequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobot.setYawDown();
         });
 
-        blueLeftSequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+        SequenceBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobotState = ROBOT_STATE.AUTO_END;
-                });
+        });
 
-
-        mTS = blueLeftSequenceBuilder.build();
+        mTS = SequenceBuilder.build();
     }
 
     private void detectObject()
     {
         sleep(100);
-        String loc = mPipeline.getBluePropLocation();
+        String loc = mPipeline.getRedPropLocation();
         if (loc == "Left"){
             mPropLoc = PROP_LOC.LEFT;
         }
@@ -175,7 +174,7 @@ public class BlueLeft2 extends LinearOpMode {
     {
         mPipeline   = new SignalDetector(hardwareMap, telemetry, true);
         mRobot      = new Robot(telemetry, hardwareMap, false);
-        mPropLoc    = PROP_LOC.CENTER;
+        mPropLoc    = PROP_LOC.NONE;
         mRobotState = ROBOT_STATE.SEE;
         mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
     }
@@ -187,9 +186,6 @@ public class BlueLeft2 extends LinearOpMode {
 
         telemetry.addLine("Here we go");
         telemetry.update();
-
-
-
 
         waitForStart();
 
@@ -219,7 +215,5 @@ public class BlueLeft2 extends LinearOpMode {
             telemetry.addLine("Current Time: " + timer.seconds());
             telemetry.update();
         }
-
-
     }
 }

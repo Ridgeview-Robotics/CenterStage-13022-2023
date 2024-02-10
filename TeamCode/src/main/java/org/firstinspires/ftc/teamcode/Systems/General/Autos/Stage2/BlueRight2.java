@@ -2,29 +2,25 @@ package org.firstinspires.ftc.teamcode.Systems.General.Autos.Stage2;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Systems.General.Robot;
+import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 
-import java.util.List;
-
-import kotlin.collections.ArrayDeque;
 @Autonomous(name = "Blue Right(st2)")
 public class BlueRight2 extends LinearOpMode {
-
     private enum ROBOT_STATE{
         SEE,
-        TO_DROP,
-        RUNNING,
-        DROP,
-        RETURN_AND_PARK,
-        IDLE
-
-
+        SCORING,
+        AUTO_END
     }
 
     private enum PROP_LOC{
@@ -46,62 +42,116 @@ public class BlueRight2 extends LinearOpMode {
 
     private PROP_LOC mPropLoc;
     private SignalDetector mPipeline;
-    Robot mRobot;
 
+    public Robot mRobot;
     ROBOT_STATE mRobotState;
-    boolean mIsRoadRunning;
-    List<TrajectorySequence> mDropPixelSequences;
-    List<TrajectorySequence> mOffToScoringSequences;
-    List <TrajectorySequence> mReturnAndParkSequences;
+    TrajectorySequence mTS;
+
+    private void setupSequence()
+    {
+        TrajectorySequenceBuilder blueRightBuilder = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(11.49, -63.40, Math.toRadians(90.00)));
+
+        //Vision Section
+        if(mPropLoc == PROP_LOC.LEFT)
+        {
+           blueRightBuilder.lineToLinearHeading(new Pose2d(-37.30, 47.23, Math.toRadians(307.41)));
+           blueRightBuilder.lineTo(new Vector2d(-31.22, 39.23));
+
+        }
+        else if(mPropLoc == PROP_LOC.CENTER)
+        {
+            blueRightBuilder.splineTo(new Vector2d(-40.26, 34.92), Math.toRadians(270.00));
+        }
+        else if(mPropLoc == PROP_LOC.RIGHT)
+        {
+            blueRightBuilder.lineToLinearHeading(new Pose2d(14.61, -48.57, Math.toRadians(134.16)));
+            blueRightBuilder.splineTo(new Vector2d(8.08, -40.12), Math.toRadians(141.61));
+
+        }
+
+        //Spit the pixel out
+        blueRightBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+            mRobot.setIntakeSpeed(-0.2);
+        });
+
+        blueRightBuilder.waitSeconds(0.5);
+
+        //Stop the intake flippers
+        blueRightBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+            mRobot.setIntakeSpeed(0);
+        });
 
 
-    ///SEQUENCES HERE///
+        //Move backwards to clear the bot of any pixel that has been placed
+        blueRightBuilder.lineTo(new Vector2d(-48.00, 54.8));
 
-    private void setupDropSequences(){
-        TrajectorySequence leftToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, 64.00, Math.toRadians(270)))
-                .splineTo(new Vector2d(-39.37, 48.57), Math.toRadians(-79.76))
-                .splineTo(new Vector2d(-32.55, 39.08), Math.toRadians(-24.32))
-                .build();
-        mDropPixelSequences.add(leftToPixel);
+        //Rotate yaw
+        blueRightBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+            mRobot.setYawScore();
+        });
 
-        TrajectorySequence centerToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, 64.00, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(-32.55, 34.18), Math.toRadians(268.19))
-                .build();
-        mDropPixelSequences.add(centerToPixel);
+        //Move to the front of the score board
+        if(mPropLoc == PROP_LOC.LEFT)
+        {
+            blueRightBuilder.lineToLinearHeading(new Pose2d(51.5, -31.50, Math.toRadians(180.0)));
+        }
+        else if(mPropLoc == PROP_LOC.CENTER)
+        {
+            blueRightBuilder.lineToLinearHeading(new Pose2d(51.2, -37.51, Math.toRadians(180.0)));
+        }
+        else if(mPropLoc == PROP_LOC.RIGHT)
+        {
+            blueRightBuilder.lineToLinearHeading(new Pose2d(51.2, -41.6, Math.toRadians(180.0)));
+        }
 
-        TrajectorySequence rightToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, 64.00, Math.toRadians(-89.14)))
-                .splineTo(new Vector2d(-44.56, 43.23), Math.toRadians(250.07))
-                .build();
-        mDropPixelSequences.add(rightToPixel);
+        //Raise arm
+        blueRightBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+            mRobot.setBoxScore();
+        });
+
+        blueRightBuilder.waitSeconds(1.0);
+
+        //Open trap door to score
+        blueRightBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+            mRobot.setTrapdoorOpen();
+        });
+
+        blueRightBuilder.waitSeconds(0.5);
+
+        blueRightBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+            mRobot.setBoxIntake();
+            mRobot.setOutboardRetracted();
+        });
+
+        blueRightBuilder.waitSeconds(0.2);
+
+        blueRightBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+            mRobot.lift.setYawClearance();
+        });
+
+        //drive out to get to parking line
+        blueRightBuilder.lineTo(new Vector2d(52.00, -63.00));
+
+        //line to get to parking
+        blueRightBuilder.lineTo(new Vector2d(63.00, -63.00));
+
+        blueRightBuilder.waitSeconds(0.2);
+
+        blueRightBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+            mRobot.setYawDown();
+        });
+
+        blueRightBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
+            mRobotState = ROBOT_STATE.AUTO_END;
+        });
+
+        mTS = blueRightBuilder.build();
     }
 
-    private void setupParkSequences(){
-        TrajectorySequence leftToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-32.55, 39.08, Math.toRadians(-24.32)))
-                .lineTo(new Vector2d(-53.61, 36.85))
-                .splineTo(new Vector2d(-44.56, 13.27), Math.toRadians(-69.50))
-                .splineTo(new Vector2d(61.62, 12.53), Math.toRadians(0.00))
-                .build();
-        mReturnAndParkSequences.add(leftToPark);
-
-        TrajectorySequence centerToBackStage = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-32.55, 34.18, Math.toRadians(268.19)))
-                .lineTo(new Vector2d(-52.72, 38.78))
-                .splineTo(new Vector2d(-53.61, 19.80), Math.toRadians(266.82))
-                .splineTo(new Vector2d(61.32, 13.42), Math.toRadians(0.00))
-                .build();
-        mReturnAndParkSequences.add(centerToBackStage);
-
-        TrajectorySequence rightToPark = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-44.56, 43.23, Math.toRadians(250.07)))
-                .lineTo(new Vector2d(-31.81, 39.08))
-                .splineTo(new Vector2d(-38.34, 20.98), Math.toRadians(250.62))
-                .splineTo(new Vector2d(61.77, 13.72), Math.toRadians(0.00))
-                .build();
-        mReturnAndParkSequences.add(rightToPark);
-
-    }
-
-    private void detectObject(){
+    private void detectObject()
+    {
         sleep(100);
-        String loc = mPipeline.getBluePropLocation();
+        String loc = mPipeline.getRedPropLocation();
         if (loc == "Left"){
             mPropLoc = PROP_LOC.LEFT;
         }
@@ -116,46 +166,25 @@ public class BlueRight2 extends LinearOpMode {
         }
 
         if(mPropLoc != PROP_LOC.NONE){
-            mRobotState = ROBOT_STATE.TO_DROP;
+            //mRobotState = ROBOT_STATE.SCORING;
         }
-
-    }
-    public void dropPixel(){
-        mRobot.setIntakeSpeed(-0.2);
-        sleep(500);
-        mRobot.setIntakeSpeed(0);
-        mRobotState = ROBOT_STATE.RETURN_AND_PARK;
+        telemetry.addLine("Loc: " + mPropLoc);
+        telemetry.update();
     }
 
-    private void toDrop(){
-        TrajectorySequence toDrop = mDropPixelSequences.get(mPropLoc.getLocation());
-        mRobot.autoDrive.setPoseEstimate(toDrop.start());
-        mRobot.autoDrive.followTrajectorySequence(toDrop);
-        mIsRoadRunning = true;
-    }
-
-    private void returnAndPark(){
-        TrajectorySequence toPark = mReturnAndParkSequences.get(mPropLoc.getLocation());
-        mRobot.autoDrive.setPoseEstimate(toPark.start());
-        mRobot.autoDrive.followTrajectorySequence(toPark);
-        mIsRoadRunning = true;
-    }
-
-    @Override
-    public void runOpMode() throws InterruptedException {
-
-        mPipeline = new SignalDetector(hardwareMap, telemetry, false);
-        mRobot = new Robot(telemetry, hardwareMap, false);
-
-        mDropPixelSequences = new ArrayDeque<TrajectorySequence>();
-        setupDropSequences();
-        mReturnAndParkSequences = new ArrayDeque<TrajectorySequence>();
-        setupParkSequences();
-
-        mPropLoc = PROP_LOC.NONE;
+    private void initializeOpMode()
+    {
+        mPipeline   = new SignalDetector(hardwareMap, telemetry, true);
+        mRobot      = new Robot(telemetry, hardwareMap, false);
+        mPropLoc    = PROP_LOC.NONE;
         mRobotState = ROBOT_STATE.SEE;
+        mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
+    }
+    @Override
+    public void runOpMode() throws InterruptedException
+    {
+        initializeOpMode();
         ElapsedTime timer = new ElapsedTime();
-
 
         telemetry.addLine("Here we go");
         telemetry.update();
@@ -164,57 +193,29 @@ public class BlueRight2 extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-
-
         ///////////////GAME START////////////////////////////////
 
-        while (opModeIsActive()){
-
-            if(mIsRoadRunning){
-                if(!mRobot.autoDrive.isBusy()){
-                    switch(mRobotState){
-                        case TO_DROP:
-                            mRobotState = ROBOT_STATE.DROP;
-                            break;
-                        case RETURN_AND_PARK:
-                            mRobotState = ROBOT_STATE.IDLE;
-                            break;
-                    }
-                    mIsRoadRunning = false;
-                }
-            }
-            else {
-
-                switch (mRobotState) {
-                    case SEE:
+        while (opModeIsActive())
+        {
+            switch (mRobotState)
+            {
+                case SEE:
+                    while(mPropLoc == PROP_LOC.NONE)
                         detectObject();
-                        break;
-                    case TO_DROP:
-                        toDrop();
-                        break;
-                    case DROP:
-                        dropPixel();
-                        break;
-                    case RETURN_AND_PARK:
-                        returnAndPark();
-                        break;
-                    case IDLE:
-                        mRobot.autoDrive.setMotorPowers(0,0,0,0);
 
-                }
+                    setupSequence();
+                    mRobot.autoDrive.setPoseEstimate(mTS.start());
+                    mRobot.autoDrive.followTrajectorySequence(mTS);
+                    mRobotState = ROBOT_STATE.AUTO_END;
+                    break;
+                case AUTO_END:
+                    //We are done!
+                    break;
             }
-
             telemetry.addLine("Prop Location: " + mPipeline.getRedPropLocation());
             telemetry.addLine("Robot State: " + mRobotState);
-            telemetry.addLine("Is Roadrunner Running: " + mIsRoadRunning);
             telemetry.addLine("Current Time: " + timer.seconds());
             telemetry.update();
-
-
         }
-
-
     }
-
 }
-

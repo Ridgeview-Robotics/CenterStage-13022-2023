@@ -57,7 +57,7 @@ public class RedRight3 extends LinearOpMode {
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
-            rightRedSBuilder.splineTo(new Vector2d(13.57, -33.81), Math.toRadians(83.21));
+            rightRedSBuilder.splineTo(new Vector2d(13.57, -35.81), Math.toRadians(83.21));
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
@@ -67,11 +67,11 @@ public class RedRight3 extends LinearOpMode {
 
         //Spit the pixel out
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setIntakeSpeed(-0.2);
+            mRobot.setIntakeSpeed(-0.3);
             mRobot.setTrapdoorClosed();
         });
 
-        rightRedSBuilder.waitSeconds(0.5);
+        rightRedSBuilder.waitSeconds(0.45);
 
         //Stop the intake flippers
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -105,41 +105,44 @@ public class RedRight3 extends LinearOpMode {
             mRobot.setBoxScore();
         });
 
-        rightRedSBuilder.waitSeconds(1.0);
+        rightRedSBuilder.waitSeconds(0.875);
 
         //Open trap door to score
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
             mRobot.setTrapdoorOpen();
         });
 
-        rightRedSBuilder.waitSeconds(0.5);
+        rightRedSBuilder.waitSeconds(0.45);
 
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobot.setBoxIntake();
             mRobot.setOutboardRetracted();
         });
 
-        rightRedSBuilder.waitSeconds(0.2);
+        rightRedSBuilder.waitSeconds(0.1);
 
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobot.lift.setYawClearance();
         });
 
-        rightRedSBuilder.waitSeconds(0.5);
+        rightRedSBuilder.waitSeconds(0.35);
 
+        rightRedSBuilder.lineToLinearHeading(new Pose2d(51.5, -38.51, Math.toRadians(180.00)));
         //Line away from Drop Board
         rightRedSBuilder.lineToLinearHeading(new Pose2d(34.63, -12.72, Math.toRadians(180.00)));
 
         rightRedSBuilder.waitSeconds(0.1);
 
         //Line to Pixel line
-        rightRedSBuilder.lineTo(new Vector2d(-58.00, -14.50));
+        rightRedSBuilder.lineTo(new Vector2d(-58.00, -16.50));
 
-        rightRedSBuilder.waitSeconds(0.2);
+        rightRedSBuilder.waitSeconds(0.5);
 
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobot.setYawDown();
         });
+
+        rightRedSBuilder.waitSeconds(0.5);
 
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, ()->{
         mRobot.setIntakeSpeed(0.75);
@@ -147,7 +150,7 @@ public class RedRight3 extends LinearOpMode {
 
         rightRedSBuilder.lineTo(new Vector2d(-60.00, -12.90));
 
-       rightRedSBuilder.waitSeconds(0.8);
+       rightRedSBuilder.waitSeconds(0.225);
 
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset( 0,() ->{
             mRobot.setIntakeSpeed(-0.75);
@@ -157,13 +160,9 @@ public class RedRight3 extends LinearOpMode {
 
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobot.setIntakeSpeed(0);
-        });
-
-        rightRedSBuilder.waitSeconds(0.5);
-
-        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
             mRobot.lift.setYawClearance();
         });
+
 
         rightRedSBuilder.lineToLinearHeading(new Pose2d(34.63, -12.72, Math.toRadians(180.00)));
 
@@ -221,13 +220,17 @@ public class RedRight3 extends LinearOpMode {
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () ->{
            mRobot.setBoxIntake();
            mRobot.setOutboardRetracted();
-            mRobot.lift.setYawClearance();
+           mRobot.lift.setYawClearance();
         });
 
         rightRedSBuilder.waitSeconds(0.5);
 
+
+        rightRedSBuilder.lineToLinearHeading(new Pose2d(52.5, -40.51, Math.toRadians(180.00)));
         //drive out to get to parking line
-        rightRedSBuilder.lineTo(new Vector2d(52.00, -63.00));
+        rightRedSBuilder.lineTo(new Vector2d(50.00, -63.00));
+
+
 
         //line to get to parking
         rightRedSBuilder.lineTo(new Vector2d(63.00, -63.00));

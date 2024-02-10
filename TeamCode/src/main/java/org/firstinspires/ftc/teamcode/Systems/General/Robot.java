@@ -12,6 +12,8 @@ import org.firstinspires.ftc.teamcode.Systems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 import org.firstinspires.ftc.teamcode.Systems.ServoSystems.BoxServo;
 import org.firstinspires.ftc.teamcode.Systems.ServoSystems.TrapdoorServo;
+import org.firstinspires.ftc.teamcode.Systems.hanging.HangMotor;
+import org.firstinspires.ftc.teamcode.Systems.hanging.HangServo;
 import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -26,9 +28,11 @@ public class Robot {
     Flywheels drone;
     SignalDetector signalDetector;
     ElapsedTime timer;
+    public HangServo hangServo;
+    public HangMotor hangMotor;
 
     public RevBlinkinLedDriver lights;
-
+    public static TrapdoorServo.trapdoorPositions mTrapdoorPos = TrapdoorServo.trapdoorPositions.OPEN;
 
     public Robot(Telemetry telemetry, HardwareMap hardwareMap, boolean isAuto){
         autoDrive = new SampleMecanumDrive(hardwareMap);
@@ -40,6 +44,8 @@ public class Robot {
         drone = new Flywheels(hardwareMap);
         lights = hardwareMap.get(RevBlinkinLedDriver.class, "LEDs");
         timer = new ElapsedTime();
+        hangServo = new HangServo(hardwareMap);
+        hangMotor = new HangMotor(hardwareMap);
 
         trapdoorServo.setTrapdoorOpen();
 
@@ -52,6 +58,11 @@ public class Robot {
     public void robotUpdate(){
         trapdoorServo.update();
         lift.yawClearanceCkr();
+        if(lift.mCheckerPos){
+            lift.setOutboardTargetPos(lift.mNOutPosition);
+            trapdoorServo.LSetPosition(mTrapdoorPos);
+        }
+        //;lift update carry position from lift
     }
 
     public void trapdoorTogglePosition(){
@@ -59,6 +70,8 @@ public class Robot {
     }
 
     public void liftWithClearanceCheck(CombineLiftC.outboardPositions nOPos, CombineLiftC.yawPositions nYPos, CombineLiftC.yawPositions nBPos){
+//        lift.mCheckerPos = false;
+        lift.mNOutPosition = nOPos;
        lift.yawStateAssigner(nYPos);
        lift.outboardStateAssigner(nOPos, CombineLiftC.yawPositions.CLEAR);
 
@@ -66,6 +79,11 @@ public class Robot {
 
     public void liftTest(CombineLiftC position){
 
+    }
+
+    public void setTrapdoor(TrapdoorServo.trapdoorPositions position){
+        mTrapdoorPos = position;
+//        trapdoorServo.LSetPosition(position);
     }
 
 
