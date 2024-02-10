@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Systems.General.Robot;
+import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
@@ -16,25 +17,6 @@ import java.util.List;
 import kotlin.collections.ArrayDeque;
 @Autonomous(name = "BlueRight(st1)")
 public class BlueRight1 extends LinearOpMode {
-    ///SEQUENCES HERE///
-
-    /*private void setupDropSequences(){
-        TrajectorySequence leftToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, 64.00, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(-45.31, 47.68), Math.toRadians(-75.53))
-                .splineTo(new Vector2d(-33.44, 38.48), Math.toRadians(-31.94))
-                .build();
-        mDropPixelSequences.add(leftToPixel);
-
-        TrajectorySequence centerToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, 64.00, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(-40.26, 34.92), Math.toRadians(270.00))
-                .build();
-        mDropPixelSequences.add(centerToPixel);
-
-        TrajectorySequence rightToPixel = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, 64.00, Math.toRadians(270.00)))
-                .splineTo(new Vector2d(-47.09, 41.30), Math.toRadians(-89.14))
-                .build();
-        mDropPixelSequences.add(rightToPixel);
-    }*/
 
     private enum ROBOT_STATE{
         SEE,
@@ -71,23 +53,21 @@ public class BlueRight1 extends LinearOpMode {
         //Building Traj sequence
 
         //This is the starting position
-        TrajectorySequenceBuilder blueRightBuilder = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(11.49, -63.40, Math.toRadians(90.00)));
+        TrajectorySequenceBuilder blueRightBuilder = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(-36.00, 64.00, Math.toRadians(270.00)));
 
         //Vision Section
         if(mPropLoc == PROP_LOC.LEFT)
         {
-           blueRightBuilder.lineToLinearHeading(new Pose2d(-37.30, 47.23, Math.toRadians(307.41)));
-           blueRightBuilder.lineTo(new Vector2d(-31.22, 39.23));
-
+           blueRightBuilder.lineToLinearHeading(new Pose2d(-38.93, 43.92, Math.toRadians(-41.78)));
+           blueRightBuilder.splineTo(new Vector2d(-32.08, 39.28), Math.toRadians(-38.29));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
-            blueRightBuilder.splineTo(new Vector2d(-40.26, 34.92), Math.toRadians(270.00));
+            blueRightBuilder.splineTo(new Vector2d(-40.26, 36.92), Math.toRadians(270.00));
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
-            blueRightBuilder.lineToLinearHeading(new Pose2d(14.61, -48.57, Math.toRadians(134.16)));
-            blueRightBuilder.splineTo(new Vector2d(8.08, -40.12), Math.toRadians(141.61));
+            blueRightBuilder.lineToLinearHeading(new Pose2d(-47.09, 41.30, Math.toRadians(-89.14)));
 
         }
 
@@ -104,7 +84,11 @@ public class BlueRight1 extends LinearOpMode {
         });
 
         //Move backwards to clear the bot of any pixel that has been placed
-        blueRightBuilder.lineToLinearHeading(new Pose2d(11.67, -47.72, Math.toRadians(0.0)));
+        blueRightBuilder.lineToLinearHeading(new Pose2d(-36.00, 64.00, Math.toRadians(270.0)));
+
+        blueRightBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+            mRobot.setYawDown();
+        });
 
         //Building the Trajectory
         mTS = blueRightBuilder.build();
@@ -138,8 +122,9 @@ public class BlueRight1 extends LinearOpMode {
     {
         mPipeline   = new SignalDetector(hardwareMap, telemetry, true);
         mRobot      = new Robot(telemetry, hardwareMap, false);
-        mPropLoc    = PROP_LOC.NONE;
+        mPropLoc    = PROP_LOC.CENTER;
         mRobotState = ROBOT_STATE.SEE;
+        mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
     }
     @Override
     public void runOpMode() throws InterruptedException
