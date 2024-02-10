@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Systems.General.Robot;
+import org.firstinspires.ftc.teamcode.Systems.Lift.CombineLiftC;
 import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
@@ -54,11 +55,11 @@ public class RedLeft1 extends LinearOpMode {
 
         if(mPropLoc == PROP_LOC.LEFT)
         {
-            rightRedSBuilder.splineTo(new Vector2d(-43.82, -39.50), Math.toRadians(122.30));
+            rightRedSBuilder.splineTo(new Vector2d(-40.30, -40.50), Math.toRadians(122.30));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
-            rightRedSBuilder.splineTo(new Vector2d(-33.59, -33.74), Math.toRadians(88.93));
+            rightRedSBuilder.splineTo(new Vector2d(-35.59, -36.74), Math.toRadians(90.0));
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
@@ -81,6 +82,10 @@ public class RedLeft1 extends LinearOpMode {
 
         //Move backwards to clear the bot of any pixel that has been placed
         rightRedSBuilder.lineToLinearHeading(new Pose2d(-36.00, -63.00, Math.toRadians(90.00)));
+
+        rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
+           mRobot.setYawDown();
+        });
 
         mTS = rightRedSBuilder.build();
     }
@@ -113,8 +118,9 @@ public class RedLeft1 extends LinearOpMode {
     {
         mPipeline   = new SignalDetector(hardwareMap, telemetry, true);
         mRobot      = new Robot(telemetry, hardwareMap, false);
-        mPropLoc    = PROP_LOC.NONE;
+        mPropLoc    = PROP_LOC.LEFT;
         mRobotState = ROBOT_STATE.SEE;
+        mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
     }
     @Override
     public void runOpMode() throws InterruptedException
