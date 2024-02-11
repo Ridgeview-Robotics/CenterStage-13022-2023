@@ -45,6 +45,8 @@ public class FullSystemDriving extends OpMode {
 
     RevBlinkinLedDriver.BlinkinPattern rainbow;
 
+    public boolean mCanHang = false;
+
 
     @Override
     public void init() {
@@ -104,30 +106,28 @@ public class FullSystemDriving extends OpMode {
 
         //lift to high
         if(gamepad1.dpad_up){
-            robot.setTrapdoor(TrapdoorServo.trapdoorPositions.CLOSED);
+
             robot.setBoxScore();
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.HIGHEST, CombineLiftC.yawPositions.SCORE, CombineLiftC.yawPositions.CLEAR);
         }
 
         //lift to middle
         if(gamepad1.left_bumper){
-            robot.setTrapdoor(TrapdoorServo.trapdoorPositions.CLOSED);
+
             robot.setBoxScore();
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.MIDDLE, CombineLiftC.yawPositions.SCORE, CombineLiftC.yawPositions.CLEAR);
         }
 
         //lift to first line
         if(gamepad1.right_bumper){
-            robot.setTrapdoor(TrapdoorServo.trapdoorPositions.CLOSED);
+
             robot.setBoxScore();
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.FIRST_LINE, CombineLiftC.yawPositions.SCORE, CombineLiftC.yawPositions.CLEAR);
         }
 
         //lift to no extension, score.
         if(gamepad1.dpad_down){
-            robot.setTrapdoor(TrapdoorServo.trapdoorPositions.CLOSED);
             robot.setBoxScore();
-            robot.setTrapdoor(TrapdoorServo.trapdoorPositions.OPEN);
             robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.SCORE, CombineLiftC.yawPositions.CLEAR);
         }
 
@@ -153,10 +153,10 @@ public class FullSystemDriving extends OpMode {
 
         //sets intake correct directions
         if(gamepad1.right_trigger > 0.0){
-            robot.setIntakeSpeed(-gamepad1.right_trigger);
+            robot.setIntakeSpeed(-0.6*gamepad1.right_trigger);
         }
         else if(gamepad1.left_trigger > 0.0) {
-            robot.setIntakeSpeed(0.6*gamepad1.left_trigger);
+            robot.setIntakeSpeed(0.75*gamepad1.left_trigger);
         }
         else{
             robot.setIntakeSpeed(0);
@@ -199,6 +199,47 @@ public class FullSystemDriving extends OpMode {
 //            robot.lift.setOutboardTargetPos(CombineLiftC.outboardPositions.HANG_TARGET_POS);
 //        }
 
+        if(gamepad2.a){
+            robot.hangServo.setRaisedPosition();
+            robot.liftWithClearanceCheck(CombineLiftC.outboardPositions.HIGH_HANG_TARGET, CombineLiftC.yawPositions.HANG_POS, CombineLiftC.yawPositions.CLEAR);
+            robot.boxServo.setBoxHang();
+        }
+
+        //drive here
+
+        //and drive back
+
+        if(gamepad2.b){
+            robot.hangServo.setDownPosition();
+            robot.lift.setOutboardTargetPos(CombineLiftC.outboardPositions.HANG_TARGET_POS);
+        }
+
+        //back up slightly
+
+        if (gamepad2.y) {
+            robot.hangMotor.runWithEncoderMode();
+            robot.lift.outboard.runUsingEncoderMode();
+            robot.hangMotor.setHangMotorPower(0);
+            robot.lift.setOutboardPower(0);
+            mCanHang = true;
+        }
+
+        //GABE IS UP
+
+        if(mCanHang) {
+            if (gamepad2.left_trigger > 0.0) {
+                robot.hangMotor.setHangMotorPower(gamepad2.left_trigger);
+            } else {
+                robot.hangMotor.setHangMotorPower(0);
+            }
+
+            if (gamepad2.right_trigger > 0.0) {
+                robot.lift.outboard.setPower(-gamepad2.right_trigger);
+            } else {
+                robot.lift.outboard.setPower(0);
+            }
+        }
+
 
 
 
@@ -208,6 +249,7 @@ public class FullSystemDriving extends OpMode {
         telemetry.addLine("Outboard State: " + robot.lift.getOutboardState());
         telemetry.addLine("mCheckerPos Boolean: " + robot.lift.mCheckerPos);
         telemetry.addLine("Boundary Position: " + robot.lift.mBoundaryPosition);
+        telemetry.addLine("Trapdoor State: " + Robot.mTrapdoorPos);
 
         telemetry.update();
     }

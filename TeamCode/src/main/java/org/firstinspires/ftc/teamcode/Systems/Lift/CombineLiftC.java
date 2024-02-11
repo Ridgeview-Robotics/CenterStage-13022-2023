@@ -23,18 +23,18 @@ public class CombineLiftC extends BasicLift {
     public static final int yawDownPos = 0;
     public static final int outboardRetractedPos = 0;
     public static final int yawClearPos = 675;
-    public static final int yawScorePos = 1855;
+    public static final int yawScorePos = 1885;
     public static final int outboardFirstLinePos = 525;
     public static final int outboardAutoPos = 345;
     public static final int outboardMiddlePos = 1000;
     public static final int outboardHighestPos = 1950;
-    public static final int outboardHangingPos = 1338;
+    public static final int outboardHangingPos = 1750;
     public static int outboardHighHangPos = 1950;
     public static int yawHangPos = 1455;
 
 
-    public int mLBoundary = 100;
-    public int mHBoundary = 1200;
+    public int mLBoundary = 50;
+    public int mHBoundary = 1300;
     public yawPositions mBoundaryPosition;
     public boolean mCheckerPos;
     public outboardPositions mNOutPosition;

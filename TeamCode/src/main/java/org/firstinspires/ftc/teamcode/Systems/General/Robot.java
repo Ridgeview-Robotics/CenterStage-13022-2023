@@ -60,7 +60,6 @@ public class Robot {
         lift.yawClearanceCkr();
         if(lift.mCheckerPos){
             lift.setOutboardTargetPos(lift.mNOutPosition);
-            trapdoorServo.LSetPosition(mTrapdoorPos);
         }
         //;lift update carry position from lift
     }

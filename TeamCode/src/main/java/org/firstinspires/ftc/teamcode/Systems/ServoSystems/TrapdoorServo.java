@@ -18,7 +18,7 @@ public class TrapdoorServo {
     public static double mTrapdoorOpen = 0.809;
     private static final double mPosError = 0.01;
     public static double mTrapdoorClosed = 0.446;
-    private trapdoorPositions mDesiredPosition;
+    private trapdoorPositions mDesiredPosition = trapdoorPositions.OPEN;
 
 
     public enum trapdoorPositions{
@@ -42,6 +42,8 @@ public class TrapdoorServo {
         trapdoorServo = hardwareMap.get(Servo.class, "trapdoorServo");
         mTelemetry = telemetry;
         timer = new ElapsedTime();
+
+
         LSetPosition(trapdoorPositions.OPEN);
     }
 
@@ -89,7 +91,7 @@ public class TrapdoorServo {
                 Robot.mTrapdoorPos = trapdoorPositions.OPEN;
                 LSetPosition(trapdoorPositions.OPEN);
             }
-            else {
+            else if(mDesiredPosition == trapdoorPositions.OPEN){
                 Robot.mTrapdoorPos = trapdoorPositions.CLOSED;
                 LSetPosition(trapdoorPositions.CLOSED);
             }

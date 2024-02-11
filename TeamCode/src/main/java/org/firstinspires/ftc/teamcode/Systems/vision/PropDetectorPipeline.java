@@ -18,7 +18,7 @@ public class PropDetectorPipeline extends OpenCvPipeline {
 
     Telemetry telemetry;
 
-    static final Scalar SCALAR_BLUE_COLOR = new Scalar(0, 0, 255);
+    static final Scalar SCALAR_BLUE_COLOR = new Scalar(0, 0, 180);
     static final Scalar SCALAR_RED_COLOR = new Scalar(255, 0, 0);
     public Scalar leftAvg;
     public Scalar centerAvg;
@@ -59,7 +59,7 @@ public class PropDetectorPipeline extends OpenCvPipeline {
     {
         int zoneWidth= 175;
 
-        Rect leftRect   = new Rect(1, 185, 120, 175);
+        Rect leftRect   = new Rect(120, 185, 75, 175);
         Rect centerRect = new Rect(310,180,75, 100);
         Rect rightRect  = new Rect(519,185,120, 175);
 

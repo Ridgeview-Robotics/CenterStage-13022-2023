@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Systems.General.Autos.Stage2;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
@@ -14,8 +15,20 @@ import org.firstinspires.ftc.teamcode.Systems.vision.SignalDetector;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 
+@Config
 @Autonomous(name = "Blue Left(st2)")
 public class BlueLeft2 extends LinearOpMode {
+
+    public static double leftPixelX = 17.09;
+    public static double leftPixelY = 43.23;
+    public static double centerPixelX = 12.00;
+    public static double centerPixelY = 37.00;
+    public static double rightPixelX = 7.53;
+    public static double rightPixelY = 38.11;
+    public static double boardX = 51.2;
+    public static double rightBoardY = 27.50;
+    public static double centerBoardY  = 37.51;
+    public static double leftBoardY = 41.6;
     private enum ROBOT_STATE{
         SEE,
         SCORING,
@@ -52,16 +65,16 @@ public class BlueLeft2 extends LinearOpMode {
 
         if(mPropLoc == PROP_LOC.LEFT)
         {
-            blueLeftSequenceBuilder.splineTo(new Vector2d(17.09, 43.23), Math.toRadians(-69.08));
+            blueLeftSequenceBuilder.splineTo(new Vector2d(leftPixelX, leftPixelY), Math.toRadians(-69.08));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
-            blueLeftSequenceBuilder.splineTo(new Vector2d(8.38, 37.00), Math.toRadians(-89.44));
+            blueLeftSequenceBuilder.splineTo(new Vector2d(centerPixelX, centerPixelY), Math.toRadians(-89.44));
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
             blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(14.76, 42.93, Math.toRadians(219.51)));
-            blueLeftSequenceBuilder.splineTo(new Vector2d(7.53, 38.11), Math.toRadians(219.88));
+            blueLeftSequenceBuilder.splineTo(new Vector2d(rightPixelX, rightPixelY), Math.toRadians(219.88));
         }
 
         //Spit the pixel out
@@ -90,16 +103,20 @@ public class BlueLeft2 extends LinearOpMode {
         //Move to the front of the score board
         if(mPropLoc == PROP_LOC.LEFT)
         {
-            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.5, 41.6, Math.toRadians(180.0)));
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(boardX, leftBoardY, Math.toRadians(180.0)));
+            blueLeftSequenceBuilder.waitSeconds(0.3);
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(boardX + 3, leftBoardY, Math.toRadians(180.0)));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
-            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 37.51, Math.toRadians(180.0)));
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(boardX, centerBoardY, Math.toRadians(180.0)));
+            blueLeftSequenceBuilder.waitSeconds(0.3);
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(boardX + 3, centerBoardY, Math.toRadians(180.0)));
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
             blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(42.41, 38.81, Math.toRadians(180.0)));
-            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(51.2, 27.50, Math.toRadians(180.0)));
+            blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(boardX, rightBoardY, Math.toRadians(180.0)));
         }
 
         blueLeftSequenceBuilder.lineToLinearHeading(new Pose2d(53.0, 37.51, Math.toRadians(180.0)));
@@ -173,6 +190,9 @@ public class BlueLeft2 extends LinearOpMode {
             //mRobotState = ROBOT_STATE.SCORING;
         }
         telemetry.addLine("Loc: " + mPropLoc);
+        telemetry.addLine("Left: " + mPipeline.pipeline.leftAvg);
+        telemetry.addLine("Center: " + mPipeline.pipeline.centerAvg);
+        telemetry.addLine("Right: " + mPipeline.pipeline.rightAvg);
         telemetry.update();
     }
 
@@ -191,6 +211,9 @@ public class BlueLeft2 extends LinearOpMode {
         ElapsedTime timer = new ElapsedTime();
 
         telemetry.addLine("Here we go");
+        telemetry.addLine("Left: " + mPipeline.pipeline.leftAvg);
+        telemetry.addLine("Center: " + mPipeline.pipeline.centerAvg);
+        telemetry.addLine("Right: " + mPipeline.pipeline.rightAvg);
         telemetry.update();
 
 
@@ -219,7 +242,7 @@ public class BlueLeft2 extends LinearOpMode {
                     //We are done!
                     break;
             }
-            telemetry.addLine("Prop Location: " + mPipeline.getRedPropLocation());
+            telemetry.addLine("Prop Location: " + mPipeline.getBluePropLocation());
             telemetry.addLine("Robot State: " + mRobotState);
             telemetry.addLine("Current Time: " + timer.seconds());
             telemetry.update();

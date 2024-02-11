@@ -19,8 +19,16 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuild
 @Autonomous(name = "RedRight(st2)")
 public class RedRight2 extends LinearOpMode {
 
-    public static double centerX = 51.2;
-    public static double centerY = -35;
+    public static double leftPixelX = 6.86;
+    public static double leftPixelY = -40.86;
+    public static double centerPixelX = 9.57;
+    public static double centerPixelY = -37.81;
+    public static double rightPixelX = 19.50;
+    public static double rightPixelY = -45.87;
+    public static double boardX = 51.2;
+    public static double rightBoardY = -39.6;
+    public static double centerBoardY  = -35.00;
+    public static double leftBoardY = -28.30;
     private enum ROBOT_STATE{
         SEE,
         SCORING,
@@ -53,26 +61,26 @@ public class RedRight2 extends LinearOpMode {
 
     private void setupSequence()
     {
-        TrajectorySequenceBuilder rightRedSBuilder = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(11.49, -63.40, Math.toRadians(90.00)));
+        TrajectorySequenceBuilder rightRedSBuilder = mRobot.autoDrive.trajectorySequenceBuilder(new Pose2d(11.49, -63.40, Math.toRadians(95.00)));
 
         if(mPropLoc == PROP_LOC.LEFT)
         {
             rightRedSBuilder.lineToLinearHeading(new Pose2d(14.01, -44.71, Math.toRadians(137.15)));
-            rightRedSBuilder.splineTo(new Vector2d(9.86, -40.86), Math.toRadians(137.35));
+            rightRedSBuilder.splineTo(new Vector2d(leftPixelX, leftPixelY), Math.toRadians(137.35));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
-            rightRedSBuilder.splineTo(new Vector2d(13.57, -35.81), Math.toRadians(83.21));
+            rightRedSBuilder.splineTo(new Vector2d(centerPixelX, centerPixelY), Math.toRadians(83.21));
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
-            rightRedSBuilder.splineTo(new Vector2d(22.50, -45.87), Math.toRadians(88.95));
+            rightRedSBuilder.splineTo(new Vector2d(rightPixelX, centerPixelY), Math.toRadians(88.95));
 
         }
 
         //Spit the pixel out
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
-            mRobot.setIntakeSpeed(-0.3);
+            mRobot.setIntakeSpeed(-0.2);
             mRobot.setTrapdoorClosed();
         });
 
@@ -97,18 +105,24 @@ public class RedRight2 extends LinearOpMode {
         //Move to the front of the score board
         if(mPropLoc == PROP_LOC.LEFT)
         {
-            rightRedSBuilder.lineToLinearHeading(new Pose2d(51.5, -31.50, Math.toRadians(180.0)));
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(boardX, leftBoardY, Math.toRadians(180.0)));
+            rightRedSBuilder.waitSeconds(0.3);
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(boardX+2, leftBoardY, Math.toRadians(180.0)));
         }
         else if(mPropLoc == PROP_LOC.CENTER)
         {
-            rightRedSBuilder.lineToLinearHeading(new Pose2d(centerX, centerY, Math.toRadians(180.0)));
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(boardX, centerBoardY, Math.toRadians(180.0)));
+            rightRedSBuilder.waitSeconds(0.3);
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(boardX+2, centerBoardY, Math.toRadians(180.0)));
         }
         else if(mPropLoc == PROP_LOC.RIGHT)
         {
-            rightRedSBuilder.lineToLinearHeading(new Pose2d(51.2, -41.6, Math.toRadians(180.0)));
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(boardX, rightBoardY, Math.toRadians(180.0)));
+            rightRedSBuilder.waitSeconds(0.3);
+            rightRedSBuilder.lineToLinearHeading(new Pose2d(boardX+2, rightBoardY, Math.toRadians(180.0)));
         }
 
-        rightRedSBuilder.lineToLinearHeading(new Pose2d(53.0, centerY, Math.toRadians(180.0)));
+
 
         //Raise arm
         rightRedSBuilder.UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -187,7 +201,7 @@ public class RedRight2 extends LinearOpMode {
     {
         mPipeline   = new SignalDetector(hardwareMap, telemetry, true);
         mRobot      = new Robot(telemetry, hardwareMap, false);
-        mPropLoc    = PROP_LOC.CENTER;
+        mPropLoc    = PROP_LOC.NONE;
         mRobotState = ROBOT_STATE.SEE;
         mRobot.liftWithClearanceCheck(CombineLiftC.outboardPositions.DOWN, CombineLiftC.yawPositions.CLEAR, CombineLiftC.yawPositions.CLEAR);
     }
